@@ -10,4 +10,18 @@ This will feature
  * Math
  * Art 
 
-Pushing it now $\int x dx $
+Pushing it now $\int x dx$
+
+```python
+3+4
+
+
+```
+asdf
+
+![photo](\images\MedTop.jpg)
+
+
+{% notebook (/ModeAOption2.ipynb) %}
+
+[pitofdespair]:(/images/MedTop.jpg)

@@ -6,7 +6,7 @@ PATH = 'content'
 
 TIMEZONE = 'US/Central'
 
-DEFAULT_LANG = 'English'
+DEFAULT_LANG = 'en'
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
@@ -15,6 +15,14 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
+MARKUP = ("md")
+
+#from pelican_jupyter import markup as nb_markdown
+PLUGIN_PATHS={'pelican_plugins'}
+PLUGINS = ["render_math"]
+
+IGNORE_FILES = [".ipynb_checkpoints"]
+STATIC_PATHS =["images"]
 # Blogroll
 LINKS = (('Pelican', 'https://getpelican.com/'),
          ('Python.org', 'https://www.python.org/'),
