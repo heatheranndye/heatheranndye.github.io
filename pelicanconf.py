@@ -15,11 +15,12 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
-MARKUP = ("md")
+MARKUP = ("md", "ipynb")
 
-#from pelican_jupyter import markup as nb_markdown
-PLUGIN_PATHS={'pelican_plugins'}
-PLUGINS = ["render_math"]
+from pelican_jupyter import markup as nb_markup
+PLUGINS = [nb_markup]
+IPYNB_MARKUP_USE_FIRST_CELL = True
+
 
 IGNORE_FILES = [".ipynb_checkpoints"]
 STATIC_PATHS =["images"]
