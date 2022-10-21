@@ -8,6 +8,8 @@ dependencies:
   - pip
   - pip:
     - pelican[markdown]
+    - ghp-import
+    - pelican-render-math
 # variables:
 #   VAR1: valueA
 #   VAR2: valueB
