@@ -18,8 +18,8 @@ AUTHOR_FEED_RSS = None
 MARKUP = ("md")
 
 #from pelican_jupyter import markup as nb_markdown
-PLUGIN_PATHS={'pelican_plugins'}
-PLUGINS = ["render_math"]
+#PLUGIN_PATHS={'pelican_plugins'}
+#PLUGINS = ["render_math"]
 
 IGNORE_FILES = [".ipynb_checkpoints"]
 STATIC_PATHS =["images"]

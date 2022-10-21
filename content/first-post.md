@@ -1,6 +1,7 @@
-title: Getting started on my new blog!
+title: Blog 1!
 date: 10-13-2022
 author: heather dye
+
 
 # Getting a new blog set up!
 
