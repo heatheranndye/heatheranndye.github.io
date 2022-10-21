@@ -1,5 +1,5 @@
 AUTHOR = 'heatheranndye'
-SITENAME = 'Python, math, and art'
+SITENAME = 'Python, data science, and art'
 SITEURL = ''
 
 PATH = 'content'
