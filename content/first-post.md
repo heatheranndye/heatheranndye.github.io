@@ -23,6 +23,6 @@ asdf
 ![photo](\images\MedTop.jpg)
 
 
-{% notebook (/ModeAOption2.ipynb) %}
+{% img (/notebooks/sample.ipynb) %}
 
 [pitofdespair]:(/images/MedTop.jpg)

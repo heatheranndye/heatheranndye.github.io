@@ -17,12 +17,18 @@ AUTHOR_FEED_RSS = None
 
 MARKUP = ("md")
 
-#from pelican_jupyter import markup as nb_markdown
-#PLUGIN_PATHS={'pelican_plugins'}
-#PLUGINS = ["render_math"]
 
+
+
+
+LIQUID_TAGS = ["img", "literal", "video", "youtube",
+               "vimeo", "include_code"]
 IGNORE_FILES = [".ipynb_checkpoints"]
-STATIC_PATHS =["images"]
+STATIC_PATHS =["images","notebooks"]
+
+from io import open
+  EXTRA_HEADER = open('_nb_header.html', encoding='utf-8').read()
+
 # Blogroll
 LINKS = (('Pelican', 'https://getpelican.com/'),
          ('Python.org', 'https://www.python.org/'),

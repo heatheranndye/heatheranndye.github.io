@@ -10,6 +10,8 @@ dependencies:
     - pelican[markdown]
     - ghp-import
     - pelican-render-math
+    - pelican-liquid-tags
+    - ipython
 # variables:
 #   VAR1: valueA
 #   VAR2: valueB
