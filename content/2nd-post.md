@@ -5,10 +5,12 @@ author: heather dye
 
 # Full of fabulous Content
 
+
 This will feature
 
  * Python
  * Math
  * Art 
 
- {% img [class name] /images/MedTop.jpg [lazy] [300 [500]] [title text | "title text" ["alt text"]] %}
+ {% img [class name] /images/MedTop.jpg [lazy] [300 [500]] [title text | "Winds" ["alt text"]] %}
+

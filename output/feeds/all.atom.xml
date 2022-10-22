@@ -12,7 +12,6 @@
 
 &lt;p&gt;asdf&lt;/p&gt;
 &lt;p&gt;&lt;img alt="photo" src="\images\MedTop.jpg"&gt;&lt;/p&gt;
-&lt;p&gt;{% notebook (/notebooks/sample.ipynb) %}&lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -20,7 +19,8 @@
 
     if (false) {
         align = (screen.width &lt; 768) ? "left" : align;
-        indent = (screen.width &lt; 768) ? "0em" : indent …&lt;/script&gt;&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768 …&lt;/script&gt;&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
         linebreak = "false";
@@ -94,7 +94,6 @@
 
 &lt;p&gt;asdf&lt;/p&gt;
 &lt;p&gt;&lt;img alt="photo" src="\images\MedTop.jpg"&gt;&lt;/p&gt;
-&lt;p&gt;{% notebook (/notebooks/sample.ipynb) %}&lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",

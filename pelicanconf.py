@@ -15,16 +15,17 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
-MARKUP = ("md")
+MARKUP = ("md", "ipynb")
+
+IPYNB_USE_METACELL = True
 
 
 
+LIQUID_TAGS = ["img", "include_code","notebook"]
 
-
-LIQUID_TAGS = ["img", "literal", "video", "youtube",
-               "vimeo", "include_code","notebook"]
 IGNORE_FILES = [".ipynb_checkpoints"]
-STATIC_PATHS =["images","notebook"]
+STATIC_PATHS =["images","notebook","code"]
+
 
 #from io import open
 
