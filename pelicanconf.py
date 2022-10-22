@@ -22,12 +22,13 @@ MARKUP = ("md")
 
 
 LIQUID_TAGS = ["img", "literal", "video", "youtube",
-               "vimeo", "include_code"]
+               "vimeo", "include_code","notebook"]
 IGNORE_FILES = [".ipynb_checkpoints"]
-STATIC_PATHS =["images","notebooks"]
+STATIC_PATHS =["images","notebook"]
 
-from io import open
-  EXTRA_HEADER = open('_nb_header.html', encoding='utf-8').read()
+#from io import open
+
+#EXTRA_HEADER = open('_nb_header.html', encoding='utf-8').read()
 
 # Blogroll
 LINKS = (('Pelican', 'https://getpelican.com/'),
