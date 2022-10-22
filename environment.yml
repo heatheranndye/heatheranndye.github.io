@@ -12,6 +12,7 @@ dependencies:
     - pelican-render-math
     - pelican-liquid-tags
     - ipython
+    - pelican-jupyter
 # variables:
 #   VAR1: valueA
 #   VAR2: valueB

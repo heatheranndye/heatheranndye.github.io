@@ -1,8 +1,8 @@
 AUTHOR = 'heatheranndye'
 SITENAME = 'Python, data science, and art'
 SITEURL = ''
-
 PATH = 'content'
+THEME ="Flex-e63fdae267319fdfb5a0788fe2de9e75ce063569"
 
 TIMEZONE = 'US/Central'
 
@@ -15,16 +15,27 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
-MARKUP = ("md", "ipynb")
+MARKUP = ("md")
 
-IPYNB_USE_METACELL = True
 
 
 
 LIQUID_TAGS = ["img", "include_code","notebook"]
 
+#from pelican_jupyter import liquid as nb_liquid
+
+# IPYNB_MARKUP_USE_FIRST_CELL = True
+
 IGNORE_FILES = [".ipynb_checkpoints"]
 STATIC_PATHS =["images","notebook","code"]
+
+
+
+MENUITEMS = (
+    ("Archives", "/archives.html"),
+    ("Categories", "/categories.html"),
+    ("Tags", "/tags.html"),
+)
 
 
 #from io import open
@@ -34,7 +45,6 @@ STATIC_PATHS =["images","notebook","code"]
 # Blogroll
 LINKS = (('Pelican', 'https://getpelican.com/'),
          ('Python.org', 'https://www.python.org/'),
-         ('Jinja2', 'https://palletsprojects.com/p/jinja/'),
          ('You can modify those links in your config file', '#'),)
 
 # Social widget

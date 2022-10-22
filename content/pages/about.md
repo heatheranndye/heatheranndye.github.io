@@ -7,4 +7,3 @@ I've written an undergraduate text book on virtual knot theory, [An invitation t
 
 Feel free to contact me at  [contact me via email](mailto:) or on [twitter](https://twitter.com/), [LinkedIn](https://www.linkedin.com/in/) or [GitHub](https://github.com/).
 
-![photo]{static}/images/MedTop.jpg

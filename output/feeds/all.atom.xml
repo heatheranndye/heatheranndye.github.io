@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Python, data science, and art</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2022-10-13T00:00:00-05:00</updated><entry><title>Blog 1!</title><link href="/blog-1.html" rel="alternate"></link><published>2022-10-13T00:00:00-05:00</published><updated>2022-10-13T00:00:00-05:00</updated><author><name>heather dye</name></author><id>tag:None,2022-10-13:/blog-1.html</id><summary type="html">&lt;h1&gt;Getting a new blog set up!&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Python, data science, and art</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2022-10-22T00:00:00-05:00</updated><entry><title>notebook post</title><link href="/notebook-post.html" rel="alternate"></link><published>2022-10-22T00:00:00-05:00</published><updated>2022-10-22T00:00:00-05:00</updated><author><name>heather dye</name></author><id>tag:None,2022-10-22:/notebook-post.html</id><content type="html">&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="mf"&gt;9&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="misc"></category></entry><entry><title>Blog 1!</title><link href="/blog-1.html" rel="alternate"></link><published>2022-10-13T00:00:00-05:00</published><updated>2022-10-13T00:00:00-05:00</updated><author><name>heather dye</name></author><id>tag:None,2022-10-13:/blog-1.html</id><summary type="html">&lt;h1&gt;Getting a new blog set up!&lt;/h1&gt;
 &lt;p&gt;This will feature&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Python&lt;/li&gt;
@@ -155,4 +162,11 @@
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="misc"></category></entry></feed>
+&lt;/script&gt;</content><category term="misc"></category></entry><entry><title>Blog 2!</title><link href="/blog-2.html" rel="alternate"></link><published>2022-10-13T00:00:00-05:00</published><updated>2022-10-13T00:00:00-05:00</updated><author><name>heather dye</name></author><id>tag:None,2022-10-13:/blog-2.html</id><content type="html">&lt;h1&gt;Full of fabulous Content&lt;/h1&gt;
+&lt;p&gt;This will feature&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Python&lt;/li&gt;
+&lt;li&gt;Math&lt;/li&gt;
+&lt;li&gt;Art &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img class="[class name]" src="/images/MedTop.jpg" title="[lazy] [300 [500]] [title text | "Winds" ["alt text"]]" alt="[lazy] [300 [500]] [title text | "Winds" ["alt text"]]"&gt;&lt;/p&gt;</content><category term="misc"></category></entry></feed>
