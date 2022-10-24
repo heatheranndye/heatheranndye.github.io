@@ -2,7 +2,7 @@ AUTHOR = 'heatheranndye'
 SITENAME = 'Python, data science, and art'
 SITEURL = ''
 PATH = 'content'
-THEME ="Flex-e63fdae267319fdfb5a0788fe2de9e75ce063569"
+THEME ="Flex2"
 
 TIMEZONE = 'US/Central'
 
