@@ -1,6 +1,9 @@
 AUTHOR = 'heatheranndye'
 SITENAME = 'Python, data science, and art'
 SITEURL = 'https://heatheranndye.github.io/'
+SITETITLE = "Heather Ann Dye"
+SITESUBTITLE = "Data Enthusiast"
+SITEDESCRIPTION = "Flex - The minimalist Pelican theme."
 PATH = 'content'
 THEME ="Flex2"
 THEME_COLOR ="light"
@@ -33,8 +36,8 @@ STATIC_PATHS =["images","notebook","code"]
 TAGS_SAVE_AS ='tags.html'
 CATEGORIES_SAVE_AS ='categories.html'
 
-# DISPLAY_CATEGORIES_ON_MENU = False
-# #DISPLAY_PAGES_ON_MENU = False
+DISPLAY_CATEGORIES_ON_MENU = False
+DISPLAY_PAGES_ON_MENU = True
 
 MENUITEMS = (
     ("Archives", "/archives.html"),
@@ -56,8 +59,9 @@ MAIN_MENU = True
 #        ('You can modify those links in your config file', '#'),)
 LINKS = (('Introduction', '/blog-1.html'),)
 # Social widget
-#SOCIAL = (('You can add links in your config file', '#'),
-#          ('Another social link', '#'),)
+
+SOCIAL = (("linkedin", 'https://www.linkedin.com/in/heather-dye-44712720/'),
+          ('github', 'https://github.com/heatheranndye'),)
 
 DEFAULT_PAGINATION = 10
 
