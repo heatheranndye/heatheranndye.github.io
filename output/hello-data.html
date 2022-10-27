@@ -34,13 +34,13 @@
  
 
 <meta name="author" content="Heather Ann Dye" />
-<meta name="description" content="body{ font-size: 12pt; } Hello data science! &lt;\hThis is the first post in my data science blog. I enjoy creating examples and simulations, so let&#39;s look at confidence intervals. We frequently talk about 95% or 90% confidence intervals. import random import pandas as pd mydata = pd.Series([random.uniform(0,10 …" />
+<meta name="description" content="Hello data science! In this article, we&#39;ll create a small simulation and explore confidence intervals and the central limit theorem. We frequently talk about 95% or 90% confidence intervals but what information do these intervals give us? The Central Limit Theorem Given a population with mean \(\mu\) and standard deviation …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width &lt; 768) ? &#34;left&#34; : align; indent = (screen.width &lt; 768) ? &#34;0em&#34; : indent; linebreak = (screen.width &lt; 768) ? &#39;true&#39; : linebreak; } var mathjaxscript = document.createElement(&#39;script&#39;); mathjaxscript.id = &#39;mathjaxscript_pelican_#%@#$@#&#39;; mathjaxscript.type = &#39;text/javascript&#39;; mathjaxscript.src = &#39;https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML&#39;; var configscript = document.createElement(&#39;script&#39;); configscript.type = &#39;text/x-mathjax-config&#39;; configscript[(window.opera ? &#34;innerHTML&#34; : &#34;text&#34;)] = &#34;MathJax.Hub.Config({&#34; + &#34; config: [&#39;MMLorHTML.js&#39;],&#34; + &#34; TeX: { extensions: [&#39;AMSmath.js&#39;,&#39;AMSsymbols.js&#39;,&#39;noErrors.js&#39;,&#39;noUndefined.js&#39;], equationNumbers: { autoNumber: &#39;none&#39; } },&#34; + &#34; jax: [&#39;input/TeX&#39;,&#39;input/MathML&#39;,&#39;output/HTML-CSS&#39;],&#34; + &#34; extensions: [&#39;tex2jax.js&#39;,&#39;mml2jax.js&#39;,&#39;MathMenu.js&#39;,&#39;MathZoom.js&#39;],&#34; + &#34; displayAlign: &#39;&#34;+ align +&#34;&#39;,&#34; + &#34; displayIndent: &#39;&#34;+ indent +&#34;&#39;,&#34; + &#34; showMathMenu: true,&#34; + &#34; messageStyle: &#39;normal&#39;,&#34; + &#34; tex2jax: { &#34; + &#34; inlineMath: [ [&#39;\\\\(&#39;,&#39;\\\\)&#39;] ], &#34; + &#34; displayMath: [ [&#39;$$&#39;,&#39;$$&#39;] ],&#34; + &#34; processEscapes: true,&#34; + &#34; preview: &#39;TeX&#39;,&#34; + &#34; }, &#34; + &#34; &#39;HTML-CSS&#39;: { &#34; + &#34; availableFonts: [&#39;STIX&#39;, &#39;TeX&#39;],&#34; + &#34; preferredFont: &#39;STIX&#39;,&#34; + &#34; styles: { &#39;.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn&#39;: {color: &#39;inherit ! important&#39;} },&#34; + &#34; linebreaks: { automatic: &#34;+ linebreak +&#34;, width: &#39;90% container&#39; },&#34; + &#34; }, &#34; + &#34;}); &#34; + &#34;if (&#39;default&#39; !== &#39;default&#39;) {&#34; + &#34;MathJax.Hub.Register.StartupHook(&#39;HTML-CSS Jax Ready&#39;,function () {&#34; + &#34;var VARIANT = MathJax.OutputJax[&#39;HTML-CSS&#39;].FONTDATA.VARIANT;&#34; + &#34;VARIANT[&#39;normal&#39;].fonts.unshift(&#39;MathJax_default&#39;);&#34; + &#34;VARIANT[&#39;bold&#39;].fonts.unshift(&#39;MathJax_default-bold&#39;);&#34; + &#34;VARIANT[&#39;italic&#39;].fonts.unshift(&#39;MathJax_default-italic&#39;);&#34; + &#34;VARIANT[&#39;-tex-mathit&#39;].fonts.unshift(&#39;MathJax_default-italic&#39;);&#34; + &#34;});&#34; + &#34;MathJax.Hub.Register.StartupHook(&#39;SVG Jax Ready&#39;,function () {&#34; + &#34;var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;&#34; + &#34;VARIANT[&#39;normal&#39;].fonts.unshift(&#39;MathJax_default&#39;);&#34; + &#34;VARIANT[&#39;bold&#39;].fonts.unshift(&#39;MathJax_default-bold&#39;);&#34; + &#34;VARIANT[&#39;italic&#39;].fonts.unshift(&#39;MathJax_default-italic&#39;);&#34; + &#34;VARIANT[&#39;-tex-mathit&#39;].fonts.unshift(&#39;MathJax_default-italic&#39;);&#34; + &#34;});&#34; + &#34;}&#34;; (document.body || document.getElementsByTagName(&#39;head&#39;)[0]).appendChild(configscript); (document.body || document.getElementsByTagName(&#39;head&#39;)[0]).appendChild(mathjaxscript); }" />
 <meta name="keywords" content="">
 
 
   <meta property="og:site_name" content="Python, data science, and art"/>
   <meta property="og:title" content="Hello Data!"/>
-  <meta property="og:description" content="body{ font-size: 12pt; } Hello data science! &lt;\hThis is the first post in my data science blog. I enjoy creating examples and simulations, so let&#39;s look at confidence intervals. We frequently talk about 95% or 90% confidence intervals. import random import pandas as pd mydata = pd.Series([random.uniform(0,10 …"/>
+  <meta property="og:description" content="Hello data science! In this article, we&#39;ll create a small simulation and explore confidence intervals and the central limit theorem. We frequently talk about 95% or 90% confidence intervals but what information do these intervals give us? The Central Limit Theorem Given a population with mean \(\mu\) and standard deviation …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width &lt; 768) ? &#34;left&#34; : align; indent = (screen.width &lt; 768) ? &#34;0em&#34; : indent; linebreak = (screen.width &lt; 768) ? &#39;true&#39; : linebreak; } var mathjaxscript = document.createElement(&#39;script&#39;); mathjaxscript.id = &#39;mathjaxscript_pelican_#%@#$@#&#39;; mathjaxscript.type = &#39;text/javascript&#39;; mathjaxscript.src = &#39;https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML&#39;; var configscript = document.createElement(&#39;script&#39;); configscript.type = &#39;text/x-mathjax-config&#39;; configscript[(window.opera ? &#34;innerHTML&#34; : &#34;text&#34;)] = &#34;MathJax.Hub.Config({&#34; + &#34; config: [&#39;MMLorHTML.js&#39;],&#34; + &#34; TeX: { extensions: [&#39;AMSmath.js&#39;,&#39;AMSsymbols.js&#39;,&#39;noErrors.js&#39;,&#39;noUndefined.js&#39;], equationNumbers: { autoNumber: &#39;none&#39; } },&#34; + &#34; jax: [&#39;input/TeX&#39;,&#39;input/MathML&#39;,&#39;output/HTML-CSS&#39;],&#34; + &#34; extensions: [&#39;tex2jax.js&#39;,&#39;mml2jax.js&#39;,&#39;MathMenu.js&#39;,&#39;MathZoom.js&#39;],&#34; + &#34; displayAlign: &#39;&#34;+ align +&#34;&#39;,&#34; + &#34; displayIndent: &#39;&#34;+ indent +&#34;&#39;,&#34; + &#34; showMathMenu: true,&#34; + &#34; messageStyle: &#39;normal&#39;,&#34; + &#34; tex2jax: { &#34; + &#34; inlineMath: [ [&#39;\\\\(&#39;,&#39;\\\\)&#39;] ], &#34; + &#34; displayMath: [ [&#39;$$&#39;,&#39;$$&#39;] ],&#34; + &#34; processEscapes: true,&#34; + &#34; preview: &#39;TeX&#39;,&#34; + &#34; }, &#34; + &#34; &#39;HTML-CSS&#39;: { &#34; + &#34; availableFonts: [&#39;STIX&#39;, &#39;TeX&#39;],&#34; + &#34; preferredFont: &#39;STIX&#39;,&#34; + &#34; styles: { &#39;.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn&#39;: {color: &#39;inherit ! important&#39;} },&#34; + &#34; linebreaks: { automatic: &#34;+ linebreak +&#34;, width: &#39;90% container&#39; },&#34; + &#34; }, &#34; + &#34;}); &#34; + &#34;if (&#39;default&#39; !== &#39;default&#39;) {&#34; + &#34;MathJax.Hub.Register.StartupHook(&#39;HTML-CSS Jax Ready&#39;,function () {&#34; + &#34;var VARIANT = MathJax.OutputJax[&#39;HTML-CSS&#39;].FONTDATA.VARIANT;&#34; + &#34;VARIANT[&#39;normal&#39;].fonts.unshift(&#39;MathJax_default&#39;);&#34; + &#34;VARIANT[&#39;bold&#39;].fonts.unshift(&#39;MathJax_default-bold&#39;);&#34; + &#34;VARIANT[&#39;italic&#39;].fonts.unshift(&#39;MathJax_default-italic&#39;);&#34; + &#34;VARIANT[&#39;-tex-mathit&#39;].fonts.unshift(&#39;MathJax_default-italic&#39;);&#34; + &#34;});&#34; + &#34;MathJax.Hub.Register.StartupHook(&#39;SVG Jax Ready&#39;,function () {&#34; + &#34;var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;&#34; + &#34;VARIANT[&#39;normal&#39;].fonts.unshift(&#39;MathJax_default&#39;);&#34; + &#34;VARIANT[&#39;bold&#39;].fonts.unshift(&#39;MathJax_default-bold&#39;);&#34; + &#34;VARIANT[&#39;italic&#39;].fonts.unshift(&#39;MathJax_default-italic&#39;);&#34; + &#34;VARIANT[&#39;-tex-mathit&#39;].fonts.unshift(&#39;MathJax_default-italic&#39;);&#34; + &#34;});&#34; + &#34;}&#34;; (document.body || document.getElementsByTagName(&#39;head&#39;)[0]).appendChild(configscript); (document.body || document.getElementsByTagName(&#39;head&#39;)[0]).appendChild(mathjaxscript); }"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:url" content="/hello-data.html"/>
   <meta property="og:type" content="article"/>
@@ -133,239 +133,293 @@
 
 
   <div>
-    <style type="text/css">
-  body{
-  font-size: 12pt;
-}
-</style>
-
-<h1>
-Hello data science! <\hThis is the first post in my data science blog. I enjoy creating examples and simulations, so let's look at confidence intervals. 
-We frequently talk about 95% or 90% confidence intervals. 
-
-
-
+    <h2>Hello data science!</h2>
+<p>In this article, we'll create a small simulation and explore confidence intervals and the central limit theorem. </p>
+<p>We frequently talk about 95% or 90% confidence intervals but what information do these intervals give us?</p>
+<h4>The Central Limit Theorem</h4>
+<blockquote>
+<p>Given a population with mean <span class="math">\(\mu\)</span> and standard deviation <span class="math">\(\sigma\)</span>, the distribution of sample means <span class="math">\(\left( \frac{\sum x}{n} = \bar{x} \right)\)</span> with sample size <span class="math">\(n\)</span> will be approximately normally distributed for sufficiently large <span class="math">\(n\)</span>. </p>
+</blockquote>
+<p>Given a few semesters of calculus and linear algebra, it can be shown that:</p>
+<ul>
+<li>
+<p><span class="math">\(E(\bar{x}) = \mu\)</span> </p>
+</li>
+<li>
+<p><span class="math">\(Var(\bar{x})=\frac{\sigma^2}{n}\)</span> </p>
+</li>
+</ul>
+<p>Then, we hit another roadblock: <em>proving that for sufficiently large <span class="math">\(n\)</span>, the sampling distribution is approximately normal.</em>  Even after going through the proof, it can be really difficult to think about what this means in practice. So, we'll construct some examples using Python.</p>
+<p>We'll start by importing the packages used in this demonstration.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">random</span> 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">t</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">sqrt</span>
 </code></pre></div>
 
-
-
-
-
-<div class="highlight"><pre><span></span><code><span class="n">mydata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">)])</span>
+<h4>Generate some data and build a confidence interval, Round 1</h4>
+<p>We'll start by generating some fake data from a continuous, uniform distribution on the interval <span class="math">\([0,10]\)</span> with a sample size of 50. The mean, <span class="math">\(\mu\)</span>, of this distribution is 5 and the standard deviation is approximately 2.9. The <em>sufficiently large</em> part of the Central Limit Theorem means that the sample size must be 30 or larger if the underlying distribution is not normal. I'll set the random seed so that this data is reproducible.</p>
+<div class="highlight"><pre><span></span><code><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">mydata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">)])</span>
 </code></pre></div>
 
-
-
-
-
-<div class="highlight"><pre><span></span><code><span class="n">mydata</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
-</code></pre></div>
-
-
-
-    <class 'pandas.core.series.Series'>
-    RangeIndex: 50 entries, 0 to 49
-    Series name: None
-    Non-Null Count  Dtype  
-    --------------  -----  
-    50 non-null     float64
-    dtypes: float64(1)
-    memory usage: 528.0 bytes
-
-
-
-
+<p>For right now, let's pretend that we don't know the specifics of the distribution that we sampled. (Because in reality, you wouldn't.)
+First, inspect the five number summary using the describe method. Notice that the median (<span class="math">\(\tilde{x}\)</span>) is 4.63 and the sample mean is 4.5. Based on the quartiles, this data set is symmetric. </p>
+<p>Next, we examine the sample standard deviation which is 2.9. This means that if 
+the data comes from a normal distribution then about 68% of my data should fall in the interval <span class="math">\((1.6, 7.4)\)</span>. Using the describe function, I only have access to <span class="math">\(P_{25}\)</span> and <span class="math">\(P_{50}\)</span>, so I'll investigate a little further. </p>
 <div class="highlight"><pre><span></span><code><span class="n">mydata</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
 </code></pre></div>
 
-
-
-
-
-
-    count    50.000000
-    mean      4.986736
-    std       2.963061
-    min       0.731407
-    25%       2.793014
-    50%       4.562617
-    75%       7.390619
-    max       9.891003
-    dtype: float64
-
-
-
-
-
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">t</span>
+<div class="highlight"><pre><span></span><code>count    50.000000
+mean      4.506842
+std       2.932888
+min       0.064988
+25%       2.190886
+50%       4.636386
+75%       6.927794
+max       9.731158
+dtype: float64
 </code></pre></div>
 
-
-
-
-
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">matplotlib</span>
-<span class="nb">type</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span>
-<span class="n">mydata</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+<p>We can check the quantiles of the data set to see that <span class="math">\(P_{16} \approx 0.96\)</span> and <span class="math">\(P_{84} \approx 8.06\)</span> This suggests that our data is not normal, but we can also visually confirm this by examining a histogram of the data. </p>
+<div class="highlight"><pre><span></span><code><span class="n">mydata</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.16</span><span class="p">),</span> <span class="n">mydata</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.84</span><span class="p">)</span>
 </code></pre></div>
 
-
-
-
-
-
-    <AxesSubplot: >
-
-
-
-
-
-![png](ci-blog_files/ci-blog_7_1.png)
-
-
-
-
-
-<div class="highlight"><pre><span></span><code><span class="n">t_alpha</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="mi">49</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code>(0.9608109148093343, 8.060286952634595)
 </code></pre></div>
 
+<div class="highlight"><pre><span></span><code><span class="n">mydata</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+</code></pre></div>
 
+<div class="highlight"><pre><span></span><code>&lt;AxesSubplot: &gt;
+</code></pre></div>
 
-Note that the confidence interval formula is: $$\bar{x} \pm \frac{s}{\sqrt{n}} t_{\alpha, df}.$$
-
-
-
-<div class="highlight"><pre><span></span><code><span class="n">xbar</span><span class="o">=</span> <span class="n">mydata</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<p><img alt="png" src="ci-blog_files/ci-blog_9_1.png"></p>
+<p>This visual inspection confirms that our data is not normal, but luckily! we are working with a sample of size 50. </p>
+<p>The formula for the confidence interval  of a sample mean is: </p>
+<div class="math">$$\bar{x} \pm \frac{s}{\sqrt{n}} t_{\alpha /2, df}.$$</div>
+<p>  The <span class="math">\(t_{\alpha /2, df}\)</span> refers to a the critical value, a value on the x-axis of the Student-t distribution that cuts off a tail of area <span class="math">\(\alpha /2\)</span> and the <span class="math">\(df\)</span> refers to the degrees of freedom which specifies a specific t-distribution. 
+<em>(Fun fact: The Student-t distribution was derived by William Seally Gossett who, at the time, was employed by the Guinness Brewery.)</em></p>
+<p>Python can quickly compute this formula. We use SciPy's t.ppf to obtain the critical value. We compute a 90% confidence interval, which means that
+</p>
+<div class="math">$$1-\alpha = 0.90$$</div>
+<p> 
+and 
+</p>
+<div class="math">$$\alpha /2  = 0.05.$$</div>
+<div class="highlight"><pre><span></span><code><span class="n">xbar</span> <span class="o">=</span> <span class="n">mydata</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="n">mysd</span> <span class="o">=</span> <span class="n">mydata</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
-</code></pre></div>
-
-
-
-
-
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">sqrt</span>
 <span class="p">(</span><span class="n">xbar</span> <span class="o">-</span> <span class="n">mysd</span><span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mydata</span><span class="p">))</span> <span class="o">*</span> <span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">xbar</span> <span class="o">+</span> <span class="n">mysd</span><span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mydata</span><span class="p">))</span> <span class="o">*</span> <span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 </code></pre></div>
 
+<div class="highlight"><pre><span></span><code>(3.8114545041480343, 5.202230430974262)
+</code></pre></div>
 
-
-
-
-
-    (4.284194065272484, 5.689278265326205)
-
-
-
-Now, we can investigate what exactly the confidence level means. 
-
-
-
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">student_t_confidence</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<h4>Confidence Intervals, Round 2</h4>
+<p>Now, we can investigate what exactly the confidence level means beyond selecting the critical value. The first thing that we'll do is write a small function to automatically compute our confidence interval.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">student_t_confidence</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">conf_level</span><span class="p">):</span>
     <span class="n">xbar</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     <span class="n">mysd</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="n">alpha_2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">conf_level</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
     <span class="n">tsig</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">xbar</span> <span class="o">-</span> <span class="n">mysd</span><span class="o">*</span><span class="n">tsig</span><span class="p">,</span> <span class="n">xbar</span><span class="o">+</span><span class="n">mysd</span><span class="o">*</span><span class="n">tsig</span> <span class="p">)</span>
 </code></pre></div>
 
-
-
-
-
-<div class="highlight"><pre><span></span><code><span class="n">student_t_confidence</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span>
+<p>Here is our brand new function in action.</p>
+<div class="highlight"><pre><span></span><code><span class="n">student_t_confidence</span><span class="p">(</span><span class="n">mydata</span><span class="p">,</span> <span class="mf">0.90</span><span class="p">)</span>
 </code></pre></div>
 
+<div class="highlight"><pre><span></span><code>(3.8114545041480343, 5.202230430974262)
+</code></pre></div>
 
-
-
-
-
-    (4.284194065272484, 5.689278265326205)
-
-
-
-
-
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">make_some_fake_data</span><span class="p">(</span><span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<p>Next, we're going to generate 20 samples of size 50 and store them in a data frame.  </p>
+<p>Here is a function that accomplishes this goal.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">make_some_fake_data</span><span class="p">(</span><span class="n">sample_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
     <span class="n">local_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
-        <span class="n">local_list</span> <span class="o">=</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sample_count</span><span class="p">):</span>
+        <span class="n">local_list</span> <span class="o">=</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)]</span>
         <span class="n">local_df</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;sample </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">local_list</span>
     <span class="k">return</span> <span class="n">local_df</span>
+
+
+<span class="n">mydf</span> <span class="o">=</span> <span class="n">make_some_fake_data</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>  
 </code></pre></div>
 
-
-
-
-
-<div class="highlight"><pre><span></span><code><span class="n">mydf</span> <span class="o">=</span> <span class="n">make_some_fake_data</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<p>Here is the head of my new data frame.</p>
+<div class="highlight"><pre><span></span><code><span class="n">mydf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </code></pre></div>
 
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sample 0</th>
+      <th>sample 1</th>
+      <th>sample 2</th>
+      <th>sample 3</th>
+      <th>sample 4</th>
+      <th>sample 5</th>
+      <th>sample 6</th>
+      <th>sample 7</th>
+      <th>sample 8</th>
+      <th>sample 9</th>
+      <th>sample 10</th>
+      <th>sample 11</th>
+      <th>sample 12</th>
+      <th>sample 13</th>
+      <th>sample 14</th>
+      <th>sample 15</th>
+      <th>sample 16</th>
+      <th>sample 17</th>
+      <th>sample 18</th>
+      <th>sample 19</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3.701810</td>
+      <td>0.114810</td>
+      <td>9.951494</td>
+      <td>9.689963</td>
+      <td>3.161772</td>
+      <td>9.039286</td>
+      <td>9.811497</td>
+      <td>4.421598</td>
+      <td>8.972081</td>
+      <td>6.222570</td>
+      <td>6.906144</td>
+      <td>0.856130</td>
+      <td>1.843637</td>
+      <td>6.476347</td>
+      <td>3.232738</td>
+      <td>2.828390</td>
+      <td>8.723830</td>
+      <td>9.926920</td>
+      <td>7.242167</td>
+      <td>0.993546</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2.095070</td>
+      <td>7.207218</td>
+      <td>6.498781</td>
+      <td>9.263670</td>
+      <td>7.518645</td>
+      <td>5.455903</td>
+      <td>5.362157</td>
+      <td>2.137014</td>
+      <td>7.436554</td>
+      <td>0.269665</td>
+      <td>6.272424</td>
+      <td>7.200747</td>
+      <td>0.513767</td>
+      <td>9.084114</td>
+      <td>9.701847</td>
+      <td>2.985558</td>
+      <td>0.358991</td>
+      <td>2.952308</td>
+      <td>9.799422</td>
+      <td>6.856803</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.669778</td>
+      <td>6.817104</td>
+      <td>4.381001</td>
+      <td>8.486957</td>
+      <td>0.725431</td>
+      <td>8.345950</td>
+      <td>9.392371</td>
+      <td>4.731862</td>
+      <td>4.746744</td>
+      <td>3.940203</td>
+      <td>1.019013</td>
+      <td>4.885778</td>
+      <td>9.410636</td>
+      <td>8.266312</td>
+      <td>4.041751</td>
+      <td>5.869377</td>
+      <td>0.684207</td>
+      <td>9.779445</td>
+      <td>9.672697</td>
+      <td>5.444659</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>9.366546</td>
+      <td>5.369703</td>
+      <td>5.175758</td>
+      <td>1.663111</td>
+      <td>4.582855</td>
+      <td>5.825096</td>
+      <td>1.153418</td>
+      <td>9.011808</td>
+      <td>2.591915</td>
+      <td>5.643920</td>
+      <td>7.724809</td>
+      <td>7.581647</td>
+      <td>4.777292</td>
+      <td>0.714098</td>
+      <td>5.145963</td>
+      <td>9.989023</td>
+      <td>6.311610</td>
+      <td>6.582298</td>
+      <td>8.045876</td>
+      <td>9.778425</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6.480354</td>
+      <td>2.668252</td>
+      <td>1.210042</td>
+      <td>4.856411</td>
+      <td>9.984544</td>
+      <td>1.480938</td>
+      <td>9.704006</td>
+      <td>7.960248</td>
+      <td>2.472397</td>
+      <td>0.271020</td>
+      <td>8.502932</td>
+      <td>6.906093</td>
+      <td>8.221156</td>
+      <td>1.659228</td>
+      <td>9.881192</td>
+      <td>4.896403</td>
+      <td>9.209291</td>
+      <td>2.744804</td>
+      <td>3.657750</td>
+      <td>3.586738</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
-
-<div class="highlight"><pre><span></span><code><span class="n">mydf</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
-</code></pre></div>
-
-
-
-    <class 'pandas.core.frame.DataFrame'>
-    RangeIndex: 50 entries, 0 to 49
-    Data columns (total 20 columns):
-     #   Column     Non-Null Count  Dtype  
-    ---  ------     --------------  -----  
-     0   sample 0   50 non-null     float64
-     1   sample 1   50 non-null     float64
-     2   sample 2   50 non-null     float64
-     3   sample 3   50 non-null     float64
-     4   sample 4   50 non-null     float64
-     5   sample 5   50 non-null     float64
-     6   sample 6   50 non-null     float64
-     7   sample 7   50 non-null     float64
-     8   sample 8   50 non-null     float64
-     9   sample 9   50 non-null     float64
-     10  sample 10  50 non-null     float64
-     11  sample 11  50 non-null     float64
-     12  sample 12  50 non-null     float64
-     13  sample 13  50 non-null     float64
-     14  sample 14  50 non-null     float64
-     15  sample 15  50 non-null     float64
-     16  sample 16  50 non-null     float64
-     17  sample 17  50 non-null     float64
-     18  sample 18  50 non-null     float64
-     19  sample 19  50 non-null     float64
-    dtypes: float64(20)
-    memory usage: 7.9 KB
-
-
-
-
-<div class="highlight"><pre><span></span><code><span class="n">mydict</span> <span class="o">=</span> <span class="p">{}</span>
+<p>Here, we take our 20 samples and compute a confidence interval for each sample. The results  are stored in a dictionary, using the sample number 
+as the key. </p>
+<div class="highlight"><pre><span></span><code><span class="n">ci_dict</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mydf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">student_t_confidence</span><span class="p">(</span><span class="n">mydf</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">j</span><span class="p">])</span>
-    <span class="n">mydict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">j</span><span class="p">:</span><span class="n">results</span><span class="p">})</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">student_t_confidence</span><span class="p">(</span><span class="n">mydf</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">j</span><span class="p">],</span> <span class="mf">0.9</span><span class="p">)</span>
+    <span class="n">ci_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">j</span><span class="p">:</span><span class="n">results</span><span class="p">})</span>
 </code></pre></div>
 
-
-
-
-
-<div class="highlight"><pre><span></span><code><span class="n">mydict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-</code></pre></div>
-
-
-
-
-
-
-    dict_keys([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19])
-
-
-
-
-
+<p>We analyze the results of our computations and count the number of intervals that actually contain the true population mean, 5. 
+Our goal in computing these intervals is to estimate the true population mean.</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">count_the_good_ones</span><span class="p">(</span><span class="n">local_dict</span><span class="p">,</span> <span class="n">truemean</span><span class="p">):</span>
     <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span> 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">local_dict</span><span class="p">)):</span>
@@ -373,57 +427,96 @@ Now, we can investigate what exactly the confidence level means.
         <span class="k">if</span> <span class="n">therange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">truemean</span> <span class="ow">and</span> <span class="n">therange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span> <span class="n">truemean</span><span class="p">:</span>
             <span class="n">count</span> <span class="o">+=</span><span class="mi">1</span> 
     <span class="k">return</span> <span class="n">count</span> 
+
+<span class="n">thenum</span> <span class="o">=</span> <span class="n">count_the_good_ones</span><span class="p">(</span><span class="n">ci_dict</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>    
+<span class="nb">print</span><span class="p">(</span><span class="n">thenum</span><span class="p">)</span>
 </code></pre></div>
 
-
-
-
-
-<div class="highlight"><pre><span></span><code><span class="n">thenum</span> <span class="o">=</span> <span class="n">count_the_good_ones</span><span class="p">(</span><span class="n">mydict</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="mf">17</span><span class="w"></span>
 </code></pre></div>
 
-
-
-
-
-<div class="highlight"><pre><span></span><code><span class="n">thenum</span>
-</code></pre></div>
-
-
-
-
-
-
-    17
-
-
-
-
-
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">5</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)])</span>
-<span class="n">themins</span> <span class="o">=</span> <span class="p">[</span><span class="n">mydict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)]</span>
+<p>And, <em>only 17 intervals</em> actually contain the true population mean. </p>
+<p>So what just happened?  Let's take a look at a visualization.</p>
+<div class="highlight"><pre><span></span><code><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">5</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)],</span> <span class="n">color</span><span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">themins</span> <span class="o">=</span> <span class="p">[</span><span class="n">ci_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)]</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">themins</span><span class="p">,</span> <span class="s1">&#39;bs&#39;</span><span class="p">)</span>
-<span class="n">themax</span> <span class="o">=</span> <span class="p">[</span><span class="n">mydict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)]</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">themax</span><span class="p">,</span> <span class="s1">&#39;rs&#39;</span><span class="p">)</span>
+<span class="n">themaxes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ci_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">themaxes</span><span class="p">,</span> <span class="s1">&#39;rs&#39;</span><span class="p">)</span>
+<span class="n">themeans</span> <span class="o">=</span> <span class="p">[(</span><span class="n">themins</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">themaxes</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">themeans</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="n">themins</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ymax</span><span class="o">=</span><span class="n">themax</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="n">themins</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ymax</span><span class="o">=</span><span class="n">themaxes</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 </code></pre></div>
 
+<p><img alt="png" src="ci-blog_files/ci-blog_26_0.png"></p>
+<p>The three intervals that do not contain the true population mean have sample means that are relatively far from the true sample mean. 
+The sample means were in the tails of the sampling distribution, meaning that <em>in those cases</em>, we were unlucky and obtained a sample that did not represent the actual population that the sample was drawn from. </p>
+<p>This occurrs even if we collect all our data correctly.</p>
+<p>With a 90% confidence interval, if you repeatedly collected samples of the same size and constructed confidence intervals, only 90% of the intervals contain the true population mean. </p>
+<p>In my simulation, we know the <em>true population mean</em> is five, so we can correctly pick out the <em>bad</em> confidence intervals. </p>
+<p>In reality, we have no way of knowing if our confidence interval is a <em>good</em> confidence interval or a <em>bad</em> confidence interval. </p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
 
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
 
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
 
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
 
-![png](ci-blog_files/ci-blog_23_0.png)
-
-
-
-
-
-<div class="highlight"><pre><span></span><code>
-</code></pre></div>
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
   </div>
   <div class="tag-cloud">
     <p>
