@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/Dye.png" type="image/x-icon">
+  <link rel="icon" href="/images/Dye.png" type="image/x-icon">
+
+
+  <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Python, data science, and art Atom">
+
+
+
+ 
+
+<meta name="author" content="Heather Ann Dye" />
+<meta name="description" content="body{ font-size: 12pt; } Hello data science! &lt;\hThis is the first post in my data science blog. I enjoy creating examples and simulations, so let&#39;s look at confidence intervals. We frequently talk about 95% or 90% confidence intervals. import random import pandas as pd mydata = pd.Series([random.uniform(0,10 …" />
+<meta name="keywords" content="">
+
+
+  <meta property="og:site_name" content="Python, data science, and art"/>
+  <meta property="og:title" content="Hello Data!"/>
+  <meta property="og:description" content="body{ font-size: 12pt; } Hello data science! &lt;\hThis is the first post in my data science blog. I enjoy creating examples and simulations, so let&#39;s look at confidence intervals. We frequently talk about 95% or 90% confidence intervals. import random import pandas as pd mydata = pd.Series([random.uniform(0,10 …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="/hello-data.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2022-10-26 00:00:00-05:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="/author/heather-ann-dye.html">
+  <meta property="article:section" content="data science"/>
+  <meta property="og:image" content="/images/ProfilePic.jpg">
+
+  <title>Python, data science, and art &ndash; Hello Data!</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="/">
+      <img src="/images/ProfilePic.jpg" alt="Heather Ann Dye" title="Heather Ann Dye">
+    </a>
+
+    <h1>
+      <a href="/">Heather Ann Dye</a>
+    </h1>
+
+    <p>Data Enthusiast</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+            <li>
+              <a target="_self"
+                 href="/pages/about.html#about">
+                About
+              </a>
+            </li>
+
+          <li>
+            <a target="_self" href="https://zbmath.org/authors/?q=Heather+Ann+Dye" >My Publications</a>
+          </li>
+          <li>
+            <a target="_self" href="https://www.heatheranndye.com/" >Textile Art</a>
+          </li>
+      </ul>
+    </nav>
+
+    <ul class="social">
+      <li>
+        <a class="sc-linkedin"
+           href="https://www.linkedin.com/in/heather-dye-44712720/"
+           target="_blank">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-github"
+           href="https://github.com/heatheranndye"
+           target="_blank">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</aside>
+  <main>
+
+<nav>
+  <a href="/">Home</a>
+
+  <a href="/archives.html">Archives</a>
+  <a href="/categories.html">Categories</a>
+  <a href="/tags.html">Tags</a>
+
+  <a href="/feeds/all.atom.xml">Atom</a>
+
+</nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="hello-data">Hello Data!</h1>
+    <p>
+      Posted on Wed 26 October 2022 in <a href="/category/data-science.html">data science</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+
+<h1>
+Hello data science! <\hThis is the first post in my data science blog. I enjoy creating examples and simulations, so let's look at confidence intervals. 
+We frequently talk about 95% or 90% confidence intervals. 
+
+
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">random</span> 
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</code></pre></div>
+
+
+
+
+
+<div class="highlight"><pre><span></span><code><span class="n">mydata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">)])</span>
+</code></pre></div>
+
+
+
+
+
+<div class="highlight"><pre><span></span><code><span class="n">mydata</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</code></pre></div>
+
+
+
+    <class 'pandas.core.series.Series'>
+    RangeIndex: 50 entries, 0 to 49
+    Series name: None
+    Non-Null Count  Dtype  
+    --------------  -----  
+    50 non-null     float64
+    dtypes: float64(1)
+    memory usage: 528.0 bytes
+
+
+
+
+<div class="highlight"><pre><span></span><code><span class="n">mydata</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</code></pre></div>
+
+
+
+
+
+
+    count    50.000000
+    mean      4.986736
+    std       2.963061
+    min       0.731407
+    25%       2.793014
+    50%       4.562617
+    75%       7.390619
+    max       9.891003
+    dtype: float64
+
+
+
+
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">t</span>
+</code></pre></div>
+
+
+
+
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span>
+<span class="n">mydata</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+</code></pre></div>
+
+
+
+
+
+
+    <AxesSubplot: >
+
+
+
+
+
+![png](ci-blog_files/ci-blog_7_1.png)
+
+
+
+
+
+<div class="highlight"><pre><span></span><code><span class="n">t_alpha</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="mi">49</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+Note that the confidence interval formula is: $$\bar{x} \pm \frac{s}{\sqrt{n}} t_{\alpha, df}.$$
+
+
+
+<div class="highlight"><pre><span></span><code><span class="n">xbar</span><span class="o">=</span> <span class="n">mydata</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">mysd</span> <span class="o">=</span> <span class="n">mydata</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</code></pre></div>
+
+
+
+
+
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">sqrt</span>
+<span class="p">(</span><span class="n">xbar</span> <span class="o">-</span> <span class="n">mysd</span><span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mydata</span><span class="p">))</span> <span class="o">*</span> <span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">xbar</span> <span class="o">+</span> <span class="n">mysd</span><span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mydata</span><span class="p">))</span> <span class="o">*</span> <span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</code></pre></div>
+
+
+
+
+
+
+    (4.284194065272484, 5.689278265326205)
+
+
+
+Now, we can investigate what exactly the confidence level means. 
+
+
+
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">student_t_confidence</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">xbar</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">mysd</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="n">tsig</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">xbar</span> <span class="o">-</span> <span class="n">mysd</span><span class="o">*</span><span class="n">tsig</span><span class="p">,</span> <span class="n">xbar</span><span class="o">+</span><span class="n">mysd</span><span class="o">*</span><span class="n">tsig</span> <span class="p">)</span>
+</code></pre></div>
+
+
+
+
+
+<div class="highlight"><pre><span></span><code><span class="n">student_t_confidence</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+
+
+
+    (4.284194065272484, 5.689278265326205)
+
+
+
+
+
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">make_some_fake_data</span><span class="p">(</span><span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">local_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+        <span class="n">local_list</span> <span class="o">=</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">)]</span>
+        <span class="n">local_df</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;sample </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">=</span><span class="n">local_list</span>
+    <span class="k">return</span> <span class="n">local_df</span>
+</code></pre></div>
+
+
+
+
+
+<div class="highlight"><pre><span></span><code><span class="n">mydf</span> <span class="o">=</span> <span class="n">make_some_fake_data</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+
+
+<div class="highlight"><pre><span></span><code><span class="n">mydf</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</code></pre></div>
+
+
+
+    <class 'pandas.core.frame.DataFrame'>
+    RangeIndex: 50 entries, 0 to 49
+    Data columns (total 20 columns):
+     #   Column     Non-Null Count  Dtype  
+    ---  ------     --------------  -----  
+     0   sample 0   50 non-null     float64
+     1   sample 1   50 non-null     float64
+     2   sample 2   50 non-null     float64
+     3   sample 3   50 non-null     float64
+     4   sample 4   50 non-null     float64
+     5   sample 5   50 non-null     float64
+     6   sample 6   50 non-null     float64
+     7   sample 7   50 non-null     float64
+     8   sample 8   50 non-null     float64
+     9   sample 9   50 non-null     float64
+     10  sample 10  50 non-null     float64
+     11  sample 11  50 non-null     float64
+     12  sample 12  50 non-null     float64
+     13  sample 13  50 non-null     float64
+     14  sample 14  50 non-null     float64
+     15  sample 15  50 non-null     float64
+     16  sample 16  50 non-null     float64
+     17  sample 17  50 non-null     float64
+     18  sample 18  50 non-null     float64
+     19  sample 19  50 non-null     float64
+    dtypes: float64(20)
+    memory usage: 7.9 KB
+
+
+
+
+<div class="highlight"><pre><span></span><code><span class="n">mydict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mydf</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">student_t_confidence</span><span class="p">(</span><span class="n">mydf</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">j</span><span class="p">])</span>
+    <span class="n">mydict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">j</span><span class="p">:</span><span class="n">results</span><span class="p">})</span>
+</code></pre></div>
+
+
+
+
+
+<div class="highlight"><pre><span></span><code><span class="n">mydict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</code></pre></div>
+
+
+
+
+
+
+    dict_keys([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19])
+
+
+
+
+
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">count_the_good_ones</span><span class="p">(</span><span class="n">local_dict</span><span class="p">,</span> <span class="n">truemean</span><span class="p">):</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span> 
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">local_dict</span><span class="p">)):</span>
+        <span class="n">therange</span> <span class="o">=</span> <span class="n">local_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">therange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">truemean</span> <span class="ow">and</span> <span class="n">therange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span> <span class="n">truemean</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">+=</span><span class="mi">1</span> 
+    <span class="k">return</span> <span class="n">count</span> 
+</code></pre></div>
+
+
+
+
+
+<div class="highlight"><pre><span></span><code><span class="n">thenum</span> <span class="o">=</span> <span class="n">count_the_good_ones</span><span class="p">(</span><span class="n">mydict</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+
+
+<div class="highlight"><pre><span></span><code><span class="n">thenum</span>
+</code></pre></div>
+
+
+
+
+
+
+    17
+
+
+
+
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">5</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)])</span>
+<span class="n">themins</span> <span class="o">=</span> <span class="p">[</span><span class="n">mydict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">themins</span><span class="p">,</span> <span class="s1">&#39;bs&#39;</span><span class="p">)</span>
+<span class="n">themax</span> <span class="o">=</span> <span class="p">[</span><span class="n">mydict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">themax</span><span class="p">,</span> <span class="s1">&#39;rs&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="n">themins</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ymax</span><span class="o">=</span><span class="n">themax</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</code></pre></div>
+
+
+
+
+
+![png](ci-blog_files/ci-blog_23_0.png)
+
+
+
+
+
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+  </div>
+  <div class="tag-cloud">
+    <p>
+    </p>
+  </div>
+
+
+
+
+
+
+</article>
+
+<footer>
+<p>&copy;  </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Python, data science, and art ",
+  "url" : "",
+  "image": "/images/ProfilePic.jpg",
+  "description": "Data Science"
+}
+</script>
+</body>
+</html>

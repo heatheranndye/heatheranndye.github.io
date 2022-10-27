@@ -1,9 +1,11 @@
 AUTHOR = 'heatheranndye'
 SITENAME = 'Python, data science, and art'
-SITEURL = 'https://heatheranndye.github.io/'
+SITEURL = 'https://heatheranndye.github.io'
 SITETITLE = "Heather Ann Dye"
+SITELOGO = '/images/ProfilePic.jpg'
 SITESUBTITLE = "Data Enthusiast"
-SITEDESCRIPTION = "Flex - The minimalist Pelican theme."
+SITEDESCRIPTION = "Data Science"
+FAVICON = '/images/Dye.png'
 PATH = 'content'
 THEME ="Flex2"
 THEME_COLOR ="light"
@@ -40,10 +42,7 @@ DISPLAY_CATEGORIES_ON_MENU = False
 DISPLAY_PAGES_ON_MENU = True
 
 MENUITEMS = (
-    ("Archives", "/archives.html"),
-    ("Categories", "/categories.html"),
-    ("Tags", "/tags.html"),
-)
+   ("Archives", "/archives.html"),  ("Categories", "/categories.html"), ("Tags", "/tags.html"),)
 
 # USE_FOLDER_AS_CATEGORY = False
 MAIN_MENU = True
@@ -57,7 +56,7 @@ MAIN_MENU = True
 #LINKS = (('Pelican', 'https://getpelican.com/'),
 #        ('Python.org', 'https://www.python.org/'),
 #        ('You can modify those links in your config file', '#'),)
-LINKS = (('Introduction', '/blog-1.html'),)
+LINKS = (('My Publications', 'https://zbmath.org/authors/?q=Heather+Ann+Dye'), ('Textile Art','https://www.heatheranndye.com/' ))
 # Social widget
 
 SOCIAL = (("linkedin", 'https://www.linkedin.com/in/heather-dye-44712720/'),
