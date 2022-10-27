@@ -195,7 +195,7 @@ dtype: float64
 <div class="highlight"><pre><span></span><code>&lt;AxesSubplot: &gt;
 </code></pre></div>
 
-<p><img alt="png" src="ci-blog_files/ci-blog_9_1.png"></p>
+<p><img alt="png" src="/images/ci-blog_files/ci-blog_9_1.png"></p>
 <p>This visual inspection confirms that our data is not normal, but luckily! we are working with a sample of size 50. </p>
 <p>The formula for the confidence interval  of a sample mean is: </p>
 <div class="math">$$\bar{x} \pm \frac{s}{\sqrt{n}} t_{\alpha /2, df}.$$</div>
@@ -448,7 +448,7 @@ Our goal in computing these intervals is to estimate the true population mean.</
     <span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">ymin</span><span class="o">=</span><span class="n">themins</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ymax</span><span class="o">=</span><span class="n">themaxes</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 </code></pre></div>
 
-<p><img alt="png" src="ci-blog_files/ci-blog_26_0.png"></p>
+<p><img alt="png" src="/images/ci-blog_files/ci-blog_26_0.png"></p>
 <p>The three intervals that do not contain the true population mean have sample means that are relatively far from the true sample mean. 
 The sample means were in the tails of the sampling distribution, meaning that <em>in those cases</em>, we were unlucky and obtained a sample that did not represent the actual population that the sample was drawn from. </p>
 <p>This occurrs even if we collect all our data correctly.</p>

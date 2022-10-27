@@ -127,7 +127,7 @@ dtype: float64
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;lt;AxesSubplot: &amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;img alt="png" src="ci-blog_files/ci-blog_9_1.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="/images/ci-blog_files/ci-blog_9_1.png"&gt;&lt;/p&gt;
 &lt;p&gt;This visual inspection confirms that our data is not normal, but luckily! we are working with a sample of size 50. &lt;/p&gt;
 &lt;p&gt;The formula for the confidence interval  of a sample mean is: &lt;/p&gt;
 &lt;div class="math"&gt;$$\bar{x} \pm \frac{s}{\sqrt{n}} t_{\alpha /2, df}.$$&lt;/div&gt;
@@ -380,7 +380,7 @@ Our goal in computing these intervals is to estimate the true population mean.&l
     &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vlines&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ymin&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;themins&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;ymax&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;themaxes&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;img alt="png" src="ci-blog_files/ci-blog_26_0.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="png" src="/images/ci-blog_files/ci-blog_26_0.png"&gt;&lt;/p&gt;
 &lt;p&gt;The three intervals that do not contain the true population mean have sample means that are relatively far from the true sample mean. 
 The sample means were in the tails of the sampling distribution, meaning that &lt;em&gt;in those cases&lt;/em&gt;, we were unlucky and obtained a sample that did not represent the actual population that the sample was drawn from. &lt;/p&gt;
 &lt;p&gt;This occurrs even if we collect all our data correctly.&lt;/p&gt;
