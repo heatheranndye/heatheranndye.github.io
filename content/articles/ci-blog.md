@@ -101,7 +101,7 @@ mydata.hist()
 
 
     
-![png](ci-blog_files/ci-blog_9_1.png)
+![png](/images/ci-blog_files/ci-blog_9_1.png)
     
 
 
@@ -400,7 +400,7 @@ for i in range(20):
 
 
     
-![png](ci-blog_files/ci-blog_26_0.png)
+![png](/images/ci-blog_files/ci-blog_26_0.png)
     
 
 
