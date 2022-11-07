@@ -1,5 +1,398 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Python, data science, and art</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2022-10-26T00:00:00-05:00</updated><subtitle>Data Enthusiast</subtitle><entry><title>Hello Data!</title><link href="/hello-data.html" rel="alternate"></link><published>2022-10-26T00:00:00-05:00</published><updated>2022-10-26T00:00:00-05:00</updated><author><name>Heather Ann Dye</name></author><id>tag:None,2022-10-26:/hello-data.html</id><summary type="html">&lt;h2&gt;Hello data science!&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Python, data science, and art</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2022-11-07T00:00:00-06:00</updated><subtitle>Data Enthusiast</subtitle><entry><title>Decision Tree Classification</title><link href="/decision-tree-classification.html" rel="alternate"></link><published>2022-11-07T00:00:00-06:00</published><updated>2022-11-07T00:00:00-06:00</updated><author><name>Heather Ann Dye</name></author><id>tag:None,2022-11-07:/decision-tree-classification.html</id><summary type="html">&lt;h2&gt;Do you want to build a decision tree classifier?&lt;/h2&gt;
+&lt;p&gt;In this blog entry, we'll construct a decision tree using &lt;a href="https://scikit-learn.org/stable/index.html"&gt;Sci-Kit Learn&lt;/a&gt;.
+I selected the data set: &lt;em&gt;Adult. (1996)&lt;/em&gt; from the &lt;a href="https://archive-beta.ics.uci.edu/"&gt;UCI Machine Learning Repository&lt;/a&gt;. 
+The data set contains categorical and numerical data about individuals and contains a binary, categorical variable …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Do you want to build a decision tree classifier?&lt;/h2&gt;
+&lt;p&gt;In this blog entry, we'll construct a decision tree using &lt;a href="https://scikit-learn.org/stable/index.html"&gt;Sci-Kit Learn&lt;/a&gt;.
+I selected the data set: &lt;em&gt;Adult. (1996)&lt;/em&gt; from the &lt;a href="https://archive-beta.ics.uci.edu/"&gt;UCI Machine Learning Repository&lt;/a&gt;. 
+The data set contains categorical and numerical data about individuals and contains a binary, categorical variable that categorizes the individuals as making less than (or great than) 50 thousand dollars per year. 
+There are no missing values, but the categorical variables must be encoded using dummy variables and do some standard scaling. &lt;/p&gt;
+&lt;p&gt;The data set has been used in a variety of papers on arxiv, references are available as the UCI Machine Learning Repository. The goal of this blog post is to utilize Sci-Kit learn to build a decision tree and understand how decision trees are constructed. &lt;/p&gt;
+&lt;h4&gt;What happens in a classification decision tree?&lt;/h4&gt;
+&lt;p&gt;We have a data set with &lt;span class="math"&gt;\(N\)&lt;/span&gt; total observations &lt;span class="math"&gt;\((x_i, y_i)\)&lt;/span&gt; where &lt;span class="math"&gt;\(x_i \in \mathbb{R}^n\)&lt;/span&gt; and &lt;span class="math"&gt;\(y_i \in {0,1}\)&lt;/span&gt;. We divide &lt;span class="math"&gt;\(\mathbb{R}^n\)&lt;/span&gt; into &lt;span class="math"&gt;\(m\)&lt;/span&gt; regions. The region &lt;span class="math"&gt;\(R_m\)&lt;/span&gt; corresponds to a leaf in the tree and contains &lt;span class="math"&gt;\(N_m\)&lt;/span&gt; observations. All observations in the region will be classified the same way. These regions are in correspondence with the terminal nodes of a tree &lt;span class="math"&gt;\(T\)&lt;/span&gt;. 
+Each node in the tree will represent a split in the data set. For example, a split &lt;span class="math"&gt;\(\theta = (j, t)\)&lt;/span&gt; is described by the variable, &lt;span class="math"&gt;\(j\)&lt;/span&gt; and a threshold &lt;span class="math"&gt;\(t\)&lt;/span&gt;. All observations where &lt;span class="math"&gt;\(x_j &amp;lt;t\)&lt;/span&gt; are placed into a region &lt;span class="math"&gt;\(R_l\)&lt;/span&gt; and all observations with 
+&lt;span class="math"&gt;\(x_j &amp;gt; t $ are placed into $R_r\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;I use the Gini index in my example.&lt;/p&gt;
+&lt;p&gt;The Gini index is one of three common measures used to construct a loss function.
+Let &lt;span class="math"&gt;\(\hat{p}_{mk}\)&lt;/span&gt; be the proportion of class &lt;span class="math"&gt;\(k\)&lt;/span&gt; observations in the region &lt;span class="math"&gt;\(R_m\)&lt;/span&gt;.  That is:
+&lt;/p&gt;
+&lt;div class="math"&gt;$$ \hat{p}_{mk}= \frac{1}{N_m} \sum_{x_i \in R_n} I(y_i = k).$$&lt;/div&gt;
+&lt;p&gt;
+More specifically, if there are 100 observations in a region &lt;span class="math"&gt;\(m\)&lt;/span&gt; and ten are of type &lt;span class="math"&gt;\(0\)&lt;/span&gt;, then &lt;span class="math"&gt;\(\hat{p}_{m0}= 1/10\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Using the Gini index, at the terminal node &lt;span class="math"&gt;\(m\)&lt;/span&gt;, we define
+&lt;/p&gt;
+&lt;div class="math"&gt;$$Q_m(T)= \sum_{k=1}^{K} \hat{p}_{mk} (1-\hat{p}_{mk}).$$&lt;/div&gt;
+&lt;p&gt;For our case (with only 2 possible classifications),
+&lt;/p&gt;
+&lt;div class="math"&gt;$$Q_m(T) = \hat{p}_{m0} (1-\hat{p}_{m0}) + \hat{p}_{m1} (1- \hat{p}_{m1}).$$&lt;/div&gt;
+&lt;p&gt;This is the node impurity measure. Each additional node splitting (creating more terminal nodes) will increase the node purity. A &lt;em&gt;pure&lt;/em&gt; node will have &lt;span class="math"&gt;\(\hat{p}_{mk}=1\)&lt;/span&gt; for some &lt;span class="math"&gt;\(k\)&lt;/span&gt;, meaning that every observation in the region belongs to the same class. &lt;/p&gt;
+&lt;p&gt;From the impurity measure, the loss function, &lt;span class="math"&gt;\(H(T)\)&lt;/span&gt; is constructed is based on the terminal nodes of the tree. So, if our tree has &lt;span class="math"&gt;\(m\)&lt;/span&gt; terminal nodes:&lt;/p&gt;
+&lt;div class="math"&gt;$$H(T)=\sum_{i=1}{m} Q_m(T).$$&lt;/div&gt;
+&lt;p&gt;We want to choose the the tree &lt;span class="math"&gt;\(T\)&lt;/span&gt; that minimizes &lt;span class="math"&gt;\(H(T)\)&lt;/span&gt;. So, how do we do that? 
+Roughly, a greedy algorithm chooses the best possible split at a node &lt;span class="math"&gt;\(m\)&lt;/span&gt;. Suppose that &lt;span class="math"&gt;\(n_m\)&lt;/span&gt; observations are in the node. We choose a split &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; where &lt;span class="math"&gt;\(n_m^l\)&lt;/span&gt; observations are placed in the new region &lt;span class="math"&gt;\(R_L\)&lt;/span&gt; and &lt;span class="math"&gt;\(n_m^r\)&lt;/span&gt; observations are placed in the new region &lt;span class="math"&gt;\(R_r\)&lt;/span&gt; The loss function for the proposed split:
+&lt;/p&gt;
+&lt;div class="math"&gt;$$G(Q_m, \theta) = \frac{n_m^l}{n_m} H(Q_L (\theta)) + \frac{n_m ^r} H(Q_R).$$&lt;/div&gt;
+&lt;p&gt;Scikit Learn states that it uses an optimized version of the CART algorithm and mimimizes this value.&lt;/p&gt;
+&lt;p&gt;I've discussed what the decision tree classifier does, but not how. It may be worthwhile to look at the following articles, documentation, and books.  I also do not discuss cost complexity pruning.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Xgboost - https://arxiv.org/pdf/1603.02754.pdf  &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;SciKit - Learn - https://scikit-learn.org/stable/modules/tree.html#bre&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Elements of Statistical Learning - T. Hastie, R. Tibshirani and J. Friedman.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5&gt;Packages&lt;/h5&gt;
+&lt;p&gt;The packages that I will be using are below. The packages are arranged in (roughly) the order that they are used.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.preprocessing&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;OrdinalEncoder&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;StandardScaler&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.model_selection&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;train_test_split&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.compose&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;make_column_selector&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;make_column_transformer&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.compose&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;ColumnTransformer&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;tree&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.tree&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;export_text&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.metrics&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;recall_score&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;precision_score&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;confusion_matrix&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The column names are added manually (since these are not included in the adult.data file).&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;col_names&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;age&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;workclass&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;fnlwgt&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;education&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;education-num&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;marital-status&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;occupation&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;relationship&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;race&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;sex&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;capital-gain&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;capital-loss&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;hours-per-week&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;native-country&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;wage&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="n"&gt;my_df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;adult.data&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;sep&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;,&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;header&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;names&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;col_names&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, look at the data. Many of the variables are categorical and not numerical.  I made the decision to eliminate the categorical variables except sex and the response variable, wage. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;my_df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;lt;class &amp;#39;pandas.core.frame.DataFrame&amp;#39;&amp;gt;
+RangeIndex: 32560 entries, 0 to 32559
+Data columns (total 15 columns):
+ #   Column          Non-Null Count  Dtype 
+---  ------          --------------  ----- 
+ 0   age             32560 non-null  int64 
+ 1   workclass       32560 non-null  object
+ 2   fnlwgt          32560 non-null  int64 
+ 3   education       32560 non-null  object
+ 4   education-num   32560 non-null  int64 
+ 5   marital-status  32560 non-null  object
+ 6   occupation      32560 non-null  object
+ 7   relationship    32560 non-null  object
+ 8   race            32560 non-null  object
+ 9   sex             32560 non-null  object
+ 10  capital-gain    32560 non-null  int64 
+ 11  capital-loss    32560 non-null  int64 
+ 12  hours-per-week  32560 non-null  int64 
+ 13  native-country  32560 non-null  object
+ 14  wage            32560 non-null  object
+dtypes: int64(6), object(9)
+memory usage: 3.7+ MB
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, sort out the numerical and categorical variables of interest. Pull out the response variable &lt;span class="math"&gt;\(y\)&lt;/span&gt; and do some descriptive statistics.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;num_cols_subset&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;age&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;fnlwgt&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;education-num&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;capital-gain&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;capital-loss&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;hours-per-week&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;cat_cols_subset&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sex&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;my_df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;num_cols_subset&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;cat_cols_subset&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;my_df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;wage&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hist&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;layout&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;figsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;array([[&amp;lt;AxesSubplot: title={&amp;#39;center&amp;#39;: &amp;#39;age&amp;#39;}&amp;gt;,
+        &amp;lt;AxesSubplot: title={&amp;#39;center&amp;#39;: &amp;#39;fnlwgt&amp;#39;}&amp;gt;,
+        &amp;lt;AxesSubplot: title={&amp;#39;center&amp;#39;: &amp;#39;education-num&amp;#39;}&amp;gt;],
+       [&amp;lt;AxesSubplot: title={&amp;#39;center&amp;#39;: &amp;#39;capital-gain&amp;#39;}&amp;gt;,
+        &amp;lt;AxesSubplot: title={&amp;#39;center&amp;#39;: &amp;#39;capital-loss&amp;#39;}&amp;gt;,
+        &amp;lt;AxesSubplot: title={&amp;#39;center&amp;#39;: &amp;#39;hours-per-week&amp;#39;}&amp;gt;]], dtype=object)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="png" src="images/trees_files/Trees_12_1.png"&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;my_df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;age&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;describe&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;count    32560.000000
+mean        38.581634
+std         13.640642
+min         17.000000
+25%         28.000000
+50%         37.000000
+75%         48.000000
+max         90.000000
+Name: age, dtype: float64
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Check that there are only two classes for the 'wage' and 'sex' variables. Observe that 
+only a third of our observations fall into the female sex category. (If this was a serious analysis, this immediately means that this sample is not representative of the population.) Also, observe that &lt;span class="math"&gt;\(2/3\)&lt;/span&gt; of the observations have 'wage' as '&amp;lt;=50K'. This will have ramifications later. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sex&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;unique&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sex&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value_counts&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;unique&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value_counts&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;[&amp;#39; Male&amp;#39; &amp;#39; Female&amp;#39;]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="na"&gt;Male      21789&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="na"&gt;Female    10771&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;Name: sex, dtype: int64&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="k"&gt;[&amp;#39; &amp;lt;=50K&amp;#39; &amp;#39; &amp;gt;50K&amp;#39;]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+
+
+
+
+&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="na"&gt;&amp;lt;&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;50K    24719&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="na"&gt;&amp;gt;50K      7841&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;Name: wage, dtype: int64&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h5&gt;Scale and transform the variables&lt;/h5&gt;
+&lt;p&gt;Now, use a built-in function from Scikit Learn to encode 'wage' (&lt;span class="math"&gt;\(y\)&lt;/span&gt;) as a dummy variable. We load the encoder, set up the categories to be encoded, test the encoder and then encode y.  The array below shows that '&amp;lt;=50K' is encoded as a zero.  The preprocessing methods are in the module sklearn.preprocessing. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;enc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OrdinalEncoder&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;y_enc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; &amp;lt;=50K&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],[&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39; &amp;gt;50K&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;
+&lt;span class="n"&gt;enc&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y_enc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; &amp;lt;=50K&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],[&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39; &amp;gt;50K&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; &amp;lt;=50K&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],[&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39; &amp;gt;50K&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;
+&lt;span class="n"&gt;enc&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;transform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;array([[0.],
+       [1.],
+       [0.],
+       [1.]])
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_numpy&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;32560&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;enc&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;transform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Build a pipeline to transform the rest of our variables. Review the data types of the variables in our observation data frame. We'll cast 'sex' as a category variable. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dtypes&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;astype&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sex&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;category&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;age                int64
+fnlwgt             int64
+education-num      int64
+capital-gain       int64
+capital-loss       int64
+hours-per-week     int64
+sex               object
+dtype: object
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Check the number of features of each type to ensure that the casting is completed successfully. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;n_cat_features&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;select_dtypes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;include&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;category&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;n_cat_features&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="mf"&gt;1&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;n_num_features&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;select_dtypes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;include&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;number&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;n_num_features&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="mf"&gt;6&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Set up our column selectors and demonstrate that the num_selector pulls out the numerical features. Then,
+we choose the processor type for each data type and construct the pipeline. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;cat_selector&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;make_column_selector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dtype_include&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;category&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;num_selector&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;make_column_selector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dtype_include&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;number&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;num_selector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;[&amp;#39;age&amp;#39;, &amp;#39;fnlwgt&amp;#39;, &amp;#39;education-num&amp;#39;, &amp;#39;capital-gain&amp;#39;, &amp;#39;capital-loss&amp;#39;, &amp;#39;hours-per-week&amp;#39;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;cat_processor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OrdinalEncoder&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;num_processor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;StandardScaler&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="n"&gt;linear_preprocessor&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;make_column_transformer&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;num_processor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;num_selector&lt;/span&gt;&lt;span class="p"&gt;),(&lt;/span&gt;&lt;span class="n"&gt;cat_processor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;cat_selector&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;linear_preprocessor&lt;/span&gt;
+&lt;span class="n"&gt;X&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;linear_preprocessor&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit_transform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now, examine how the pipeline changed our data. (I've also  put the labels back on the dataframe.) We see that 'sex' is now a numerical variable. The other variables have been scaled to have a mean of zero and unit variance.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;columns&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;num_cols_subset&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;cat_cols_subset&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hist&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;layout&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;figsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;array([[&amp;lt;AxesSubplot: title={&amp;#39;center&amp;#39;: &amp;#39;age&amp;#39;}&amp;gt;,
+        &amp;lt;AxesSubplot: title={&amp;#39;center&amp;#39;: &amp;#39;fnlwgt&amp;#39;}&amp;gt;,
+        &amp;lt;AxesSubplot: title={&amp;#39;center&amp;#39;: &amp;#39;education-num&amp;#39;}&amp;gt;],
+       [&amp;lt;AxesSubplot: title={&amp;#39;center&amp;#39;: &amp;#39;capital-gain&amp;#39;}&amp;gt;,
+        &amp;lt;AxesSubplot: title={&amp;#39;center&amp;#39;: &amp;#39;capital-loss&amp;#39;}&amp;gt;,
+        &amp;lt;AxesSubplot: title={&amp;#39;center&amp;#39;: &amp;#39;hours-per-week&amp;#39;}&amp;gt;],
+       [&amp;lt;AxesSubplot: title={&amp;#39;center&amp;#39;: &amp;#39;sex&amp;#39;}&amp;gt;, &amp;lt;AxesSubplot: &amp;gt;,
+        &amp;lt;AxesSubplot: &amp;gt;]], dtype=object)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="png" src="images/trees_files/Trees_28_1.png"&gt;&lt;/p&gt;
+&lt;h5&gt;Decision Tree Construction&lt;/h5&gt;
+&lt;p&gt;Create the training and testing sets for our decision tree. Then, create the decision tree with a maximum depth of three. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;X_train&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;X_test&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_train&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_test&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;train_test_split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;random_state&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;clf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tree&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DecisionTreeClassifier&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_depth&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+&lt;span class="n"&gt;clf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;clf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X_train&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_train&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;tree&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot_tree&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;filled&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;feature_names&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;num_cols_subset&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;cat_cols_subset&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;show&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="png" src="images/trees_files/Trees_31_0.png"&gt;&lt;/p&gt;
+&lt;p&gt;We'll use the export tree command to examine where the splits occur. At the root node, the data splits on the capital gains.
+We see additional splits on age and education. This makes sense given that capital gains require stock ownership, which is more likely to occur if your income is over 50K. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;report&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;export_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;feature_names&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;num_cols_subset&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;cat_cols_subset&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;report&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;|--- capital-gain &amp;lt;= 0.55
+|   |--- education-num &amp;lt;= 0.94
+|   |   |--- age &amp;lt;= -0.37
+|   |   |   |--- class: 0.0
+|   |   |--- age &amp;gt;  -0.37
+|   |   |   |--- class: 0.0
+|   |--- education-num &amp;gt;  0.94
+|   |   |--- age &amp;lt;= -0.67
+|   |   |   |--- class: 0.0
+|   |   |--- age &amp;gt;  -0.67
+|   |   |   |--- class: 1.0
+|--- capital-gain &amp;gt;  0.55
+|   |--- capital-gain &amp;lt;= 0.81
+|   |   |--- capital-gain &amp;lt;= 0.57
+|   |   |   |--- class: 1.0
+|   |   |--- capital-gain &amp;gt;  0.57
+|   |   |   |--- class: 0.0
+|   |--- capital-gain &amp;gt;  0.81
+|   |   |--- age &amp;lt;= -1.33
+|   |   |   |--- class: 0.0
+|   |   |--- age &amp;gt;  -1.33
+|   |   |   |--- class: 1.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h5&gt;How did the tree perform?&lt;/h5&gt;
+&lt;p&gt;Now, we need to evaluate how well our tree has performed. We'll compare the percentage of the observations that are correctly predicted with both the testing and training data. We see that both have about 80% accuracy. This suggests that the model is not overfitted. (Here, cost complexity pruning is required to do a complete analysis, but we do not have a situation where the training data has a high accuracy score and the test data has a low accuracy score.)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;score&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X_train&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_train&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;score&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X_test&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_test&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="mf"&gt;0.8067030098280098&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="mf"&gt;0.8078931203931204&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We look at the confusion matrix, the recall, and the precision.
+The confusion matrix has the form:
+&lt;/p&gt;
+&lt;div class="math"&gt;$$\begin{matrix}
+ Predict: &amp;amp;  0  &amp;amp;  1 \\
+\hline
+True: 0    &amp;amp;  TN  &amp;amp;  FP \\
+True: 1    &amp;amp;  FN  &amp;amp; TP 
+\end{matrix}.$$&lt;/div&gt;
+&lt;p&gt;The overall accuracy is: 
+&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{TN + TP}{TN+TP + FN+ FP}.$$&lt;/div&gt;
+&lt;p&gt;The recall is the ratio of true positives to total positives. This is:&lt;/p&gt;
+&lt;div class="math"&gt;$$\frac{TP}{TP + FN}.$$&lt;/div&gt;
+&lt;p&gt;The precision is the ratio true positives out of all positive results.
+&lt;/p&gt;
+&lt;div class="math"&gt;$$\frac{TP}{TP+FP}.$$&lt;/div&gt;
+&lt;p&gt;If our goal is to find candidates  with income over 50K for an email campaign, we'd focus on the recall. If our advertising budget is limited, we may then want to focus on the precision.  The specificity is &lt;span class="math"&gt;\(TN/N\)&lt;/span&gt;. 
+ We see that the recall is about 0.57 and the precision is about 0.62. 
+ Since about 66% of the observations in the data set are in the category '&amp;lt;=50K', we could artificially increase the precision and specificity by predicting all individuals are in the category '&amp;lt;=50K', except for one individual that we are very sure are in the class '&amp;gt;=50K'. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;y_pred&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;clf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;predict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X_test&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;confusion_matrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y_test&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y_pred&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;recall_score&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y_test&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y_pred&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;precision_score&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y_test&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y_pred&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;[[4346  566]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;[ 685  915]]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;0.571875&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;0.6178257933828494&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="data science"></category><category term="Scikit-learn"></category></entry><entry><title>Hello Data!</title><link href="/hello-data.html" rel="alternate"></link><published>2022-10-26T00:00:00-05:00</published><updated>2022-10-26T00:00:00-05:00</updated><author><name>Heather Ann Dye</name></author><id>tag:None,2022-10-26:/hello-data.html</id><summary type="html">&lt;h2&gt;Hello data science!&lt;/h2&gt;
 &lt;p&gt;In this article, we'll create a small simulation and explore confidence intervals and the central limit theorem. &lt;/p&gt;
 &lt;p&gt;We frequently talk about 95% or 90% confidence intervals but what information do these intervals give us?&lt;/p&gt;
 &lt;h4&gt;The Central Limit Theorem&lt;/h4&gt;

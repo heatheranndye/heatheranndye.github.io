@@ -1,12 +1,8 @@
 title: Decision Tree Classification
-
 author: Heather Ann Dye
-
-date: November 4, 2022
-
+date: 11/7/2022
 category: data science
-
-tag: Scikit-learn
+tags: Scikit-learn
 
 ## Do you want to build a decision tree classifier? 
 
@@ -29,7 +25,7 @@ I use the Gini index in my example.
 The Gini index is one of three common measures used to construct a loss function.
 Let $\hat{p}_{mk}$ be the proportion of class $k$ observations in the region $R_m$.  That is:
 $$ \hat{p}_{mk}= \frac{1}{N_m} \sum_{x_i \in R_n} I(y_i = k).$$
-More specifically, if there are 100 observations in a region $m$ and ten are of type $0$, then $\hat{p}_{mk}= 1/10$.
+More specifically, if there are 100 observations in a region $m$ and ten are of type $0$, then $\hat{p}_{m0}= 1/10$.
 
 Using the Gini index, at the terminal node $m$, we define
 $$Q_m(T)= \sum_{k=1}^{K} \hat{p}_{mk} (1-\hat{p}_{mk}).$$
@@ -40,19 +36,19 @@ For our case (with only 2 possible classifications),
 $$Q_m(T) = \hat{p}_{m0} (1-\hat{p}_{m0}) + \hat{p}_{m1} (1- \hat{p}_{m1}).$$
 
 
- This is the node impurity measure, $Q_m(T)$. Each additional node splitting (creating more terminal nodes) will increase the node purity. A *pure* node will have $\hat{p}_{mk}=1$ for some $k$, meaning that every observation in the region belongs to the same class. 
+ This is the node impurity measure. Each additional node splitting (creating more terminal nodes) will increase the node purity. A *pure* node will have $\hat{p}_{mk}=1$ for some $k$, meaning that every observation in the region belongs to the same class. 
 
 From the impurity measure, the loss function, $H(T)$ is constructed is based on the terminal nodes of the tree. So, if our tree has $m$ terminal nodes:
 
 $$H(T)=\sum_{i=1}{m} Q_m(T).$$
 
 We want to choose the the tree $T$ that minimizes $H(T)$. So, how do we do that? 
-Roughly, a greedy algorithm chooses the best possible split at a node $m$. Suppose that $n_m$ observations are in the node. We choose a split $\theta$ where $n_m^l$ observations are placed in $R_L$ and $n_m^r$ observations are placed in $R_r$ We can compute a loss function for the proposed split:
+Roughly, a greedy algorithm chooses the best possible split at a node $m$. Suppose that $n_m$ observations are in the node. We choose a split $\theta$ where $n_m^l$ observations are placed in the new region $R_L$ and $n_m^r$ observations are placed in the new region $R_r$ The loss function for the proposed split:
 $$G(Q_m, \theta) = \frac{n_m^l}{n_m} H(Q_L (\theta)) + \frac{n_m ^r} H(Q_R).$$ 
 
-Scikit Learn states that it uses an optimized version of the CART algorithm.
+Scikit Learn states that it uses an optimized version of the CART algorithm and mimimizes this value.
 
-As a side note, here are some articles to consider. I've discussed what the decision tree classifier does, but not how. It may be worthwhile to look at the following articles, documentation, and books.  I also do not discuss cost complexity pruning.
+I've discussed what the decision tree classifier does, but not how. It may be worthwhile to look at the following articles, documentation, and books.  I also do not discuss cost complexity pruning.
 
 * Xgboost - https://arxiv.org/pdf/1603.02754.pdf  
 
@@ -214,7 +210,7 @@ y.value_counts()
 
 ##### Scale and transform the variables
 
-Now, we use built in function from Scikit Learn to encode 'wage' ($y$) as a dummy variable. We load the encoder, set up the categories to be encoded, test the encoder and then encode y.  The array below shows that '<=50K' is encoded as a zero.  The preprocessing methods are in the module sklearn.preprocessing. 
+Now, use a built-in function from Scikit Learn to encode 'wage' ($y$) as a dummy variable. We load the encoder, set up the categories to be encoded, test the encoder and then encode y.  The array below shows that '<=50K' is encoded as a zero.  The preprocessing methods are in the module sklearn.preprocessing. 
 
 
 ```python
@@ -244,7 +240,7 @@ y=y.reshape((32560,1))
 y=enc.transform(y)
 ```
 
-We build a pipeline to transform the rest of our variables. Review the data types of the variables in our observation data frame. We'll cast 'sex' as a category variable. 
+Build a pipeline to transform the rest of our variables. Review the data types of the variables in our observation data frame. We'll cast 'sex' as a category variable. 
 
 
 ```python
@@ -369,7 +365,7 @@ plt.show()
 
 
 We'll use the export tree command to examine where the splits occur. At the root node, the data splits on the capital gains.
-We see additional splits on age and education. This makes sense given an awareness of basic finance. 
+We see additional splits on age and education. This makes sense given that capital gains require stock ownership, which is more likely to occur if your income is over 50K. 
 
 
 ```python
@@ -418,10 +414,12 @@ print(clf.score(X_test, y_test))
 
 We look at the confusion matrix, the recall, and the precision.
 The confusion matrix has the form:
-| Predict:|  0  |  1 |
-|---------|-----|----|
-|True: 0    |  TN  |  FP |
-|True: 1    |  FN  | TP |
+$$\begin{matrix}
+ Predict: &  0  &  1 \\
+\hline
+True: 0    &  TN  &  FP \\
+True: 1    &  FN  & TP 
+\end{matrix}.$$
 
 
 The overall accuracy is: 
