@@ -1,0 +1,559 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/Dye.png" type="image/x-icon">
+  <link rel="icon" href="/images/Dye.png" type="image/x-icon">
+
+
+  <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Python, data science, and art Atom">
+
+
+
+ 
+
+<meta name="author" content="Heather Ann Dye" />
+<meta name="description" content="Do you want to build a decision tree classifier? In this blog entry, we&#39;ll construct a decision tree using Sci-Kit Learn. I selected the data set: Adult. (1996) from the UCI Machine Learning Repository. The data set contains categorical and numerical data about individuals and contains a binary, categorical variable …" />
+<meta name="keywords" content="Scikit-learn">
+
+
+  <meta property="og:site_name" content="Python, data science, and art"/>
+  <meta property="og:title" content="Decision Tree Classification"/>
+  <meta property="og:description" content="Do you want to build a decision tree classifier? In this blog entry, we&#39;ll construct a decision tree using Sci-Kit Learn. I selected the data set: Adult. (1996) from the UCI Machine Learning Repository. The data set contains categorical and numerical data about individuals and contains a binary, categorical variable …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="/decision-tree-classification.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2022-11-07 00:00:00-06:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="/author/heather-ann-dye.html">
+  <meta property="article:section" content="data science"/>
+  <meta property="article:tag" content="Scikit-learn"/>
+  <meta property="og:image" content="/images/ProfilePic.jpg">
+
+  <title>Python, data science, and art &ndash; Decision Tree Classification</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="/">
+      <img src="/images/ProfilePic.jpg" alt="Heather Ann Dye" title="Heather Ann Dye">
+    </a>
+
+    <h1>
+      <a href="/">Heather Ann Dye</a>
+    </h1>
+
+    <p>Data Enthusiast</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+            <li>
+              <a target="_self"
+                 href="/pages/about.html#about">
+                About
+              </a>
+            </li>
+
+          <li>
+            <a target="_self" href="https://zbmath.org/authors/?q=Heather+Ann+Dye" >My Publications</a>
+          </li>
+          <li>
+            <a target="_self" href="https://www.heatheranndye.com/" >Textile Art</a>
+          </li>
+      </ul>
+    </nav>
+
+    <ul class="social">
+      <li>
+        <a class="sc-linkedin"
+           href="https://www.linkedin.com/in/heather-dye-44712720/"
+           target="_blank">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-github"
+           href="https://github.com/heatheranndye"
+           target="_blank">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</aside>
+  <main>
+
+<nav>
+  <a href="/">Home</a>
+
+  <a href="/archives.html">Archives</a>
+  <a href="/categories.html">Categories</a>
+  <a href="/tags.html">Tags</a>
+
+  <a href="/feeds/all.atom.xml">Atom</a>
+
+</nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="decision-tree-classification">Decision Tree Classification</h1>
+    <p>
+      Posted on Mon 07 November 2022 in <a href="/category/data-science.html">data science</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <h2>Do you want to build a decision tree classifier?</h2>
+<p>In this blog entry, we'll construct a decision tree using <a href="https://scikit-learn.org/stable/index.html">Sci-Kit Learn</a>.
+I selected the data set: <em>Adult. (1996)</em> from the <a href="https://archive-beta.ics.uci.edu/">UCI Machine Learning Repository</a>. 
+The data set contains categorical and numerical data about individuals and contains a binary, categorical variable that categorizes the individuals as making less than (or great than) 50 thousand dollars per year. 
+There are no missing values, but the categorical variables must be encoded using dummy variables and do some standard scaling. </p>
+<p>The data set has been used in a variety of papers on arxiv, references are available as the UCI Machine Learning Repository. The goal of this blog post is to utilize Sci-Kit learn to build a decision tree and understand how decision trees are constructed. </p>
+<h4>What happens in a classification decision tree?</h4>
+<p>We have a data set with <span class="math">\(N\)</span> total observations <span class="math">\((x_i, y_i)\)</span> where <span class="math">\(x_i \in \mathbb{R}^n\)</span> and <span class="math">\(y_i \in {0,1}\)</span>. We divide <span class="math">\(\mathbb{R}^n\)</span> into <span class="math">\(m\)</span> regions. The region <span class="math">\(R_m\)</span> corresponds to a leaf in the tree and contains <span class="math">\(N_m\)</span> observations. All observations in the region will be classified the same way. These regions are in correspondence with the terminal nodes of a tree <span class="math">\(T\)</span>. 
+Each node in the tree will represent a split in the data set. For example, a split <span class="math">\(\theta = (j, t)\)</span> is described by the variable, <span class="math">\(j\)</span> and a threshold <span class="math">\(t\)</span>. All observations where <span class="math">\(x_j &lt;t\)</span> are placed into a region <span class="math">\(R_l\)</span> and all observations with 
+<span class="math">\(x_j &gt; t $ are placed into $R_r\)</span>.</p>
+<p>I use the Gini index in my example.</p>
+<p>The Gini index is one of three common measures used to construct a loss function.
+Let <span class="math">\(\hat{p}_{mk}\)</span> be the proportion of class <span class="math">\(k\)</span> observations in the region <span class="math">\(R_m\)</span>.  That is:
+</p>
+<div class="math">$$ \hat{p}_{mk}= \frac{1}{N_m} \sum_{x_i \in R_n} I(y_i = k).$$</div>
+<p>
+More specifically, if there are 100 observations in a region <span class="math">\(m\)</span> and ten are of type <span class="math">\(0\)</span>, then <span class="math">\(\hat{p}_{m0}= 1/10\)</span>.</p>
+<p>Using the Gini index, at the terminal node <span class="math">\(m\)</span>, we define
+</p>
+<div class="math">$$Q_m(T)= \sum_{k=1}^{K} \hat{p}_{mk} (1-\hat{p}_{mk}).$$</div>
+<p>For our case (with only 2 possible classifications),
+</p>
+<div class="math">$$Q_m(T) = \hat{p}_{m0} (1-\hat{p}_{m0}) + \hat{p}_{m1} (1- \hat{p}_{m1}).$$</div>
+<p>This is the node impurity measure. Each additional node splitting (creating more terminal nodes) will increase the node purity. A <em>pure</em> node will have <span class="math">\(\hat{p}_{mk}=1\)</span> for some <span class="math">\(k\)</span>, meaning that every observation in the region belongs to the same class. </p>
+<p>From the impurity measure, the loss function, <span class="math">\(H(T)\)</span> is constructed is based on the terminal nodes of the tree. So, if our tree has <span class="math">\(m\)</span> terminal nodes:</p>
+<div class="math">$$H(T)=\sum_{i=1}{m} Q_m(T).$$</div>
+<p>We want to choose the the tree <span class="math">\(T\)</span> that minimizes <span class="math">\(H(T)\)</span>. So, how do we do that? 
+Roughly, a greedy algorithm chooses the best possible split at a node <span class="math">\(m\)</span>. Suppose that <span class="math">\(n_m\)</span> observations are in the node. We choose a split <span class="math">\(\theta\)</span> where <span class="math">\(n_m^l\)</span> observations are placed in the new region <span class="math">\(R_L\)</span> and <span class="math">\(n_m^r\)</span> observations are placed in the new region <span class="math">\(R_r\)</span> The loss function for the proposed split:
+</p>
+<div class="math">$$G(Q_m, \theta) = \frac{n_m^l}{n_m} H(Q_L (\theta)) + \frac{n_m ^r} H(Q_R).$$</div>
+<p>Scikit Learn states that it uses an optimized version of the CART algorithm and mimimizes this value.</p>
+<p>I've discussed what the decision tree classifier does, but not how. It may be worthwhile to look at the following articles, documentation, and books.  I also do not discuss cost complexity pruning.</p>
+<ul>
+<li>
+<p>Xgboost - https://arxiv.org/pdf/1603.02754.pdf  </p>
+</li>
+<li>
+<p>SciKit - Learn - https://scikit-learn.org/stable/modules/tree.html#bre</p>
+</li>
+<li>
+<p>Elements of Statistical Learning - T. Hastie, R. Tibshirani and J. Friedman.</p>
+</li>
+</ul>
+<h5>Packages</h5>
+<p>The packages that I will be using are below. The packages are arranged in (roughly) the order that they are used.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OrdinalEncoder</span><span class="p">,</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.compose</span> <span class="kn">import</span> <span class="n">make_column_selector</span><span class="p">,</span> <span class="n">make_column_transformer</span>
+<span class="kn">from</span> <span class="nn">sklearn.compose</span> <span class="kn">import</span> <span class="n">ColumnTransformer</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">tree</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">export_text</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">confusion_matrix</span>
+</code></pre></div>
+
+<p>The column names are added manually (since these are not included in the adult.data file).</p>
+<div class="highlight"><pre><span></span><code><span class="n">col_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">,</span>
+<span class="s2">&quot;workclass&quot;</span><span class="p">,</span>
+<span class="s2">&quot;fnlwgt&quot;</span><span class="p">,</span>
+<span class="s2">&quot;education&quot;</span><span class="p">,</span>
+<span class="s2">&quot;education-num&quot;</span><span class="p">,</span>
+<span class="s2">&quot;marital-status&quot;</span><span class="p">,</span>
+<span class="s2">&quot;occupation&quot;</span><span class="p">,</span>
+<span class="s2">&quot;relationship&quot;</span><span class="p">,</span>
+<span class="s2">&quot;race&quot;</span><span class="p">,</span>
+<span class="s2">&quot;sex&quot;</span><span class="p">,</span>
+<span class="s2">&quot;capital-gain&quot;</span><span class="p">,</span>
+<span class="s2">&quot;capital-loss&quot;</span><span class="p">,</span>
+<span class="s2">&quot;hours-per-week&quot;</span><span class="p">,</span>
+<span class="s2">&quot;native-country&quot;</span><span class="p">,</span><span class="s2">&quot;wage&quot;</span><span class="p">]</span>
+
+<span class="n">my_df</span> <span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;adult.data&quot;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">col_names</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Next, look at the data. Many of the variables are categorical and not numerical.  I made the decision to eliminate the categorical variables except sex and the response variable, wage. </p>
+<div class="highlight"><pre><span></span><code><span class="n">my_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 32560 entries, 0 to 32559
+Data columns (total 15 columns):
+ #   Column          Non-Null Count  Dtype 
+---  ------          --------------  ----- 
+ 0   age             32560 non-null  int64 
+ 1   workclass       32560 non-null  object
+ 2   fnlwgt          32560 non-null  int64 
+ 3   education       32560 non-null  object
+ 4   education-num   32560 non-null  int64 
+ 5   marital-status  32560 non-null  object
+ 6   occupation      32560 non-null  object
+ 7   relationship    32560 non-null  object
+ 8   race            32560 non-null  object
+ 9   sex             32560 non-null  object
+ 10  capital-gain    32560 non-null  int64 
+ 11  capital-loss    32560 non-null  int64 
+ 12  hours-per-week  32560 non-null  int64 
+ 13  native-country  32560 non-null  object
+ 14  wage            32560 non-null  object
+dtypes: int64(6), object(9)
+memory usage: 3.7+ MB
+</code></pre></div>
+
+<p>Next, sort out the numerical and categorical variables of interest. Pull out the response variable <span class="math">\(y\)</span> and do some descriptive statistics.</p>
+<div class="highlight"><pre><span></span><code><span class="n">num_cols_subset</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;fnlwgt&#39;</span><span class="p">,</span><span class="s1">&#39;education-num&#39;</span><span class="p">,</span> <span class="s1">&#39;capital-gain&#39;</span><span class="p">,</span> <span class="s1">&#39;capital-loss&#39;</span><span class="p">,</span> <span class="s1">&#39;hours-per-week&#39;</span><span class="p">]</span>
+<span class="n">cat_cols_subset</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">]</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">X</span><span class="o">=</span><span class="n">my_df</span><span class="p">[</span><span class="n">num_cols_subset</span><span class="o">+</span><span class="n">cat_cols_subset</span><span class="p">]</span>
+<span class="n">y</span><span class="o">=</span><span class="n">my_df</span><span class="p">[</span><span class="s1">&#39;wage&#39;</span><span class="p">]</span>
+<span class="n">X</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>array([[&lt;AxesSubplot: title={&#39;center&#39;: &#39;age&#39;}&gt;,
+        &lt;AxesSubplot: title={&#39;center&#39;: &#39;fnlwgt&#39;}&gt;,
+        &lt;AxesSubplot: title={&#39;center&#39;: &#39;education-num&#39;}&gt;],
+       [&lt;AxesSubplot: title={&#39;center&#39;: &#39;capital-gain&#39;}&gt;,
+        &lt;AxesSubplot: title={&#39;center&#39;: &#39;capital-loss&#39;}&gt;,
+        &lt;AxesSubplot: title={&#39;center&#39;: &#39;hours-per-week&#39;}&gt;]], dtype=object)
+</code></pre></div>
+
+<p><img alt="png" src="images/trees_files/Trees_12_1.png"></p>
+<div class="highlight"><pre><span></span><code><span class="n">my_df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>count    32560.000000
+mean        38.581634
+std         13.640642
+min         17.000000
+25%         28.000000
+50%         37.000000
+75%         48.000000
+max         90.000000
+Name: age, dtype: float64
+</code></pre></div>
+
+<p>Check that there are only two classes for the 'wage' and 'sex' variables. Observe that 
+only a third of our observations fall into the female sex category. (If this was a serious analysis, this immediately means that this sample is not representative of the population.) Also, observe that <span class="math">\(2/3\)</span> of the observations have 'wage' as '&lt;=50K'. This will have ramifications later. </p>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="n">y</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">[&#39; Male&#39; &#39; Female&#39;]</span><span class="w"></span>
+<span class="w"> </span><span class="na">Male      21789</span><span class="w"></span>
+<span class="w"> </span><span class="na">Female    10771</span><span class="w"></span>
+<span class="na">Name: sex, dtype: int64</span><span class="w"></span>
+<span class="k">[&#39; &lt;=50K&#39; &#39; &gt;50K&#39;]</span><span class="w"></span>
+
+
+
+
+
+<span class="w"> </span><span class="na">&lt;</span><span class="o">=</span><span class="s">50K    24719</span><span class="w"></span>
+<span class="w"> </span><span class="na">&gt;50K      7841</span><span class="w"></span>
+<span class="na">Name: wage, dtype: int64</span><span class="w"></span>
+</code></pre></div>
+
+<h5>Scale and transform the variables</h5>
+<p>Now, use a built-in function from Scikit Learn to encode 'wage' (<span class="math">\(y\)</span>) as a dummy variable. We load the encoder, set up the categories to be encoded, test the encoder and then encode y.  The array below shows that '&lt;=50K' is encoded as a zero.  The preprocessing methods are in the module sklearn.preprocessing. </p>
+<div class="highlight"><pre><span></span><code><span class="n">enc</span> <span class="o">=</span> <span class="n">OrdinalEncoder</span><span class="p">()</span>
+<span class="n">y_enc</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39; &lt;=50K&#39;</span><span class="p">],[</span> <span class="s1">&#39; &gt;50K&#39;</span><span class="p">]]</span>
+<span class="n">enc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_enc</span><span class="p">)</span>
+<span class="n">test</span><span class="o">=</span><span class="p">[[</span><span class="s1">&#39; &lt;=50K&#39;</span><span class="p">],[</span> <span class="s1">&#39; &gt;50K&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39; &lt;=50K&#39;</span><span class="p">],[</span> <span class="s1">&#39; &gt;50K&#39;</span><span class="p">]]</span>
+<span class="n">enc</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>array([[0.],
+       [1.],
+       [0.],
+       [1.]])
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">32560</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">y</span><span class="o">=</span><span class="n">enc</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Build a pipeline to transform the rest of our variables. Review the data types of the variables in our observation data frame. We'll cast 'sex' as a category variable. </p>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)</span>
+<span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s1">&#39;sex&#39;</span><span class="p">:</span><span class="s1">&#39;category&#39;</span><span class="p">})</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>age                int64
+fnlwgt             int64
+education-num      int64
+capital-gain       int64
+capital-loss       int64
+hours-per-week     int64
+sex               object
+dtype: object
+</code></pre></div>
+
+<p>Check the number of features of each type to ensure that the casting is completed successfully. </p>
+<div class="highlight"><pre><span></span><code><span class="n">n_cat_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s2">&quot;category&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">n_cat_features</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="mf">1</span><span class="w"></span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">n_num_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s2">&quot;number&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">n_num_features</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="mf">6</span><span class="w"></span>
+</code></pre></div>
+
+<p>Set up our column selectors and demonstrate that the num_selector pulls out the numerical features. Then,
+we choose the processor type for each data type and construct the pipeline. </p>
+<div class="highlight"><pre><span></span><code><span class="n">cat_selector</span> <span class="o">=</span> <span class="n">make_column_selector</span><span class="p">(</span><span class="n">dtype_include</span><span class="o">=</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+<span class="n">num_selector</span> <span class="o">=</span> <span class="n">make_column_selector</span><span class="p">(</span><span class="n">dtype_include</span><span class="o">=</span><span class="s1">&#39;number&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">num_selector</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>[&#39;age&#39;, &#39;fnlwgt&#39;, &#39;education-num&#39;, &#39;capital-gain&#39;, &#39;capital-loss&#39;, &#39;hours-per-week&#39;]
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">cat_processor</span> <span class="o">=</span> <span class="n">OrdinalEncoder</span><span class="p">()</span>
+<span class="n">num_processor</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+
+<span class="n">linear_preprocessor</span><span class="o">=</span> <span class="n">make_column_transformer</span><span class="p">((</span><span class="n">num_processor</span><span class="p">,</span> <span class="n">num_selector</span><span class="p">),(</span><span class="n">cat_processor</span><span class="p">,</span><span class="n">cat_selector</span><span class="p">))</span>
+<span class="n">linear_preprocessor</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">linear_preprocessor</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Now, examine how the pipeline changed our data. (I've also  put the labels back on the dataframe.) We see that 'sex' is now a numerical variable. The other variables have been scaled to have a mean of zero and unit variance.</p>
+<div class="highlight"><pre><span></span><code><span class="n">X</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">num_cols_subset</span><span class="o">+</span><span class="n">cat_cols_subset</span><span class="p">)</span>
+<span class="n">X</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>array([[&lt;AxesSubplot: title={&#39;center&#39;: &#39;age&#39;}&gt;,
+        &lt;AxesSubplot: title={&#39;center&#39;: &#39;fnlwgt&#39;}&gt;,
+        &lt;AxesSubplot: title={&#39;center&#39;: &#39;education-num&#39;}&gt;],
+       [&lt;AxesSubplot: title={&#39;center&#39;: &#39;capital-gain&#39;}&gt;,
+        &lt;AxesSubplot: title={&#39;center&#39;: &#39;capital-loss&#39;}&gt;,
+        &lt;AxesSubplot: title={&#39;center&#39;: &#39;hours-per-week&#39;}&gt;],
+       [&lt;AxesSubplot: title={&#39;center&#39;: &#39;sex&#39;}&gt;, &lt;AxesSubplot: &gt;,
+        &lt;AxesSubplot: &gt;]], dtype=object)
+</code></pre></div>
+
+<p><img alt="png" src="images/trees_files/Trees_28_1.png"></p>
+<h5>Decision Tree Construction</h5>
+<p>Create the training and testing sets for our decision tree. Then, create the decision tree with a maximum depth of three. </p>
+<div class="highlight"><pre><span></span><code><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">clf</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span> 
+<span class="n">clf</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">tree</span><span class="o">.</span><span class="n">plot_tree</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">filled</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">num_cols_subset</span> <span class="o">+</span> <span class="n">cat_cols_subset</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="png" src="images/trees_files/Trees_31_0.png"></p>
+<p>We'll use the export tree command to examine where the splits occur. At the root node, the data splits on the capital gains.
+We see additional splits on age and education. This makes sense given that capital gains require stock ownership, which is more likely to occur if your income is over 50K. </p>
+<div class="highlight"><pre><span></span><code><span class="n">report</span> <span class="o">=</span> <span class="n">export_text</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">num_cols_subset</span><span class="o">+</span><span class="n">cat_cols_subset</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>|--- capital-gain &lt;= 0.55
+|   |--- education-num &lt;= 0.94
+|   |   |--- age &lt;= -0.37
+|   |   |   |--- class: 0.0
+|   |   |--- age &gt;  -0.37
+|   |   |   |--- class: 0.0
+|   |--- education-num &gt;  0.94
+|   |   |--- age &lt;= -0.67
+|   |   |   |--- class: 0.0
+|   |   |--- age &gt;  -0.67
+|   |   |   |--- class: 1.0
+|--- capital-gain &gt;  0.55
+|   |--- capital-gain &lt;= 0.81
+|   |   |--- capital-gain &lt;= 0.57
+|   |   |   |--- class: 1.0
+|   |   |--- capital-gain &gt;  0.57
+|   |   |   |--- class: 0.0
+|   |--- capital-gain &gt;  0.81
+|   |   |--- age &lt;= -1.33
+|   |   |   |--- class: 0.0
+|   |   |--- age &gt;  -1.33
+|   |   |   |--- class: 1.0
+</code></pre></div>
+
+<h5>How did the tree perform?</h5>
+<p>Now, we need to evaluate how well our tree has performed. We'll compare the percentage of the observations that are correctly predicted with both the testing and training data. We see that both have about 80% accuracy. This suggests that the model is not overfitted. (Here, cost complexity pruning is required to do a complete analysis, but we do not have a situation where the training data has a high accuracy score and the test data has a low accuracy score.)</p>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="mf">0.8067030098280098</span><span class="w"></span>
+<span class="mf">0.8078931203931204</span><span class="w"></span>
+</code></pre></div>
+
+<p>We look at the confusion matrix, the recall, and the precision.
+The confusion matrix has the form:
+</p>
+<div class="math">$$\begin{matrix}
+ Predict: &amp;  0  &amp;  1 \\
+\hline
+True: 0    &amp;  TN  &amp;  FP \\
+True: 1    &amp;  FN  &amp; TP 
+\end{matrix}.$$</div>
+<p>The overall accuracy is: 
+</p>
+<div class="math">$$ \frac{TN + TP}{TN+TP + FN+ FP}.$$</div>
+<p>The recall is the ratio of true positives to total positives. This is:</p>
+<div class="math">$$\frac{TP}{TP + FN}.$$</div>
+<p>The precision is the ratio true positives out of all positive results.
+</p>
+<div class="math">$$\frac{TP}{TP+FP}.$$</div>
+<p>If our goal is to find candidates  with income over 50K for an email campaign, we'd focus on the recall. If our advertising budget is limited, we may then want to focus on the precision.  The specificity is <span class="math">\(TN/N\)</span>. 
+ We see that the recall is about 0.57 and the precision is about 0.62. 
+ Since about 66% of the observations in the data set are in the category '&lt;=50K', we could artificially increase the precision and specificity by predicting all individuals are in the category '&lt;=50K', except for one individual that we are very sure are in the class '&gt;=50K'. </p>
+<div class="highlight"><pre><span></span><code><span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">[[4346  566]</span><span class="w"></span>
+<span class="w"> </span><span class="k">[ 685  915]]</span><span class="w"></span>
+<span class="na">0.571875</span><span class="w"></span>
+<span class="na">0.6178257933828494</span><span class="w"></span>
+</code></pre></div>
+
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="/tag/scikit-learn.html">Scikit-learn</a>
+    </p>
+  </div>
+
+
+
+
+
+
+</article>
+
+<footer>
+<p>&copy;  </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Python, data science, and art ",
+  "url" : "",
+  "image": "/images/ProfilePic.jpg",
+  "description": "Data Science"
+}
+</script>
+</body>
+</html>
