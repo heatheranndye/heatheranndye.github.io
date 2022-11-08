@@ -17,8 +17,7 @@ The data set has been used in a variety of papers on arxiv, references are avail
 #### What happens in a classification decision tree?
 
 We have a data set with $N$ total observations $(x_i, y_i)$ where $x_i \in \mathbb{R}^n$ and $y_i \in {0,1}$. We divide $\mathbb{R}^n$ into $m$ regions. The region $R_m$ corresponds to a leaf in the tree and contains $N_m$ observations. All observations in the region will be classified the same way. These regions are in correspondence with the terminal nodes of a tree $T$. 
-Each node in the tree will represent a split in the data set. For example, a split $\theta = (j, t)$ is described by the variable, $j$ and a threshold $t$. All observations where $x_j <t$ are placed into a region $R_l$ and all observations with 
-$x_j > t $ are placed into $R_r$.
+Each node in the tree will represent a split in the data set. For example, a split $\theta = (j, t)$ is described by the variable, $j$ and a threshold $t$. All observations where $x_j <t$ are placed into a region $R_l$ and all observations with $x_j < t$ are placed into $R_r$.
 
 I use the Gini index in my example.
 
