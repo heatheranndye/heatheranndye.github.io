@@ -59,7 +59,7 @@ MAIN_MENU = True
 LINKS = (('My Publications', 'https://zbmath.org/authors/?q=Heather+Ann+Dye'), ('Textile Art','https://www.heatheranndye.com/' ))
 # Social widget
 
-SOCIAL = (("linkedin", 'https://www.linkedin.com/in/heather-dye-44712720/'),
+SOCIAL = (("linkedin", 'https://www.linkedin.com/in/heather-ann-dye-44712720/'),
           ('github', 'https://github.com/heatheranndye'),)
 
 DEFAULT_PAGINATION = 10
