@@ -20,7 +20,7 @@ Feel free to contact me:
 
 * [contact me via email](mailto:heatheranndye) 
 
-* [LinkedIn](https://www.linkedin.com/in/heather-dye-44712720/) 
+* [LinkedIn](https://www.linkedin.com/in/heather-ann-dye-44712720/) 
 
 * [GitHub](https://github.com/heatheranndye).
 
