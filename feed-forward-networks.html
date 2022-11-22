@@ -1,0 +1,574 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/Dye.png" type="image/x-icon">
+  <link rel="icon" href="/images/Dye.png" type="image/x-icon">
+
+
+  <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Python, data science, and art Atom">
+
+
+
+ 
+
+<meta name="author" content="Heather Ann Dye" />
+<meta name="description" content="Feed Forward Networks Ever wondered out deep learning and neural networks work? The descriptions always contain the phrase &#34;back propagation&#34;. But what exactly is back propagation? In this blog post, we&#39;ll start with a simulated neural network and see how it is applied to a test case. Then, we delve …" />
+<meta name="keywords" content="Pytorch">
+
+
+  <meta property="og:site_name" content="Python, data science, and art"/>
+  <meta property="og:title" content="Feed Forward Networks"/>
+  <meta property="og:description" content="Feed Forward Networks Ever wondered out deep learning and neural networks work? The descriptions always contain the phrase &#34;back propagation&#34;. But what exactly is back propagation? In this blog post, we&#39;ll start with a simulated neural network and see how it is applied to a test case. Then, we delve …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="/feed-forward-networks.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2022-11-21 00:00:00-06:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="/author/heather-ann-dye.html">
+  <meta property="article:section" content="data science"/>
+  <meta property="article:tag" content="Pytorch"/>
+  <meta property="og:image" content="/images/ProfilePic.jpg">
+
+  <title>Python, data science, and art &ndash; Feed Forward Networks</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="/">
+      <img src="/images/ProfilePic.jpg" alt="Heather Ann Dye" title="Heather Ann Dye">
+    </a>
+
+    <h1>
+      <a href="/">Heather Ann Dye</a>
+    </h1>
+
+    <p>Data Enthusiast</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+            <li>
+              <a target="_self"
+                 href="/pages/about.html#about">
+                About
+              </a>
+            </li>
+
+          <li>
+            <a target="_self" href="https://zbmath.org/authors/?q=Heather+Ann+Dye" >My Publications</a>
+          </li>
+          <li>
+            <a target="_self" href="https://www.heatheranndye.com/" >Textile Art</a>
+          </li>
+      </ul>
+    </nav>
+
+    <ul class="social">
+      <li>
+        <a class="sc-linkedin"
+           href="https://www.linkedin.com/in/heather-dye-44712720/"
+           target="_blank">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-github"
+           href="https://github.com/heatheranndye"
+           target="_blank">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</aside>
+  <main>
+
+<nav>
+  <a href="/">Home</a>
+
+  <a href="/archives.html">Archives</a>
+  <a href="/categories.html">Categories</a>
+  <a href="/tags.html">Tags</a>
+
+  <a href="/feeds/all.atom.xml">Atom</a>
+
+</nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="feed-forward-networks">Feed Forward Networks</h1>
+    <p>
+      Posted on Mon 21 November 2022 in <a href="/category/data-science.html">data science</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <h1>Feed Forward Networks</h1>
+<p>Ever wondered out deep learning and neural networks work? The descriptions always contain the phrase "back propagation".  But what exactly is back propagation?  In this blog post, we'll start with a <em>simulated</em> neural network and see how it is applied to a test case. Then, we delve into how to construct and train a neural network using a hand coded model. Finally, we construct a similar network in Pytorch. </p>
+<p>To put together this article, I used the following references:</p>
+<ul>
+<li>
+<p>Data Science from Scratch by Joel Grus - ISBN 978-1-4919 -0142-7: offers python code for many data science first principles</p>
+</li>
+<li>
+<p><a href="deeplearningbook.org">Deep Learning</a> - Goodfellow, Bengio, Courville</p>
+</li>
+<li>
+<p><a href="https://pytorch.org/">Pytorch documentation</a></p>
+</li>
+</ul>
+<p>We're going to model a XOR gate. An XOR gate maps <span class="math">\([0,0]\)</span> and <span class="math">\([1,1]\)</span> to <span class="math">\(0\)</span>, while <span class="math">\([0,1]\)</span> and <span class="math">\([1,0]\)</span> are mapped to <span class="math">\(1\)</span>.  This gate is non-linear so we can't model our data set using linear regression (for example). Luckily, <em>Data Science from Scratch</em> has coded an XOR gate. </p>
+<h5>The simulated network</h5>
+<p>We  begin with a simulated network.
+</p>
+<div class="math">$$\begin{bmatrix} \begin{bmatrix} 20 &amp; 20 &amp;-30 \\ 20 &amp; 20&amp; -10 \end{bmatrix} \\
+\begin{bmatrix}-60  &amp; 60 &amp; -30 \end{bmatrix}\end{bmatrix}.$$</div>
+<p>Our network consists of four layers. The hidden layer is described by the matrix
+</p>
+<div class="math">$$W =\begin{bmatrix} 20 &amp; 20 &amp;-30 \\ 20 &amp; 20&amp; -10  \end{bmatrix}.$$</div>
+<p> 
+The output layer is 
+</p>
+<div class="math">$$V = \begin{bmatrix}-60  &amp; 60 &amp; -30  \end{bmatrix}.$$</div>
+<p>
+We use the sigmoid function for the activatation function layers. This function has the form
+</p>
+<div class="math">$$\sigma (x) = \frac{1}{1 + e^{-x}}.$$</div>
+<p> This function has interesting properties.</p>
+<ul>
+<li>As <span class="math">\(x\)</span> goes to positive infinity, <span class="math">\(\sigma (x)\)</span> approaches <span class="math">\(1\)</span>.</li>
+<li>As <span class="math">\(x\)</span> goes to negative infinty, <span class="math">\(\sigma (x)\)</span> approaches <span class="math">\(0\)</span>. </li>
+<li><span class="math">\(\sigma'(x) = \sigma (x) (1-\sigma (x))\)</span>.</li>
+</ul>
+<p>Now, we program in our two functions to demonstrate the action of a single neuron (using code from <em>Data Science from Scratch</em>). This brief computation is the action of a single neuron. The function neuron_output takes the dot product of the two inputs and then applies the sigmoid function. </p>
+<p>We can simplistically describe our network as follows
+</p>
+<div class="math">$$ NN(x)= \sigma \left(  V \sigma \left( W x  \right)  \right).$$</div>
+<p>Let's test out some values in our <em>simulated</em> network. (Bonus question: how much can we change our simulated network and still have a successful model? ) We'll start with the sigmoid function and a single neuron output.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">neuron_output</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">inputs</span><span class="p">))</span>
+
+<span class="c1"># demo neuron_output</span>
+<span class="n">sample_input</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sample_weight</span> <span class="o">=</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">neuron_output</span><span class="p">(</span><span class="n">sample_weight</span><span class="p">,</span> <span class="n">sample_input</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="mf">0.9999546021312976</span><span class="w"></span>
+</code></pre></div>
+
+<p>Next, we use the code from <em>Data Science</em> for a feed forward network. This function will run our input through all layers of our neural network.  We compute our simulated network first and see that it models an XOR gate. </p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">feed_forward</span><span class="p">(</span><span class="n">neural_network</span><span class="p">,</span> <span class="n">input_vector</span><span class="p">):</span>
+    <span class="n">outputs</span> <span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">neural_network</span><span class="p">:</span> 
+        <span class="n">input_with_bias</span> <span class="o">=</span> <span class="n">input_vector</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">[</span><span class="n">neuron_output</span><span class="p">(</span><span class="n">neuron</span><span class="p">,</span> <span class="n">input_with_bias</span><span class="p">)</span> <span class="k">for</span> <span class="n">neuron</span> <span class="ow">in</span> <span class="n">layer</span><span class="p">]</span>
+        <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="n">input_vector</span> <span class="o">=</span> <span class="n">output</span>
+    <span class="k">return</span> <span class="n">outputs</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">xor_network</span> <span class="o">=</span> <span class="p">[[[</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="o">-</span><span class="mi">30</span><span class="p">],[</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">]],[[</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="o">-</span><span class="mi">30</span><span class="p">]]]</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">feed_forward</span><span class="p">(</span><span class="n">xor_network</span><span class="p">,[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">[[9.357622968839299e-14, 4.5397868702434395e-05], [9.38314668300676e-14]]</span><span class="w"></span>
+<span class="k">[[4.5397868702434395e-05, 0.9999546021312976], [0.9999999999999059]]</span><span class="w"></span>
+<span class="k">[[4.5397868702434395e-05, 0.9999546021312976], [0.9999999999999059]]</span><span class="w"></span>
+<span class="k">[[0.9999546021312976, 0.9999999999999065], [9.383146683006828e-14]]</span><span class="w"></span>
+</code></pre></div>
+
+<p>For each input, we obtained two vectors: a <span class="math">\(1 \times 2\)</span> vector and a <span class="math">\(1 \times 1\)</span> vector. The first vector is the hidden output. The <span class="math">\(1 \times 1\)</span> vector is our final output, so we observe all inputs are mapped correctly.  </p>
+<p>Now, we take a look at the back propagation code from <em>Data Science</em>. This code explains how a neural network is trained. This is a bit of a misnomer, since what is really happening is minimizing a cost function. The trick to minimizing the cost function just uses things that we learned in Calculus.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">backpropagate</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">input_vector</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="n">hidden_outputs</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">feed_forward</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">input_vector</span><span class="p">)</span>
+    <span class="n">output_deltas</span> <span class="o">=</span> <span class="p">[</span><span class="n">output</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">output</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">output</span><span class="o">-</span><span class="n">target</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">output</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)]</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">output_neuron</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">network</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">hidden_output</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hidden_outputs</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">output_neuron</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-=</span><span class="n">output_deltas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">hidden_output</span>
+    <span class="c1">#back-propagate errors </span>
+    <span class="n">hidden_deltas</span> <span class="o">=</span> <span class="p">[</span><span class="n">hidden_output</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">hidden_output</span><span class="p">)</span><span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">output_deltas</span><span class="p">,[</span><span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">output_layer</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">hidden_output</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hidden_outputs</span><span class="p">)]</span>
+    <span class="c1"># adjust weights for hidden layer</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">hidden_neuron</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">network</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="nb">input</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">input_vector</span><span class="o">+</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">hidden_neuron</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">-=</span><span class="n">hidden_deltas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span> <span class="nb">input</span>
+</code></pre></div>
+
+<p>Let's examine this code. I'm going to rewrite the neural network and construct a simplified cost function. This function depends the variables <span class="math">\(W\)</span> (the hidden layer) and <span class="math">\(V\)</span> (the output layer). </p>
+<p>Use <span class="math">\(y\)</span> to represent our targets and <span class="math">\(x\)</span> to represent our input. (I'm simplifying things considerably since <span class="math">\(V\)</span> and <span class="math">\(W\)</span> are matrices.) We'll denote our cost or loss function as <span class="math">\(C(W,V)\)</span>,
+</p>
+<div class="math">$$C(W,V) = \sum (y - NN(x))^2.$$</div>
+<p>
+Some choice of <span class="math">\(W\)</span> and <span class="math">\(V\)</span> minimizes this function.</p>
+<p>In the code snippet,  <span class="math">\(NN(x)\)</span> is denoted as output. We also introduce the following to denote the output:
+</p>
+<div class="math">$$\sigma_O = \sigma( V \sigma(W \: x))$$</div>
+<p>
+and to denote the hidden output:
+</p>
+<div class="math">$$\sigma_h = \sigma(W \: x).$$</div>
+<p>
+These sub-formulas have derivatives that resemble the sigmoid function, so <span class="math">\(\sigma_i' = \sigma_i (1- \sigma_i)\)</span>.
+Plus, they appear in the back propagation code snippet. </p>
+<h5>Using some calculus</h5>
+<p>In Calculus, we learned that minimum occur when both partial derivatives are zero and that the gradient always points in the direction of steepest ascent. In back propagation, the partial derivatives of our cost function are computed. Then, we use these derivatives to push the values of <span class="math">\(V\)</span> and <span class="math">\(W\)</span> towards the location of minimum. (For various reasons, we don't have to worry about there being a variety of local minimums or saddle points.)
+Now, for the output layer:
+</p>
+<div class="math">$$ \frac{\partial C}{\partial V} = 2 \sum (y - NN(X)) \: \sigma_O (1-\sigma_O) \: \sigma_h.$$</div>
+<p>In the code,
+</p>
+<div class="math">$$output \_ deltas =output(1-output)(output-target).$$</div>
+<p>
+This snippet corresponds to <span class="math">\((y - NN(X)) \sigma_O (1-\sigma_O)\)</span>. </p>
+<p>Notice that in the code the adjustment to <span class="math">\(V\)</span>  is </p>
+<div class="math">$$output\_ neuron[j]-=output\_ deltas[i] * hidden\_ output. $$</div>
+<p>The direction that we nudge <span class="math">\(V\)</span> towards corresponds to <span class="math">\((y - NN(X)) \sigma_O (1-\sigma_O) \sigma_h.\)</span></p>
+<p>Now, we consider the hidden layer.
+</p>
+<div class="math">$$\frac{\partial C}{\partial W} = 2 \sum ( y - NN(x)) ( \sigma_O)(1-\sigma_O) V \: \sigma_h (1- \sigma_h) x.$$</div>
+<p>The adjustment for the hidden layer is: <span class="math">\(hidden\_ neuron[j]-=hidden\_ deltas[i] (input)\)</span> where the</p>
+<p><span class="math">\(hidden \_ deltas = hidden \_ output (1-hidden \_ output) np.dot(output\_ deltas,[n[i] \text{for n in }output \_layer]).\)</span></p>
+<p>A careful examination will show the match up between the partial derivative and the adjustment to <span class="math">\(W\)</span>. </p>
+<h2>Time to train our first neural network!</h2>
+<p>Now, we can use this code to set up an untrained network.
+The network is initialized with random values. We observe the untrained network - the outputs don't distinguish the inputs. Then, iterate our back propagation function 1000 times over our input and targets. </p>
+<div class="highlight"><pre><span></span><code><span class="n">targets</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">]]</span>
+<span class="n">inputs</span> <span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">input_size</span><span class="o">=</span><span class="mi">2</span>
+<span class="n">num_hidden</span><span class="o">=</span><span class="mi">2</span>
+<span class="n">output_size</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">hidden_layer</span><span class="o">=</span><span class="p">[[</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">input_size</span> <span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_hidden</span><span class="p">)]</span>
+<span class="n">output_layer</span><span class="o">=</span><span class="p">[[</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_hidden</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">]</span>
+ <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">output_size</span><span class="p">)]</span>
+<span class="n">network</span><span class="o">=</span><span class="p">[</span><span class="n">hidden_layer</span><span class="p">,</span> <span class="n">output_layer</span><span class="p">]</span>
+</code></pre></div>
+
+<h5>The untrained model</h5>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, Output</span><span class="si">{</span><span class="n">feed_forward</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">i</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>Input [0, 0], Output[0.7561455683298192]
+Input [1, 1], Output[0.8022772919568507]
+Input [0, 1], Output[0.7845871150514832]
+Input [1, 0], Output[0.7838243382364781]
+</code></pre></div>
+
+<h5>The training loop</h5>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">input_vector</span><span class="p">,</span> <span class="n">target_vector</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span><span class="n">targets</span><span class="p">):</span>
+        <span class="n">backpropagate</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">input_vector</span><span class="p">,</span> <span class="n">target_vector</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Check the outputs and observe significant progress toward our target values! </p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, Output</span><span class="si">{</span><span class="n">feed_forward</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">i</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>Input [0, 0], Output[0.052840994129478264]
+Input [1, 1], Output[0.053772250071737956]
+Input [0, 1], Output[0.9513248576280653]
+Input [1, 0], Output[0.9512586782732266]
+</code></pre></div>
+
+<h2>Setting up the same Neural Net in Pytorch!</h2>
+<p>Now, we shift to Pytorch and build the same neural network. We start by loading packages, defining our device, and setting up the neural network. This should all look very familiar based on our earlier work.</p>
+<p>Next, set up the feed_forward function. The bias is True, which will be the same as the<br>
+<span class="math">\(+[1]\)</span> in the earlier part of our example. </p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span>
+<span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;cpu&quot;</span>
+
+<span class="k">class</span> <span class="nc">NeuralNetwork</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NeuralNetwork</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flatten</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer4</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">layer3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">layer4</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">NeuralNetwork</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>NeuralNetwork(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (layer1): Linear(in_features=2, out_features=2, bias=True)
+  (layer2): Sigmoid()
+  (layer3): Linear(in_features=2, out_features=1, bias=True)
+  (layer4): Sigmoid()
+)
+</code></pre></div>
+
+<p>Next,  set up our input data and functions. Since my "data set" is so simple, it can be coded as torch tensors.</p>
+<p>We also take a look at the predictions of the <em>untrained</em> neural network. </p>
+<div class="highlight"><pre><span></span><code><span class="n">mydata</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">local_tuple</span> <span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)]])</span>
+        <span class="n">class_val</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span> <span class="o">^</span> <span class="n">y</span><span class="p">)]])</span>
+        <span class="n">mydata</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">local_tuple</span><span class="p">,</span> <span class="n">class_val</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">batch</span><span class="p">,</span> <span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mydata</span><span class="p">):</span>
+        <span class="c1"># Compute prediction and loss</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>tensor([[0.4165]], grad_fn=&lt;SigmoidBackward0&gt;)
+tensor([[0.4320]], grad_fn=&lt;SigmoidBackward0&gt;)
+tensor([[0.4042]], grad_fn=&lt;SigmoidBackward0&gt;)
+tensor([[0.4187]], grad_fn=&lt;SigmoidBackward0&gt;)
+</code></pre></div>
+
+<p>Next, select a loss function (MSE) and set up the optimization. Then set up a training loop. </p>
+<div class="highlight"><pre><span></span><code><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
+<span class="n">optimize</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">train_loop</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">):</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">batch</span><span class="p">,</span> <span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="c1"># Compute prediction and loss</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="c1"># Backpropagation</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</code></pre></div>
+
+<p>Let's take one last look at the model structure before training the model.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model structure: </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Layer: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> | Size: </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="si">}</span><span class="s2"> | Values : </span><span class="si">{</span><span class="n">param</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>Model structure: NeuralNetwork(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (layer1): Linear(in_features=2, out_features=2, bias=True)
+  (layer2): Sigmoid()
+  (layer3): Linear(in_features=2, out_features=1, bias=True)
+  (layer4): Sigmoid()
+)
+
+
+Layer: layer1.weight | Size: torch.Size([2, 2]) | Values : tensor([[-0.4847,  0.4606],
+        [-0.4183,  0.5241]], grad_fn=&lt;SliceBackward0&gt;)
+
+Layer: layer1.bias | Size: torch.Size([2]) | Values : tensor([-0.1546, -0.3523], grad_fn=&lt;SliceBackward0&gt;)
+
+Layer: layer3.weight | Size: torch.Size([1, 2]) | Values : tensor([[0.1152, 0.3882]], grad_fn=&lt;SliceBackward0&gt;)
+
+Layer: layer3.bias | Size: torch.Size([1]) | Values : tensor([-0.5507], grad_fn=&lt;SliceBackward0&gt;)
+</code></pre></div>
+
+<h5>Model Training</h5>
+<div class="highlight"><pre><span></span><code><span class="n">epochs</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="n">train_loop</span><span class="p">(</span><span class="n">mydata</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">optimize</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model structure: </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Layer: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> | Size: </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="si">}</span><span class="s2"> | Values : </span><span class="si">{</span><span class="n">param</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>Model structure: NeuralNetwork(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (layer1): Linear(in_features=2, out_features=2, bias=True)
+  (layer2): Sigmoid()
+  (layer3): Linear(in_features=2, out_features=1, bias=True)
+  (layer4): Sigmoid()
+)
+
+
+Layer: layer1.weight | Size: torch.Size([2, 2]) | Values : tensor([[-5.1637,  5.4151],
+        [-6.3016,  6.2315]], grad_fn=&lt;SliceBackward0&gt;)
+
+Layer: layer1.bias | Size: torch.Size([2]) | Values : tensor([ 2.5396, -3.4433], grad_fn=&lt;SliceBackward0&gt;)
+
+Layer: layer3.weight | Size: torch.Size([1, 2]) | Values : tensor([[-8.1168,  8.3146]], grad_fn=&lt;SliceBackward0&gt;)
+
+Layer: layer3.bias | Size: torch.Size([1]) | Values : tensor([3.8295], grad_fn=&lt;SliceBackward0&gt;)
+</code></pre></div>
+
+<p>The neural network moved substantially towards the desired outcome!</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">batch</span><span class="p">,</span> <span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mydata</span><span class="p">):</span>
+        <span class="c1"># Compute prediction </span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>tensor([[0.0312]], grad_fn=&lt;SigmoidBackward0&gt;)
+tensor([[0.9720]], grad_fn=&lt;SigmoidBackward0&gt;)
+tensor([[0.9638]], grad_fn=&lt;SigmoidBackward0&gt;)
+tensor([[0.0272]], grad_fn=&lt;SigmoidBackward0&gt;)
+</code></pre></div>
+
+<p>Train the model some more and observe the predictions.</p>
+<div class="highlight"><pre><span></span><code><span class="n">epochs</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="n">train_loop</span><span class="p">(</span><span class="n">mydata</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">optimize</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">batch</span><span class="p">,</span> <span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mydata</span><span class="p">):</span>
+        <span class="c1"># Compute prediction and loss</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>tensor([[0.0236]], grad_fn=&lt;SigmoidBackward0&gt;)
+tensor([[0.9785]], grad_fn=&lt;SigmoidBackward0&gt;)
+tensor([[0.9728]], grad_fn=&lt;SigmoidBackward0&gt;)
+tensor([[0.0207]], grad_fn=&lt;SigmoidBackward0&gt;)
+</code></pre></div>
+
+<p>We've successfully built a neural network for an XOR gate in Pytorch!</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="/tag/pytorch.html">Pytorch</a>
+    </p>
+  </div>
+
+
+
+
+
+
+</article>
+
+<footer>
+<p>&copy;  </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Python, data science, and art ",
+  "url" : "",
+  "image": "/images/ProfilePic.jpg",
+  "description": "Data Science"
+}
+</script>
+</body>
+</html>
