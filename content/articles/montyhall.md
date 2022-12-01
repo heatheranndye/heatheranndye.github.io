@@ -80,3 +80,8 @@ the cumulative percentage wins are displayed in a graph.
 
 We can add additional trials and see how the win percentages change as the number of trials 
 increases. 
+
+I installed a graph to display how the percentage wins change over time. 
+
+We can use this to examine the behavior and see that eventually the win percentage for the
+*Switch* strategy converges to 66%. 
