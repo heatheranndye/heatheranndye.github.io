@@ -25,13 +25,14 @@ The question that emerges is: Switch or Stay?
 The contestent should go with the switch strategy - this will result in a win 66% of the time. In fact, the only way the
 contestant looses with the switch strategy is if they originally selected the prize door. 
 
-But why?  
 
-##### With the Monty Hall problem, we can explore the answer in three different ways!
 
-* Using Bayes Theorem and probability theory
-* Actually hosting a game show and keeping track of the winners
-* Constructing a simulation
+### With the Monty Hall problem, we can find the answer in three different ways!
+
+1. Using Bayes Theorem and probability theory
+2. Hosting a game show and keeping track of the winners
+3. Constructing a Monte Carlo simulation
+
 
 Here's my [streamlit simulation](https://heatheranndye-montyhall-montymonty-app-t59nhv.streamlit.app/).
 
@@ -45,6 +46,7 @@ For each trial, we need to perform four steps:
 
 In addition, we want to tabulate the percentage of wins go to each strategy over time. 
 
+
 ##### Steps 1 and 2:
 We simulate the door choices using randomint.
 
@@ -55,7 +57,8 @@ We simulate the door choices using randomint.
 #### Steps 3 and 4:
 
 Write a short function to determine if the strategy won. Wins are
-represented by 1's and losses by 0's. 
+represented by 1's and losses by 0's. Using this, we can easily 
+tabulate the wins in graph.
 
 ```python
 def switch_strat(init_door: int, win_door: int)->int:
@@ -74,14 +77,26 @@ def switch_strat(init_door: int, win_door: int)->int:
 
 #### Displaying the first 5 trials
 
-The first five trials and there outcomes are displayed in a data frame. 
+The first five trials and their outcomes are displayed in a data frame. 
 Simply looking at the first few trials can be deceptive, so 
 the cumulative percentage wins are displayed in a graph.
 
 We can add additional trials and see how the win percentages change as the number of trials 
-increases. 
+increases. (I had to set some session variables so that the data refreshes correctly.)
 
-I installed a graph to display how the percentage wins change over time. 
+#### A visual display
 
-We can use this to examine the behavior and see that eventually the win percentage for the
+Finally, I installed a graph to display how the percentage of wins change over time for
+each strategy.
+
+```python
+st.line_chart(results)
+```
+
+
+We can use this chart to examine the long term behavior and see that (eventually) the win percentage for the
 *Switch* strategy converges to 66%. 
+
+Even more excitingly, we could easily expand this simulation to modified versions of the
+Monty Hall problem or the Birthday Problem!
+

@@ -146,13 +146,12 @@ three doors. One door conceals a fabulous prize! </p>
 <h3>What should the contestant do?</h3>
 <p>The contestent should go with the switch strategy - this will result in a win 66% of the time. In fact, the only way the
 contestant looses with the switch strategy is if they originally selected the prize door. </p>
-<p>But why?  </p>
-<h5>With the Monty Hall problem, we can explore the answer in three different ways!</h5>
-<ul>
+<h3>With the Monty Hall problem, we can find the answer in three different ways!</h3>
+<ol>
 <li>Using Bayes Theorem and probability theory</li>
-<li>Actually hosting a game show and keeping track of the winners</li>
-<li>Constructing a simulation</li>
-</ul>
+<li>Hosting a game show and keeping track of the winners</li>
+<li>Constructing a Monte Carlo simulation</li>
+</ol>
 <p>Here's my <a href="https://heatheranndye-montyhall-montymonty-app-t59nhv.streamlit.app/">streamlit simulation</a>.</p>
 <p>In this simulation, we construct a data frame to keep track of our game. 
 For each trial, we need to perform four steps:</p>
@@ -170,7 +169,8 @@ For each trial, we need to perform four steps:</p>
 
 <h4>Steps 3 and 4:</h4>
 <p>Write a short function to determine if the strategy won. Wins are
-represented by 1's and losses by 0's. </p>
+represented by 1's and losses by 0's. Using this, we can easily 
+tabulate the wins in graph.</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">switch_strat</span><span class="p">(</span><span class="n">init_door</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">win_door</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">int</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Switch strategy </span>
 <span class="sd">    Args:</span>
@@ -190,7 +190,17 @@ represented by 1's and losses by 0's. </p>
 Simply looking at the first few trials can be deceptive, so 
 the cumulative percentage wins are displayed in a graph.</p>
 <p>We can add additional trials and see how the win percentages change as the number of trials 
-increases. </p>
+increases. (I had to set some session variables so that the data refreshes correctly.)</p>
+<h4>A visual display</h4>
+<p>Finally, I installed a graph to display how the percentage of wins change over time for
+each strategy.</p>
+<div class="highlight"><pre><span></span><code><span class="n">st</span><span class="o">.</span><span class="n">line_chart</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</code></pre></div>
+
+<p>We can use this chart to examine the long term behavior and see that (eventually) the win percentage for the
+<em>Switch</em> strategy converges to 66%. </p>
+<p>Even more excitingly, we could easily expand this simulation to modified versions of the
+Monty Hall problem or the Birthday Problem!</p>
   </div>
   <div class="tag-cloud">
     <p>
