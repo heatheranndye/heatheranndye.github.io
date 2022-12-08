@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/theme/stylesheet/style.min.css">
+
+
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+          href="/theme/pygments/github.min.css">
+
+
+
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="/theme/font-awesome/css/solid.css">
+
+
+  <link rel="shortcut icon" href="/images/Dye.png" type="image/x-icon">
+  <link rel="icon" href="/images/Dye.png" type="image/x-icon">
+
+
+  <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Python, data science, and art Atom">
+
+
+
+ 
+
+<meta name="author" content="Heather Ann Dye" />
+<meta name="description" content="The Monty Hall Problem and Streamlit Once I learned about Streamlit.io, I couldn&#39;t resist the opportunity to write a simulation of the Monty Hall problem! The Monty Hall problem involves a game show and prizes! On the game show, contestants were given the choice of three doors. One door …" />
+<meta name="keywords" content="streamlit">
+
+
+  <meta property="og:site_name" content="Python, data science, and art"/>
+  <meta property="og:title" content="The Monty Hall Problem"/>
+  <meta property="og:description" content="The Monty Hall Problem and Streamlit Once I learned about Streamlit.io, I couldn&#39;t resist the opportunity to write a simulation of the Monty Hall problem! The Monty Hall problem involves a game show and prizes! On the game show, contestants were given the choice of three doors. One door …"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:url" content="/the-monty-hall-problem.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="article:published_time" content="2022-12-01 00:00:00-06:00"/>
+  <meta property="article:modified_time" content=""/>
+  <meta property="article:author" content="/author/heather-ann-dye.html">
+  <meta property="article:section" content="simulation"/>
+  <meta property="article:tag" content="streamlit"/>
+  <meta property="og:image" content="/images/ProfilePic.jpg">
+
+  <title>Python, data science, and art &ndash; The Monty Hall Problem</title>
+
+
+</head>
+<body class="light-theme">
+
+<aside>
+  <div>
+    <a href="/">
+      <img src="/images/ProfilePic.jpg" alt="Heather Ann Dye" title="Heather Ann Dye">
+    </a>
+
+    <h1>
+      <a href="/">Heather Ann Dye</a>
+    </h1>
+
+    <p>Data Enthusiast</p>
+
+
+    <nav>
+      <ul class="list">
+
+
+            <li>
+              <a target="_self"
+                 href="/pages/about.html#about">
+                About
+              </a>
+            </li>
+
+          <li>
+            <a target="_self" href="https://zbmath.org/authors/?q=Heather+Ann+Dye" >My Publications</a>
+          </li>
+          <li>
+            <a target="_self" href="https://www.heatheranndye.com/" >Textile Art</a>
+          </li>
+      </ul>
+    </nav>
+
+    <ul class="social">
+      <li>
+        <a class="sc-linkedin"
+           href="https://www.linkedin.com/in/heather-ann-dye-44712720/"
+           target="_blank">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="sc-github"
+           href="https://github.com/heatheranndye"
+           target="_blank">
+          <i class="fa-brands fa-github"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</aside>
+  <main>
+
+<nav>
+  <a href="/">Home</a>
+
+  <a href="/archives.html">Archives</a>
+  <a href="/categories.html">Categories</a>
+  <a href="/tags.html">Tags</a>
+
+  <a href="/feeds/all.atom.xml">Atom</a>
+
+</nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="the-monty-hall-problem">The Monty Hall Problem</h1>
+    <p>
+      Posted on Thu 01 December 2022 in <a href="/category/simulation.html">simulation</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <h2>The Monty Hall Problem and Streamlit</h2>
+<p>Once I learned about <a href="https://streamlit.io/">Streamlit.io</a>, I couldn't resist the opportunity to write a
+simulation of the Monty Hall problem!</p>
+<p>The Monty Hall problem involves a game show and prizes! On the game show, contestants were given the choice of 
+three doors. One door conceals a fabulous prize! </p>
+<p>Contests are asked to select a door. </p>
+<h4>Then comes the twist -</h4>
+<p>The host opens one of the two remaining doors and asks if the contestant would like to switch to the remaining door. </p>
+<p>The question that emerges is: Switch or Stay? </p>
+<h3>What should the contestant do?</h3>
+<p>The contestent should go with the switch strategy - this will result in a win 66% of the time. In fact, the only way the
+contestant looses with the switch strategy is if they originally selected the prize door. </p>
+<h3>With the Monty Hall problem, we can find the answer in three different ways!</h3>
+<ol>
+<li>Using Bayes Theorem and probability theory</li>
+<li>Hosting a game show and keeping track of the winners</li>
+<li>Constructing a Monte Carlo simulation</li>
+</ol>
+<p>Here's my <a href="https://heatheranndye-montyhall-montymonty-app-t59nhv.streamlit.app/">streamlit simulation</a>.</p>
+<p>In this simulation, we construct a data frame to keep track of our game. 
+For each trial, we need to perform four steps:</p>
+<ol>
+<li>Selecting a door for the prize </li>
+<li>Selecting a door for the contestant's choice</li>
+<li>Determine if the Stay strategy won (or not).</li>
+<li>Determine if the Switch strategy won (or not).</li>
+</ol>
+<p>In addition, we want to tabulate the percentage of wins go to each strategy over time. </p>
+<h5>Steps 1 and 2:</h5>
+<p>We simulate the door choices using randomint.</p>
+<div class="highlight"><pre><span></span><code> <span class="n">select_door</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></div>
+
+<h4>Steps 3 and 4:</h4>
+<p>Write a short function to determine if the strategy won. Wins are
+represented by 1's and losses by 0's. Using this, we can easily 
+tabulate the wins in graph.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">switch_strat</span><span class="p">(</span><span class="n">init_door</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">win_door</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Switch strategy </span>
+<span class="sd">    Args:</span>
+<span class="sd">        init_door (int): initial door selected</span>
+<span class="sd">        win_door (int): prize door</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        int: 0 or 1 to indicate win-loose</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">init_door</span> <span class="o">!=</span> <span class="n">win_door</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="k">return</span> <span class="mi">0</span>
+</code></pre></div>
+
+<h4>Displaying the first 5 trials</h4>
+<p>The first five trials and there outcomes are displayed in a data frame. 
+Simply looking at the first few trials can be deceptive, so 
+the cumulative percentage wins are displayed in a graph.</p>
+<p>We can add additional trials and see how the win percentages change as the number of trials 
+increases. (I had to set some session variables so that the data refreshes correctly.)</p>
+<h4>A visual display</h4>
+<p>Finally, I installed a graph to display how the percentage of wins change over time for
+each strategy.</p>
+<div class="highlight"><pre><span></span><code><span class="n">st</span><span class="o">.</span><span class="n">line_chart</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</code></pre></div>
+
+<p>We can use this chart to examine the long term behavior and see that (eventually) the win percentage for the
+<em>Switch</em> strategy converges to 66%. </p>
+<p>Even more excitingly, we could easily expand this simulation to modified versions of the
+Monty Hall problem or the Birthday Problem!</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="/tag/streamlit.html">streamlit</a>
+    </p>
+  </div>
+
+
+
+
+
+
+</article>
+
+<footer>
+<p>&copy;  </p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+</p></footer>  </main>
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Python, data science, and art ",
+  "url" : "",
+  "image": "/images/ProfilePic.jpg",
+  "description": "Data Science"
+}
+</script>
+</body>
+</html>

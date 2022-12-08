@@ -1,5 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Python, data science, and art</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2022-11-21T00:00:00-06:00</updated><subtitle>Data Enthusiast</subtitle><entry><title>Feed Forward Networks</title><link href="/feed-forward-networks.html" rel="alternate"></link><published>2022-11-21T00:00:00-06:00</published><updated>2022-11-21T00:00:00-06:00</updated><author><name>Heather Ann Dye</name></author><id>tag:None,2022-11-21:/feed-forward-networks.html</id><summary type="html">&lt;h1&gt;Feed Forward Networks&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Python, data science, and art</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2022-12-01T00:00:00-06:00</updated><subtitle>Data Enthusiast</subtitle><entry><title>The Monty Hall Problem</title><link href="/the-monty-hall-problem.html" rel="alternate"></link><published>2022-12-01T00:00:00-06:00</published><updated>2022-12-01T00:00:00-06:00</updated><author><name>Heather Ann Dye</name></author><id>tag:None,2022-12-01:/the-monty-hall-problem.html</id><summary type="html">&lt;h2&gt;The Monty Hall Problem and Streamlit&lt;/h2&gt;
+&lt;p&gt;Once I learned about &lt;a href="https://streamlit.io/"&gt;Streamlit.io&lt;/a&gt;, I couldn't resist the opportunity to write a
+simulation of the Monty Hall problem!&lt;/p&gt;
+&lt;p&gt;The Monty Hall problem involves a game show and prizes! On the game show, contestants were given the choice of 
+three doors. One door …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;The Monty Hall Problem and Streamlit&lt;/h2&gt;
+&lt;p&gt;Once I learned about &lt;a href="https://streamlit.io/"&gt;Streamlit.io&lt;/a&gt;, I couldn't resist the opportunity to write a
+simulation of the Monty Hall problem!&lt;/p&gt;
+&lt;p&gt;The Monty Hall problem involves a game show and prizes! On the game show, contestants were given the choice of 
+three doors. One door conceals a fabulous prize! &lt;/p&gt;
+&lt;p&gt;Contests are asked to select a door. &lt;/p&gt;
+&lt;h4&gt;Then comes the twist -&lt;/h4&gt;
+&lt;p&gt;The host opens one of the two remaining doors and asks if the contestant would like to switch to the remaining door. &lt;/p&gt;
+&lt;p&gt;The question that emerges is: Switch or Stay? &lt;/p&gt;
+&lt;h3&gt;What should the contestant do?&lt;/h3&gt;
+&lt;p&gt;The contestent should go with the switch strategy - this will result in a win 66% of the time. In fact, the only way the
+contestant looses with the switch strategy is if they originally selected the prize door. &lt;/p&gt;
+&lt;h3&gt;With the Monty Hall problem, we can find the answer in three different ways!&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Using Bayes Theorem and probability theory&lt;/li&gt;
+&lt;li&gt;Hosting a game show and keeping track of the winners&lt;/li&gt;
+&lt;li&gt;Constructing a Monte Carlo simulation&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Here's my &lt;a href="https://heatheranndye-montyhall-montymonty-app-t59nhv.streamlit.app/"&gt;streamlit simulation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In this simulation, we construct a data frame to keep track of our game. 
+For each trial, we need to perform four steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Selecting a door for the prize &lt;/li&gt;
+&lt;li&gt;Selecting a door for the contestant's choice&lt;/li&gt;
+&lt;li&gt;Determine if the Stay strategy won (or not).&lt;/li&gt;
+&lt;li&gt;Determine if the Switch strategy won (or not).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In addition, we want to tabulate the percentage of wins go to each strategy over time. &lt;/p&gt;
+&lt;h5&gt;Steps 1 and 2:&lt;/h5&gt;
+&lt;p&gt;We simulate the door choices using randomint.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt; &lt;span class="n"&gt;select_door&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;randint&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4&gt;Steps 3 and 4:&lt;/h4&gt;
+&lt;p&gt;Write a short function to determine if the strategy won. Wins are
+represented by 1's and losses by 0's. Using this, we can easily 
+tabulate the wins in graph.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;switch_strat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;init_door&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;win_door&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Switch strategy &lt;/span&gt;
+&lt;span class="sd"&gt;    Args:&lt;/span&gt;
+&lt;span class="sd"&gt;        init_door (int): initial door selected&lt;/span&gt;
+&lt;span class="sd"&gt;        win_door (int): prize door&lt;/span&gt;
+&lt;span class="sd"&gt;    Returns:&lt;/span&gt;
+&lt;span class="sd"&gt;        int: 0 or 1 to indicate win-loose&lt;/span&gt;
+&lt;span class="sd"&gt;        &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;init_door&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="n"&gt;win_door&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; 
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4&gt;Displaying the first 5 trials&lt;/h4&gt;
+&lt;p&gt;The first five trials and there outcomes are displayed in a data frame. 
+Simply looking at the first few trials can be deceptive, so 
+the cumulative percentage wins are displayed in a graph.&lt;/p&gt;
+&lt;p&gt;We can add additional trials and see how the win percentages change as the number of trials 
+increases. (I had to set some session variables so that the data refreshes correctly.)&lt;/p&gt;
+&lt;h4&gt;A visual display&lt;/h4&gt;
+&lt;p&gt;Finally, I installed a graph to display how the percentage of wins change over time for
+each strategy.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;st&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;line_chart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We can use this chart to examine the long term behavior and see that (eventually) the win percentage for the
+&lt;em&gt;Switch&lt;/em&gt; strategy converges to 66%. &lt;/p&gt;
+&lt;p&gt;Even more excitingly, we could easily expand this simulation to modified versions of the
+Monty Hall problem or the Birthday Problem!&lt;/p&gt;</content><category term="simulation"></category><category term="streamlit"></category></entry><entry><title>Feed Forward Networks</title><link href="/feed-forward-networks.html" rel="alternate"></link><published>2022-11-21T00:00:00-06:00</published><updated>2022-11-21T00:00:00-06:00</updated><author><name>Heather Ann Dye</name></author><id>tag:None,2022-11-21:/feed-forward-networks.html</id><summary type="html">&lt;h1&gt;Feed Forward Networks&lt;/h1&gt;
 &lt;p&gt;Ever wondered out deep learning and neural networks work? The descriptions always contain the phrase "back propagation".  But what exactly is back propagation?  In this blog post, we'll start with a &lt;em&gt;simulated&lt;/em&gt; neural network and see how it is applied to a test case. Then, we delve …&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Feed Forward Networks&lt;/h1&gt;
 &lt;p&gt;Ever wondered out deep learning and neural networks work? The descriptions always contain the phrase "back propagation".  But what exactly is back propagation?  In this blog post, we'll start with a &lt;em&gt;simulated&lt;/em&gt; neural network and see how it is applied to a test case. Then, we delve into how to construct and train a neural network using a hand coded model. Finally, we construct a similar network in Pytorch. &lt;/p&gt;
 &lt;p&gt;To put together this article, I used the following references:&lt;/p&gt;
