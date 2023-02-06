@@ -7,10 +7,10 @@ tags: pandas, pillow, streamlit
 ## What is a temperature quilt? 
 
 A temperature quilt displays the daily temperature data from a specific date range in a specific location. Colors are assigned to specific temperature ranges so that
-the quilt (or image) is a visual record of the climate.  This app is a demonstration project for data storytelling as part of my participation in the [PyBites Professional Developer Mindset Program](https://pybit.es/). 
+the quilt (or image) is a visual record of the climate.  This app is a demonstration project for data storytelling that I constructed in the [PyBites Professional Developer Mindset Program](https://pybit.es/). 
 
-This project uses pandas, Pillow, matplotlib along with Streamlit.io to construct a data story  and a work of art! 
-This project has some unique constraints and requirements (including a pdf quilt pattern) so users can construct an actual quilt.
+This project uses pandas, Pillow, matplotlib along with Streamlit.io to construct a data story and a work of art! 
+This project has some unique constraints and requirements (including a pdf quilt pattern) so users can construct an actual quilt using a commercially available fabric.
 
 #### A photo of my *constructed* data quilt
 ![jpg](/images/data_quilt_files/actualdataquilt.jpg)
@@ -32,6 +32,22 @@ This information is stripped out of the text file using string methods and trans
 ### Request the data and sort with pandas
 
 Not all weather stations have a complete set of records - so the app examines the 10 closest weather stations and selects the weather station that has the most complete set of data. I used the requests package to request the data from NOAA and extract a json data which is transformed into a pandas data frame. The data frame is examined for missing values and out of the 10 nearest weather stations, the closest station with the least missing data is selected. In the next step, the app creates a digital mockup of the quilt. 
+
+```python
+def identify_missing_data(
+    data_series: pd.Series,
+) -> list:
+    """Returns the indices of nan values in a pandas Data Series.
+    Args:
+        data_series (pd.Series): pd.Series
+    Returns:
+        list: List of indices with nan values.
+    """
+    local_array = np.where(data_series.isnull())
+    local_list = local_array[0].tolist()
+    return local_list
+
+```
 
 ### Descriptive Statistics with pandas
 
@@ -67,8 +83,8 @@ Pandas is used to perform descriptive statistics and I constructed a custom binn
 ```
 The next step is to tabulate the number of days in each bin and record the temperature ranges and insert this values into a data frame. 
 This data frame is essentially a frequency distribution table. 
-Dtreamlit.io displays the dataframe which is also recorded in the pdf pattern file. 
-We use the pandas dataframe and the Pillow package to create the digital  mockup of the quilt. 
+Streamlit.io displays the dataframe which is also recorded in the pdf pattern file. 
+The pandas dataframe and the Pillow package is used to create the digital  mockup of the quilt. 
 
 ![jpg](/images/data_quilt_files/samplequilt.jpg)
 
