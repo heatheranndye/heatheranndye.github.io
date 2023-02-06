@@ -22,7 +22,7 @@ The information comes from the National Oceanic and Atmospheric Administration's
 
 The code is located in the github repository: [H-A-DYE/DataQuilt](https://github.com/H-A-Dye/DataQuilt). 
 
-If you're interested in the art post about this project, its located at [Heather Ann Dye Art](https://heatheranndye.com).
+If you're interested in the art post about this project, it is located at [Heather Ann Dye Art](https://heatheranndye.com).
 
 ### Data from NOAA 
 
