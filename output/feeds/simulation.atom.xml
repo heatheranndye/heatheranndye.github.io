@@ -55,7 +55,7 @@ tabulate the wins in graph.&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h4&gt;Displaying the first 5 trials&lt;/h4&gt;
-&lt;p&gt;The first five trials and there outcomes are displayed in a data frame. 
+&lt;p&gt;The first five trials and their outcomes are displayed in a data frame. 
 Simply looking at the first few trials can be deceptive, so 
 the cumulative percentage wins are displayed in a graph.&lt;/p&gt;
 &lt;p&gt;We can add additional trials and see how the win percentages change as the number of trials 

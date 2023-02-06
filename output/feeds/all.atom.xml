@@ -1,5 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Python, data science, and art</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2022-12-01T00:00:00-06:00</updated><subtitle>Data Enthusiast</subtitle><entry><title>The Monty Hall Problem</title><link href="/the-monty-hall-problem.html" rel="alternate"></link><published>2022-12-01T00:00:00-06:00</published><updated>2022-12-01T00:00:00-06:00</updated><author><name>Heather Ann Dye</name></author><id>tag:None,2022-12-01:/the-monty-hall-problem.html</id><summary type="html">&lt;h2&gt;The Monty Hall Problem and Streamlit&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Python, data science, and art</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2023-01-31T00:00:00-06:00</updated><subtitle>Data Enthusiast</subtitle><entry><title>Temperature Quilts in Python</title><link href="/temperature-quilts-in-python.html" rel="alternate"></link><published>2023-01-31T00:00:00-06:00</published><updated>2023-01-31T00:00:00-06:00</updated><author><name>Heather Ann Dye</name></author><id>tag:None,2023-01-31:/temperature-quilts-in-python.html</id><summary type="html">&lt;h2&gt;What is a temperature quilt?&lt;/h2&gt;
+&lt;p&gt;A temperature quilt displays the daily temperature data from a specific date range in a specific location. Colors are assigned to specific temperature ranges so that
+the quilt (or image) is a visual record of the climate.  This app is a demonstration project for data …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;What is a temperature quilt?&lt;/h2&gt;
+&lt;p&gt;A temperature quilt displays the daily temperature data from a specific date range in a specific location. Colors are assigned to specific temperature ranges so that
+the quilt (or image) is a visual record of the climate.  This app is a demonstration project for data storytelling as part of my participation in the &lt;a href="https://pybit.es/"&gt;PyBites Professional Developer Mindset Program&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;This project uses pandas, Pillow, matplotlib along with Streamlit.io to construct a data story  and a work of art! 
+This project has some unique constraints and requirements (including a pdf quilt pattern) so users can construct an actual quilt.
+Here is a photo of my &lt;em&gt;actual&lt;/em&gt; data quilt. 
+&lt;img alt="jpg" src="/images/data_quilt_files/actualdataquilt.jpg"&gt;&lt;/p&gt;
+&lt;h4&gt;Example Quilts and the Streamlit App&lt;/h4&gt;
+&lt;p&gt;The streamlit app is located at &lt;a href="https://h-a-dye-dataquilt-streamstreamlit-app-zwncqy.streamlit.app/"&gt;DataQuilt&lt;/a&gt;. Once you've opened the app, simply put in your US zip code and year.  Then the app will automatically search for the closest weather station that contains a maximum amount of data for that year.
+The information comes from the National Oceanic and Atmospheric Administration's (NOAA) Global Historical Climatology Network daily (GHCNd) of weather stations. Once the closest weather station with the most data is located (not all weather stations have a complete data set), the data is binned and each bin is associated with a particular color. From this, we can automatically generate a diagram of the temperatures and a corresponding pattern for the physical construction of the quilt. &lt;/p&gt;
+&lt;p&gt;The code is located at &lt;a href="https://github.com/H-A-Dye/DataQuilt"&gt;H A Dye&lt;/a&gt;. &lt;/p&gt;
+&lt;h3&gt;Data from NOAA&lt;/h3&gt;
+&lt;p&gt;NOAA provides an inventory of weather stations at &lt;a href="&amp;quot;https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-inventory.txt"&gt;https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-inventory.txt&lt;/a&gt;. Each line in this text file lists a weather station, along with its lattitude and longitude and years of activity. 
+This information is stripped out of the text file using string methods and transformed into a pandas dataframe. The next step is to sort the dataframe based on years of availability.  Next, we use geopy to convert the provided zip code into latitude and longitude and the distance between each weather station and the zip code is computed.  The program takes the 10 closest weather stations and moves on to the next step.&lt;/p&gt;
+&lt;h3&gt;Request the data and sort with pandas&lt;/h3&gt;
+&lt;p&gt;Not all weather stations have a complete set of records - so we examine the 10 closest weather stations and select the weather station that has the most complete set of data. I used the requests package to request the data from NOAA and extract a json data which is transformed into a pandas data frame. The data frame is examined for missing values and out of the 10 nearest weather stations, the closest station with the least missing data is selected. &lt;/p&gt;
+&lt;h3&gt;Descriptive Statistics with pandas&lt;/h3&gt;
+&lt;p&gt;Pandas is used to compute some descriptive statistics and create a binning function based on the maximun and minimum temperatures. Lambda functions are using to reformat the date and the binned maximum daily temperatures. (The binning function is based on the actual temperature values.) Then, the  dataframe is reshaped and missing data values are filled with a &lt;em&gt;null&lt;/em&gt; value of 15. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt; &lt;span class="n"&gt;my_dates&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;noaa_data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DATE&lt;/span&gt;
+    &lt;span class="n"&gt;datetimes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;my_dates&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;datetime&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;datetime&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strptime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="s2"&gt;&amp;quot;%Y-%m-&lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;months&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;datetimes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;month&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;days&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;datetimes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;day&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;noaa_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;noaa_data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;assign&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;days&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;days&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;noaa_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;noaa_data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;assign&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;months&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;months&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;my_levels&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;noaa_data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;TMAX&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;grade_temp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="n"&gt;noaa_data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;noaa_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;noaa_data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;assign&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;levels&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;my_levels&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;my_small&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;noaa_data&lt;/span&gt;&lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;months&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;days&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;levels&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;
+    &lt;span class="n"&gt;my_reshape&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;my_small&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pivot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;days&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;columns&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;months&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;levels&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;my_reshape&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;my_reshape&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fillna&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;15.0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;my_reshape&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The next step is to tabulate the number of days in each bin and record the temperature ranges and insert this values into a data frame. 
+This will allow streamlit.io to smoothly display all the data and easily record it in a pdf file.  The Pillow package allows us to create a digital  mock-up of the quilt. 
+&lt;img alt="jpg" src="/images/data_quilt_files/samplequilt.jpg"&gt;&lt;/p&gt;
+&lt;h3&gt;Actual fabric!&lt;/h3&gt;
+&lt;p&gt;The colors used in the mock up of the quilt are actual, commercially available fabric colors from Kona cotton, a commercially available fabric line. This bring my pdf pattern into line with industry standards for quilt patterns. Here is the color range for your reference. 
+&lt;img alt="png" src="/images/data_quilt_files/ColorRange.PNG"&gt;&lt;/p&gt;
+&lt;h3&gt;Streamlit&lt;/h3&gt;
+&lt;p&gt;The frontend/dashboard is constructed using Streamlit.io. Streamlit displays each step of the process outlined above. The data can be inspected in the dashboard and the download button allows users to download a pdf with all the necessary information to create a physical version of the digital mockup. The program can be used to create digital mock ups of multiple years from the same location (which is actually really fun to examine). &lt;/p&gt;</content><category term="data science, art"></category><category term="pandas"></category><category term="pillow"></category><category term="streamlit"></category></entry><entry><title>The Monty Hall Problem</title><link href="/the-monty-hall-problem.html" rel="alternate"></link><published>2022-12-01T00:00:00-06:00</published><updated>2022-12-01T00:00:00-06:00</updated><author><name>Heather Ann Dye</name></author><id>tag:None,2022-12-01:/the-monty-hall-problem.html</id><summary type="html">&lt;h2&gt;The Monty Hall Problem and Streamlit&lt;/h2&gt;
 &lt;p&gt;Once I learned about &lt;a href="https://streamlit.io/"&gt;Streamlit.io&lt;/a&gt;, I couldn't resist the opportunity to write a
 simulation of the Monty Hall problem!&lt;/p&gt;
 &lt;p&gt;The Monty Hall problem involves a game show and prizes! On the game show, contestants were given the choice of 
@@ -55,7 +110,7 @@ tabulate the wins in graph.&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h4&gt;Displaying the first 5 trials&lt;/h4&gt;
-&lt;p&gt;The first five trials and there outcomes are displayed in a data frame. 
+&lt;p&gt;The first five trials and their outcomes are displayed in a data frame. 
 Simply looking at the first few trials can be deceptive, so 
 the cumulative percentage wins are displayed in a graph.&lt;/p&gt;
 &lt;p&gt;We can add additional trials and see how the win percentages change as the number of trials 
