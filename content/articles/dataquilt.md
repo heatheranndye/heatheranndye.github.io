@@ -12,15 +12,17 @@ the quilt (or image) is a visual record of the climate.  This app is a demonstra
 This project uses pandas, Pillow, matplotlib along with Streamlit.io to construct a data story  and a work of art! 
 This project has some unique constraints and requirements (including a pdf quilt pattern) so users can construct an actual quilt.
 
-#### A photo of my *actual* data quilt. 
+#### A photo of my *constructed* data quilt
 ![jpg](/images/data_quilt_files/actualdataquilt.jpg)
 
 #### Example Quilts and the Streamlit App
 
-The streamlit app is located at [DataQuilt](https://h-a-dye-dataquilt-streamstreamlit-app-zwncqy.streamlit.app/ ). Once you've opened the app, simply put in your US zip code and year.  Then the app will automatically search for the closest weather station that contains a maximum amount of data for that year.
-The information comes from the National Oceanic and Atmospheric Administration's (NOAA) Global Historical Climatology Network daily (GHCNd) of weather stations. Once the closest weather station with the most data is located (not all weather stations have a complete data set), the data is binned and each bin is associated with a particular color. From this, a digital mock-up of a temperature quilt and a corresponding pattern for the physical construction of the quilt is created automatically. 
+The streamlit app is located at [DataQuilt](https://h-a-dye-dataquilt-streamstreamlit-app-zwncqy.streamlit.app/ ). Once you've opened the app, simply put in your US zip code and year.  Then, the app will automatically search for the closest weather station that contains a maximum amount of data for your specified year.
+The information comes from the National Oceanic and Atmospheric Administration's (NOAA) Global Historical Climatology Network daily (GHCNd) of weather stations. Once the closest weather station with the most data is located (not all weather stations have a complete data set), the daily maximum temperature data is binned and each bin is associated with a particular color. From this, a digital mock-up of a temperature quilt and a corresponding pattern for the physical construction of the quilt is created automatically. 
 
 The code is located in the github repository: [H-A-DYE/DataQuilt](https://github.com/H-A-Dye/DataQuilt). 
+
+If you're interested in the art post about this project, its located at [Heather Ann Dye Art](https://heatheranndye.com).
 
 ### Data from NOAA 
 
@@ -33,7 +35,7 @@ Not all weather stations have a complete set of records - so the app examines th
 
 ### Descriptive Statistics with pandas
 
-Pandas is used to compute some descriptive statistics and I constructed a custom binning function based on the maximun and minimum temperatures from the dataset. Lambda functions are using to reformat the date and the binned maximum daily temperatures. (The binning function is based on the actual temperature values.) Then, the  dataframe is reshaped and missing data values are filled with a *null* value of 15. Each numerical value from 0 to 15 corresponds to a specific color. 
+Pandas is used to perform descriptive statistics and I constructed a custom binning function based on the maximun and minimum temperatures from the dataset. Lambda functions are used to reformat the date and the binned maximum daily temperatures.  Next, the  dataframe is reshaped and missing data values are filled with a *null* value of 15. Each numerical value from 0 to 15 corresponds to a specific color. 
 
 ```python
  my_dates = noaa_data.DATE
@@ -66,7 +68,8 @@ Pandas is used to compute some descriptive statistics and I constructed a custom
 The next step is to tabulate the number of days in each bin and record the temperature ranges and insert this values into a data frame. 
 This data frame is essentially a frequency distribution table. 
 Dtreamlit.io displays the dataframe which is also recorded in the pdf pattern file. 
-We use the pandas dataframe and the Pillow package create the digital  mock-up of the quilt. 
+We use the pandas dataframe and the Pillow package to create the digital  mockup of the quilt. 
+
 ![jpg](/images/data_quilt_files/samplequilt.jpg)
 
 ### Actual fabric! 
@@ -74,12 +77,39 @@ We use the pandas dataframe and the Pillow package create the digital  mock-up o
 The colors used in the mock up of the quilt are actual, commercially available fabric colors from Kona cotton, a commercially available fabric line. This brings my pdf pattern into line with industry standards for quilt patterns. Quilters can purchase the listed fabrics and create a quilt identical to the digital mockup. 
 
 Here is the color range for your reference. 
+
 ![png](/images/data_quilt_files/ColorRange.PNG)
+
+I converted cmyk color codes to rgb codes and created a dictionary to contain the color information. 
+
+```python
+def make_kona_dictionary(colorlist: dict = COLORENNUMERATE) -> dict:
+    """Takes a dictionary of Kona color names and number keys and returns a
+    dictionary with number key and Color_Information for Pillow.
+    Args:
+        colorlist (dict, optional): Kona color list and keys.
+        Defaults to COLORENNUMERATE.
+    """
+    color_dict = {}
+    for i in list(colorlist.keys()):
+        color_name = colorlist.get(i)
+        local_row = DF_KONA[DF_KONA.name.str.contains(color_name)]
+        cmyk = local_row.iloc[0][3]
+        rgb = color_conversion_rgb(cmyk)
+        kona_info = ColorInformation(color_name, rgb, i)
+        color_dict.update({i: kona_info})
+    return color_dict
+
+
+```
 
 ### Streamlit Dashboard
 
 The frontend/dashboard is constructed using Streamlit.io. Streamlit displays each step of the process outlined above. The data can be inspected in the dashboard and the download button allows users to download a pdf with all the necessary information to create a physical version of the digital mockup. The app can be used to create multiple create mock ups based on year and zip code.  
 
+
+
+
 ## Conclusion 
 
-This fun demonstration project has led to several other on-going projects that I hope to blog about soon. So if you're interested in displaying data in a community friendly way, keep following along!
+This fun demonstration project has led to several other on-going projects that I hope to blog about soon. So if you're interested in data storytelling in a community friendly way, keep following along!

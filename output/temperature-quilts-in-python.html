@@ -140,20 +140,20 @@
 <p>A temperature quilt displays the daily temperature data from a specific date range in a specific location. Colors are assigned to specific temperature ranges so that
 the quilt (or image) is a visual record of the climate.  This app is a demonstration project for data storytelling as part of my participation in the <a href="https://pybit.es/">PyBites Professional Developer Mindset Program</a>. </p>
 <p>This project uses pandas, Pillow, matplotlib along with Streamlit.io to construct a data story  and a work of art! 
-This project has some unique constraints and requirements (including a pdf quilt pattern) so users can construct an actual quilt.
-Here is a photo of my <em>actual</em> data quilt. 
-<img alt="jpg" src="/images/data_quilt_files/actualdataquilt.jpg"></p>
+This project has some unique constraints and requirements (including a pdf quilt pattern) so users can construct an actual quilt.</p>
+<h4>A photo of my <em>actual</em> data quilt.</h4>
+<p><img alt="jpg" src="/images/data_quilt_files/actualdataquilt.jpg"></p>
 <h4>Example Quilts and the Streamlit App</h4>
 <p>The streamlit app is located at <a href="https://h-a-dye-dataquilt-streamstreamlit-app-zwncqy.streamlit.app/">DataQuilt</a>. Once you've opened the app, simply put in your US zip code and year.  Then the app will automatically search for the closest weather station that contains a maximum amount of data for that year.
-The information comes from the National Oceanic and Atmospheric Administration's (NOAA) Global Historical Climatology Network daily (GHCNd) of weather stations. Once the closest weather station with the most data is located (not all weather stations have a complete data set), the data is binned and each bin is associated with a particular color. From this, we can automatically generate a diagram of the temperatures and a corresponding pattern for the physical construction of the quilt. </p>
-<p>The code is located at <a href="https://github.com/H-A-Dye/DataQuilt">H A Dye</a>. </p>
+The information comes from the National Oceanic and Atmospheric Administration's (NOAA) Global Historical Climatology Network daily (GHCNd) of weather stations. Once the closest weather station with the most data is located (not all weather stations have a complete data set), the data is binned and each bin is associated with a particular color. From this, a digital mock-up of a temperature quilt and a corresponding pattern for the physical construction of the quilt is created automatically. </p>
+<p>The code is located in the github repository: <a href="https://github.com/H-A-Dye/DataQuilt">H-A-DYE/DataQuilt</a>. </p>
 <h3>Data from NOAA</h3>
 <p>NOAA provides an inventory of weather stations at <a href="&quot;https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-inventory.txt">https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-inventory.txt</a>. Each line in this text file lists a weather station, along with its lattitude and longitude and years of activity. 
-This information is stripped out of the text file using string methods and transformed into a pandas dataframe. The next step is to sort the dataframe based on years of availability.  Next, we use geopy to convert the provided zip code into latitude and longitude and the distance between each weather station and the zip code is computed.  The program takes the 10 closest weather stations and moves on to the next step.</p>
+This information is stripped out of the text file using string methods and transformed into a pandas dataframe. The next step is to sort the dataframe based on years of availability.  Next, we use geopy to convert the provided zip code into latitude and longitude and the distance between each weather station and the zip code is computed.  The app uses the 10 closest weather stations in the next step.</p>
 <h3>Request the data and sort with pandas</h3>
-<p>Not all weather stations have a complete set of records - so we examine the 10 closest weather stations and select the weather station that has the most complete set of data. I used the requests package to request the data from NOAA and extract a json data which is transformed into a pandas data frame. The data frame is examined for missing values and out of the 10 nearest weather stations, the closest station with the least missing data is selected. </p>
+<p>Not all weather stations have a complete set of records - so the app examines the 10 closest weather stations and selects the weather station that has the most complete set of data. I used the requests package to request the data from NOAA and extract a json data which is transformed into a pandas data frame. The data frame is examined for missing values and out of the 10 nearest weather stations, the closest station with the least missing data is selected. In the next step, the app creates a digital mockup of the quilt. </p>
 <h3>Descriptive Statistics with pandas</h3>
-<p>Pandas is used to compute some descriptive statistics and create a binning function based on the maximun and minimum temperatures. Lambda functions are using to reformat the date and the binned maximum daily temperatures. (The binning function is based on the actual temperature values.) Then, the  dataframe is reshaped and missing data values are filled with a <em>null</em> value of 15. </p>
+<p>Pandas is used to compute some descriptive statistics and I constructed a custom binning function based on the maximun and minimum temperatures from the dataset. Lambda functions are using to reformat the date and the binned maximum daily temperatures. (The binning function is based on the actual temperature values.) Then, the  dataframe is reshaped and missing data values are filled with a <em>null</em> value of 15. Each numerical value from 0 to 15 corresponds to a specific color. </p>
 <div class="highlight"><pre><span></span><code> <span class="n">my_dates</span> <span class="o">=</span> <span class="n">noaa_data</span><span class="o">.</span><span class="n">DATE</span>
     <span class="n">datetimes</span> <span class="o">=</span> <span class="n">my_dates</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
@@ -183,13 +183,18 @@ This information is stripped out of the text file using string methods and trans
 </code></pre></div>
 
 <p>The next step is to tabulate the number of days in each bin and record the temperature ranges and insert this values into a data frame. 
-This will allow streamlit.io to smoothly display all the data and easily record it in a pdf file.  The Pillow package allows us to create a digital  mock-up of the quilt. 
+This data frame is essentially a frequency distribution table. 
+Dtreamlit.io displays the dataframe which is also recorded in the pdf pattern file. 
+We use the pandas dataframe and the Pillow package create the digital  mock-up of the quilt. 
 <img alt="jpg" src="/images/data_quilt_files/samplequilt.jpg"></p>
 <h3>Actual fabric!</h3>
-<p>The colors used in the mock up of the quilt are actual, commercially available fabric colors from Kona cotton, a commercially available fabric line. This bring my pdf pattern into line with industry standards for quilt patterns. Here is the color range for your reference. 
+<p>The colors used in the mock up of the quilt are actual, commercially available fabric colors from Kona cotton, a commercially available fabric line. This brings my pdf pattern into line with industry standards for quilt patterns. Quilters can purchase the listed fabrics and create a quilt identical to the digital mockup. </p>
+<p>Here is the color range for your reference. 
 <img alt="png" src="/images/data_quilt_files/ColorRange.PNG"></p>
-<h3>Streamlit</h3>
-<p>The frontend/dashboard is constructed using Streamlit.io. Streamlit displays each step of the process outlined above. The data can be inspected in the dashboard and the download button allows users to download a pdf with all the necessary information to create a physical version of the digital mockup. The program can be used to create digital mock ups of multiple years from the same location (which is actually really fun to examine). </p>
+<h3>Streamlit Dashboard</h3>
+<p>The frontend/dashboard is constructed using Streamlit.io. Streamlit displays each step of the process outlined above. The data can be inspected in the dashboard and the download button allows users to download a pdf with all the necessary information to create a physical version of the digital mockup. The app can be used to create multiple create mock ups based on year and zip code.  </p>
+<h2>Conclusion</h2>
+<p>This fun demonstration project has led to several other on-going projects that I hope to blog about soon. So if you're interested in displaying data in a community friendly way, keep following along!</p>
   </div>
   <div class="tag-cloud">
     <p>
