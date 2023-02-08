@@ -8,7 +8,7 @@ the quilt (or image) is a visual record of the climate.  This app is a demonstra
 This project has some unique constraints and requirements (including a pdf quilt pattern) so users can construct an actual quilt using a commercially available fabric.&lt;/p&gt;
 &lt;h4&gt;A photo of my &lt;em&gt;constructed&lt;/em&gt; data quilt&lt;/h4&gt;
 &lt;p&gt;&lt;img alt="jpg" src="/images/data_quilt_files/actualdataquilt.jpg"&gt;&lt;/p&gt;
-&lt;h4&gt;Digital Quilt Mockup and the Streamlit App&lt;/h4&gt;
+&lt;h4&gt;Digital Quilt Mockup and Streamlit&lt;/h4&gt;
 &lt;p&gt;The streamlit app is located at &lt;a href="https://h-a-dye-dataquilt-streamstreamlit-app-zwncqy.streamlit.app/"&gt;DataQuilt&lt;/a&gt;. Once you've opened the app, simply put in your US zip code and year.  Then, the app will automatically search for the closest weather station that contains a maximum amount of data for your specified year.
 The information comes from the &lt;a href="https://www.noaa.gov/"&gt;National Oceanic and Atmospheric Administration&lt;/a&gt;'s (NOAA) Global Historical Climatology Network daily (GHCNd) of weather stations. Once the closest weather station with the most data is located (not all weather stations have a complete data set), the daily maximum temperature data is binned and each bin is associated with a particular color. From this, a digital mock-up of a temperature quilt and a corresponding pattern for the physical construction of the quilt is created automatically. &lt;/p&gt;
 &lt;p&gt;The code is located in the github repository: &lt;a href="https://github.com/H-A-Dye/DataQuilt"&gt;H-A-DYE/DataQuilt&lt;/a&gt;. &lt;/p&gt;

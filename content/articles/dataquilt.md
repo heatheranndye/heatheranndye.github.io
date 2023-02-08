@@ -15,7 +15,7 @@ This project has some unique constraints and requirements (including a pdf quilt
 #### A photo of my *constructed* data quilt
 ![jpg](/images/data_quilt_files/actualdataquilt.jpg)
 
-#### Digital Quilt Mockup and the Streamlit App
+#### Digital Quilt Mockup and Streamlit
 
 The streamlit app is located at [DataQuilt](https://h-a-dye-dataquilt-streamstreamlit-app-zwncqy.streamlit.app/ ). Once you've opened the app, simply put in your US zip code and year.  Then, the app will automatically search for the closest weather station that contains a maximum amount of data for your specified year.
 The information comes from the [National Oceanic and Atmospheric Administration](https://www.noaa.gov/)'s (NOAA) Global Historical Climatology Network daily (GHCNd) of weather stations. Once the closest weather station with the most data is located (not all weather stations have a complete data set), the daily maximum temperature data is binned and each bin is associated with a particular color. From this, a digital mock-up of a temperature quilt and a corresponding pattern for the physical construction of the quilt is created automatically. 
