@@ -42,7 +42,9 @@ To produce a third image with the imputed style.&lt;/p&gt;
 &lt;/table&gt;
 &lt;p&gt;In this case, the &lt;em&gt;style&lt;/em&gt; was one of my photographs that I manipuled using  GIMP.  &lt;/p&gt;
 &lt;p&gt;If you're interested in the art aspects, please check out my art blog
-at &lt;a href="www.heatheranndye.com"&gt;www.heatheranndye.com&lt;/a&gt;&lt;/p&gt;
+at &lt;a href="www.heatheranndye.com"&gt;www.heatheranndye.com&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The Picasso image is &lt;a href="https://en.wikipedia.org/wiki/File:Pablo_Picasso,_1909-10,_Figure_dans_un_Fauteuil_%28Seated_Nude,_Femme_nue_assise%29,_oil_on_canvas,_92.1_x_73_cm,_Tate_Modern,_London.jpg"&gt;Figure dans un Fauteuil&lt;/a&gt;
+and in the US is no longer considered to be under copyright. &lt;/p&gt;
 &lt;h2&gt;Demonstration App&lt;/h2&gt;
 &lt;p&gt;This technique utlizes a convolutional neural network (CNN) such as VGG-19 which has the capability to recognize 1000 object classes.  We utilitze the ability of the CNN to recognize patterns in order to perform style transfer. &lt;/p&gt;
 &lt;p&gt;From an artist's perspective, this technique can utilize AI in a manner that 
