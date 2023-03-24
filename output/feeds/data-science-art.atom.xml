@@ -1,5 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Python, data science, and art - data science, art</title><link href="/" rel="alternate"></link><link href="/feeds/data-science-art.atom.xml" rel="self"></link><id>/</id><updated>2023-01-31T00:00:00-06:00</updated><subtitle>Data Enthusiast</subtitle><entry><title>Temperature Quilts in Python</title><link href="/temperature-quilts-in-python.html" rel="alternate"></link><published>2023-01-31T00:00:00-06:00</published><updated>2023-01-31T00:00:00-06:00</updated><author><name>Heather Ann Dye</name></author><id>tag:None,2023-01-31:/temperature-quilts-in-python.html</id><summary type="html">&lt;h2&gt;What is a temperature quilt?&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Python, data science, and art - data science, art</title><link href="/" rel="alternate"></link><link href="/feeds/data-science-art.atom.xml" rel="self"></link><id>/</id><updated>2023-03-19T00:00:00-05:00</updated><subtitle>Data Enthusiast</subtitle><entry><title>Neural Style Transfer</title><link href="/neural-style-transfer.html" rel="alternate"></link><published>2023-03-19T00:00:00-05:00</published><updated>2023-03-19T00:00:00-05:00</updated><author><name>Heather Ann Dye</name></author><id>tag:None,2023-03-19:/neural-style-transfer.html</id><summary type="html">&lt;h2&gt;Neural Style Transfer&lt;/h2&gt;
+&lt;p&gt;What is neural style transfer and how does it involve artificial intelligence?&lt;br&gt;
+Neural style transfer is a technique that takes a content image and style image and combines the two images so that the final output is in the style of the &lt;em&gt;style image&lt;/em&gt;.  &lt;/p&gt;
+&lt;p&gt;So, for example …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Neural Style Transfer&lt;/h2&gt;
+&lt;p&gt;What is neural style transfer and how does it involve artificial intelligence?&lt;br&gt;
+Neural style transfer is a technique that takes a content image and style image and combines the two images so that the final output is in the style of the &lt;em&gt;style image&lt;/em&gt;.  &lt;/p&gt;
+&lt;p&gt;So, for example, I can take a content image. Then select a &lt;em&gt;style&lt;/em&gt; image.
+To produce a third image with the imputed style.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="text-align: center;"&gt;Content&lt;/th&gt;
+&lt;th style="text-align: center;"&gt;Style&lt;/th&gt;
+&lt;th style="text-align: center;"&gt;Generated&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center;"&gt;&lt;img src="images/neural_files/squareflower.jpg" width = "200" height="200" &gt;&lt;/td&gt;
+&lt;td style="text-align: center;"&gt;&lt;img src="/images/neural_files/picasso.jpg" width = "200" height="200" &gt;&lt;/td&gt;
+&lt;td style="text-align: center;"&gt;&lt;img src="/images/neural_files/samplegenpicasso.jpg" width= 200 height = 200 &gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Alternatively, I can take the same photo and combine it with a style image that I created.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="text-align: center;"&gt;Content&lt;/th&gt;
+&lt;th style="text-align: center;"&gt;Style&lt;/th&gt;
+&lt;th style="text-align: center;"&gt;Generated&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center;"&gt;&lt;img src="images/neural_files/squareflower.jpg" width = "200" height="200" &gt;&lt;/td&gt;
+&lt;td style="text-align: center;"&gt;&lt;img src="/images/neural_files/YellowFlowerWaterPixel.jpg" width = "200" height="200" &gt;&lt;/td&gt;
+&lt;td style="text-align: center;"&gt;&lt;img src="/images/neural_files/samplegen.jpg" width= 200 height = 200 &gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;In this case, the &lt;em&gt;style&lt;/em&gt; was one of my photographs that I manipuled using  GIMP.  &lt;/p&gt;
+&lt;p&gt;If you're interested in the art aspects, please check out my art blog
+at &lt;a href="www.heatheranndye.com"&gt;www.heatheranndye.com&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The Picasso image is &lt;a href="https://en.wikipedia.org/wiki/File:Pablo_Picasso,_1909-10,_Figure_dans_un_Fauteuil_%28Seated_Nude,_Femme_nue_assise%29,_oil_on_canvas,_92.1_x_73_cm,_Tate_Modern,_London.jpg"&gt;Figure dans un Fauteuil&lt;/a&gt;
+and in the US is no longer considered to be under copyright. &lt;/p&gt;
+&lt;h2&gt;Demonstration App&lt;/h2&gt;
+&lt;p&gt;This technique utlizes a convolutional neural network (CNN) such as VGG-19 which has the capability to recognize 1000 object classes.  We utilitze the ability of the CNN to recognize patterns in order to perform style transfer. &lt;/p&gt;
+&lt;p&gt;From an artist's perspective, this technique can utilize AI in a manner that 
+does not result in copy right theft. &lt;/p&gt;
+&lt;p&gt;You can construct your own neural style transfer using the (streamlit app)[https://heatheranndye-imageto-imagetostylephoto-modstream-style-jxl3h5.streamlit.app/]. 
+The original source code for this project is at (https://github.com/heatheranndye/ImageToStyle)[https://github.com/heatheranndye/ImageToStyle].&lt;/p&gt;
+&lt;h3&gt;References and motivation&lt;/h3&gt;
+&lt;p&gt;The original motivation for this project was to explore &lt;a href="https://fastapi.tiangolo.com/"&gt;Fast Api&lt;/a&gt;  and the diffusers at &lt;a href="huggingface.co"&gt;Hugging Face&lt;/a&gt; during my 
+participation in the the &lt;a href="https://pybit.es/catalogue/the-pdm-program/"&gt;PyBites Developer Mindset Program&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;I used these references to construct the application. &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="www.arxiv.org/pdf/1508.06576.pdf"&gt;A Neural Algorithm of Artistic Style&lt;/a&gt; &lt;/li&gt;
+&lt;li&gt;&lt;a href="https://towardsdatascience.com/implementing-neural-style-transfer-using-pytorch-fd8d43fb7bfa"&gt;Towards Data Science&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html"&gt;Pytorch Tutorial&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;How is Neural Style Transfer Performed?&lt;/h3&gt;
+&lt;p&gt;We successively apply the layers of the CNN to the content and style images; then harvest the output layers immediately prior to the max pooling. (These output layers are matrices.) In the case of the VGG19 model, there are five such layers. 
+The idea in the CNN is that each successive layer captures more complicated characteristics of the image. &lt;/p&gt;
+&lt;p&gt;The generated image is initially  set equal to the content image and then is modified to take on characteristics of the style image. &lt;/p&gt;
+&lt;p&gt;Let &lt;span class="math"&gt;\(C^k _{ij}\)&lt;/span&gt; denote the &lt;span class="math"&gt;\(k\)&lt;/span&gt;-th output layer of the content image, 
+&lt;span class="math"&gt;\(G^k _{ij}\)&lt;/span&gt; denote the &lt;span class="math"&gt;\(k\)&lt;/span&gt;-th output of the generated image, and &lt;span class="math"&gt;\(A^k_{ij}\)&lt;/span&gt; denotes the &lt;span class="math"&gt;\(k\)&lt;/span&gt;-th  output of the style file.
+In the selected model, there are five possible layers to harvest occuring before max pooling.  &lt;/p&gt;
+&lt;p&gt;For the content layers, we let &lt;span class="math"&gt;\(O_c\)&lt;/span&gt; denote the output layers selected to optimize the content. For the style layers, we let &lt;span class="math"&gt;\(O_s\)&lt;/span&gt; denote the output layers selected from the selected from the style image. 
+We need to select at least one layer of each type, keeping in mind that the later layers capture more sophisticated characteristics. &lt;/p&gt;
+&lt;p&gt;We denote the content loss function as &lt;span class="math"&gt;\(\mathit{L}_c $. Then  
+&lt;div class="math"&gt;$$ \mathit{L}_c (O_c) = \sum_{k \in O_c} (C^k _{ij} - G^k _{ij})^2 .$$&lt;/div&gt;
+(The Pytorch model uses MSELoss, but I'm omitted the denominator for clarity.)
+Next, the style loss function is modeled as 
+&lt;div class="math"&gt;$$\mathit{L}_s (O_s) = \sum_{k \in O_s}
+[(A^k _{ij})^T (A^k _{ij})  -  (G^k _{ij})^T (G^k _{ij})]^2 .$$&lt;/div&gt;&lt;br&gt;
+We sum these two functions to obtain the total loss:
+&lt;div class="math"&gt;$$\mathit{L} = \mathit{L}_s + \mathit{L}_c.$$&lt;/div&gt;
+Using this loss function, we alter the generated image, so that $G^k _{ij}\)&lt;/span&gt; also changes to move the total loss towards zero. &lt;br&gt;
+Here is a code snippet. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt; &lt;span class="n"&gt;style_loss&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;style_layers&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;counter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+        &lt;span class="c1"&gt;# print(f&amp;quot;{counter}&amp;quot;)&lt;/span&gt;
+        &lt;span class="n"&gt;batch&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;channel&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gen_feat&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;counter&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;
+        &lt;span class="n"&gt;genitem&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gen_feat&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;counter&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="n"&gt;styleitem&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;style_feat&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;counter&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="n"&gt;G&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;torch&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="n"&gt;genitem&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;view&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                &lt;span class="n"&gt;channel&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="n"&gt;height&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="p"&gt;),&lt;/span&gt;
+            &lt;span class="n"&gt;genitem&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;view&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;channel&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;torch&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="n"&gt;styleitem&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;view&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                &lt;span class="n"&gt;channel&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="n"&gt;height&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="p"&gt;),&lt;/span&gt;
+            &lt;span class="n"&gt;styleitem&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;view&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;channel&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;style_loss&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;F&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mse_loss&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;G&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;style_loss&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Notice the choice of &lt;span class="math"&gt;\(A^T A\)&lt;/span&gt; in the style loss function. This ensures that the loss function has some flexibility as explained below. &lt;/p&gt;
+&lt;h5&gt;Why are the loss functions different?&lt;/h5&gt;
+&lt;p&gt;I don't know how the authors of the paper selected the different loss functions. But I can reflect on 
+the why the choice was made. 
+Let's consider the simplest version of our problem. 
+We have a &lt;em&gt;picture&lt;/em&gt; consisting of a single pixel. Let's assume grayscale for simplicity. 
+Our content image is represented by &lt;span class="math"&gt;\((0)\)&lt;/span&gt; and our style image is represented by &lt;span class="math"&gt;\((1)\)&lt;/span&gt;.  Our goal is to generate a third image that minimizes the distance between &lt;span class="math"&gt;\((0)\)&lt;/span&gt; and &lt;span class="math"&gt;\((1)\)&lt;/span&gt;. Remember that our generated image is initially  the content image, so we'll represent the content image as &lt;span class="math"&gt;\(h\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Then our loss function is 
+&lt;span class="math"&gt;\(L = (h)^2 + (1-h)^2\)&lt;/span&gt;. Rewriting this loss function, we find that 
+&lt;span class="math"&gt;\(L =  2h^2 + 1 - 2h\)&lt;/span&gt;, meaning that for this simplistic case the minimum is at the halfway point (&lt;span class="math"&gt;\(1/2\)&lt;/span&gt;) between the two values.&lt;/p&gt;
+&lt;p&gt;Now let's consider a function that utilizes a transpose in conjunction with the style image.
+The product of a single entry matrix and its transpose is a square, so&lt;br&gt;
+&lt;span class="math"&gt;\(L = h^2 + (1^2-h^2)^2\)&lt;/span&gt; and we see that the minimum is &lt;span class="math"&gt;\(\frac{1}{\sqrt{2}}\)&lt;/span&gt;. So this result is a bit closer to the content image than the style image.&lt;/p&gt;
+&lt;p&gt;In practice, we'll be working with large matrices and the interesting part is matrix multiplication is not unique - that is if &lt;span class="math"&gt;\(A^T A = B\)&lt;/span&gt;, there may be more than one solution for &lt;span class="math"&gt;\(A\)&lt;/span&gt;. 
+The matrix multiplication will mean that the actual loss function for style will be more complicated and have more flexibility. &lt;/p&gt;
+&lt;h3&gt;Training the Model&lt;/h3&gt;
+&lt;p&gt;Once the output layers are selected, you can train the model using the code below.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;gen_features&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;generated_image&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;total_loss&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;calculate_loss&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+            &lt;span class="n"&gt;content_features&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="n"&gt;gen_features&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="n"&gt;style_features&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="n"&gt;style_layers&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;style_layers&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="n"&gt;content_layers&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;content_layers&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="c1"&gt;# optimize the pixel values of the generated&lt;/span&gt;
+        &lt;span class="c1"&gt;# image and backpropagate the loss&lt;/span&gt;
+        &lt;span class="n"&gt;optimizer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;zero_grad&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;total_loss&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;backward&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;optimizer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;step&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="c1"&gt;# print the image and save it after each 100 epoch&lt;/span&gt;
+        &lt;span class="c1"&gt;# if e / 100:&lt;/span&gt;
+        &lt;span class="c1"&gt;# print(f&amp;quot;e: {e}, loss:{total_loss}&amp;quot;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Which output layers?&lt;/h3&gt;
+&lt;p&gt;You'll notice that the code snippet above specifies the output layers used in the content and style loss. 
+What layers were selected?  In the images that I generated, I selected the layers recommended in the original paper. For content, I selected layer 5. For the style layers, I selected all five layers. 
+However, you can use the &lt;a href="https://heatheranndye-imageto-imagetostylephoto-modstream-style-jxl3h5.streamlit.app/"&gt;streamlit app&lt;/a&gt; to experiment with the layers and determine which works best.  If you'd like to experiment with your own photos, you can download the code at &lt;a href="https://github.com/heatheranndye/ImageToStyle/blob/master/ImageToStyle/photo_mod/styletransfer.py"&gt;https://github.com/heatheranndye/ImageToStyle/blob/master/ImageToStyle/photo_mod/styletransfer.py&lt;/a&gt;. &lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="data science, art"></category><category term="Pytorch"></category></entry><entry><title>Temperature Quilts in Python</title><link href="/temperature-quilts-in-python.html" rel="alternate"></link><published>2023-01-31T00:00:00-06:00</published><updated>2023-01-31T00:00:00-06:00</updated><author><name>Heather Ann Dye</name></author><id>tag:None,2023-01-31:/temperature-quilts-in-python.html</id><summary type="html">&lt;h2&gt;What is a temperature quilt?&lt;/h2&gt;
 &lt;p&gt;A temperature quilt displays the daily temperature data from a specific date range in a specific location. Colors are assigned to specific temperature ranges so that
 the quilt (or image) is a visual record of the climate.  This app is a demonstration project for data …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;What is a temperature quilt?&lt;/h2&gt;
 &lt;p&gt;A temperature quilt displays the daily temperature data from a specific date range in a specific location. Colors are assigned to specific temperature ranges so that
