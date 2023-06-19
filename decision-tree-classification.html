@@ -213,28 +213,28 @@ Roughly, a greedy algorithm chooses the best possible split at a node <span clas
 <div class="highlight"><pre><span></span><code><span class="n">my_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-RangeIndex: 32560 entries, 0 to 32559
-Data columns (total 15 columns):
- #   Column          Non-Null Count  Dtype 
----  ------          --------------  ----- 
- 0   age             32560 non-null  int64 
- 1   workclass       32560 non-null  object
- 2   fnlwgt          32560 non-null  int64 
- 3   education       32560 non-null  object
- 4   education-num   32560 non-null  int64 
- 5   marital-status  32560 non-null  object
- 6   occupation      32560 non-null  object
- 7   relationship    32560 non-null  object
- 8   race            32560 non-null  object
- 9   sex             32560 non-null  object
- 10  capital-gain    32560 non-null  int64 
- 11  capital-loss    32560 non-null  int64 
- 12  hours-per-week  32560 non-null  int64 
- 13  native-country  32560 non-null  object
- 14  wage            32560 non-null  object
-dtypes: int64(6), object(9)
-memory usage: 3.7+ MB
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="kd">class</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">pandas</span><span class="p">.</span><span class="nx">core</span><span class="p">.</span><span class="nx">frame</span><span class="p">.</span><span class="nx">DataFrame</span><span class="err">&#39;</span><span class="p">&gt;</span>
+<span class="nx">RangeIndex</span><span class="p">:</span><span class="w"> </span><span class="mi">32560</span><span class="w"> </span><span class="nx">entries</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="mi">32559</span>
+<span class="nx">Data</span><span class="w"> </span><span class="nx">columns</span><span class="w"> </span><span class="p">(</span><span class="nx">total</span><span class="w"> </span><span class="mi">15</span><span class="w"> </span><span class="nx">columns</span><span class="p">):</span>
+<span class="w"> </span><span class="err">#</span><span class="w">   </span><span class="nx">Column</span><span class="w">          </span><span class="nx">Non</span><span class="o">-</span><span class="nx">Null</span><span class="w"> </span><span class="nx">Count</span><span class="w">  </span><span class="nx">Dtype</span><span class="w"> </span>
+<span class="o">---</span><span class="w">  </span><span class="o">------</span><span class="w">          </span><span class="o">--------------</span><span class="w">  </span><span class="o">-----</span><span class="w"> </span>
+<span class="w"> </span><span class="mi">0</span><span class="w">   </span><span class="nx">age</span><span class="w">             </span><span class="mi">32560</span><span class="w"> </span><span class="nx">non</span><span class="o">-</span><span class="nx">null</span><span class="w">  </span><span class="nx">int64</span><span class="w"> </span>
+<span class="w"> </span><span class="mi">1</span><span class="w">   </span><span class="nx">workclass</span><span class="w">       </span><span class="mi">32560</span><span class="w"> </span><span class="nx">non</span><span class="o">-</span><span class="nx">null</span><span class="w">  </span><span class="nx">object</span>
+<span class="w"> </span><span class="mi">2</span><span class="w">   </span><span class="nx">fnlwgt</span><span class="w">          </span><span class="mi">32560</span><span class="w"> </span><span class="nx">non</span><span class="o">-</span><span class="nx">null</span><span class="w">  </span><span class="nx">int64</span><span class="w"> </span>
+<span class="w"> </span><span class="mi">3</span><span class="w">   </span><span class="nx">education</span><span class="w">       </span><span class="mi">32560</span><span class="w"> </span><span class="nx">non</span><span class="o">-</span><span class="nx">null</span><span class="w">  </span><span class="nx">object</span>
+<span class="w"> </span><span class="mi">4</span><span class="w">   </span><span class="nx">education</span><span class="o">-</span><span class="nx">num</span><span class="w">   </span><span class="mi">32560</span><span class="w"> </span><span class="nx">non</span><span class="o">-</span><span class="nx">null</span><span class="w">  </span><span class="nx">int64</span><span class="w"> </span>
+<span class="w"> </span><span class="mi">5</span><span class="w">   </span><span class="nx">marital</span><span class="o">-</span><span class="nx">status</span><span class="w">  </span><span class="mi">32560</span><span class="w"> </span><span class="nx">non</span><span class="o">-</span><span class="nx">null</span><span class="w">  </span><span class="nx">object</span>
+<span class="w"> </span><span class="mi">6</span><span class="w">   </span><span class="nx">occupation</span><span class="w">      </span><span class="mi">32560</span><span class="w"> </span><span class="nx">non</span><span class="o">-</span><span class="nx">null</span><span class="w">  </span><span class="nx">object</span>
+<span class="w"> </span><span class="mi">7</span><span class="w">   </span><span class="nx">relationship</span><span class="w">    </span><span class="mi">32560</span><span class="w"> </span><span class="nx">non</span><span class="o">-</span><span class="nx">null</span><span class="w">  </span><span class="nx">object</span>
+<span class="w"> </span><span class="mi">8</span><span class="w">   </span><span class="nx">race</span><span class="w">            </span><span class="mi">32560</span><span class="w"> </span><span class="nx">non</span><span class="o">-</span><span class="nx">null</span><span class="w">  </span><span class="nx">object</span>
+<span class="w"> </span><span class="mi">9</span><span class="w">   </span><span class="nx">sex</span><span class="w">             </span><span class="mi">32560</span><span class="w"> </span><span class="nx">non</span><span class="o">-</span><span class="nx">null</span><span class="w">  </span><span class="nx">object</span>
+<span class="w"> </span><span class="mi">10</span><span class="w">  </span><span class="nx">capital</span><span class="o">-</span><span class="nx">gain</span><span class="w">    </span><span class="mi">32560</span><span class="w"> </span><span class="nx">non</span><span class="o">-</span><span class="nx">null</span><span class="w">  </span><span class="nx">int64</span><span class="w"> </span>
+<span class="w"> </span><span class="mi">11</span><span class="w">  </span><span class="nx">capital</span><span class="o">-</span><span class="nx">loss</span><span class="w">    </span><span class="mi">32560</span><span class="w"> </span><span class="nx">non</span><span class="o">-</span><span class="nx">null</span><span class="w">  </span><span class="nx">int64</span><span class="w"> </span>
+<span class="w"> </span><span class="mi">12</span><span class="w">  </span><span class="nx">hours</span><span class="o">-</span><span class="nx">per</span><span class="o">-</span><span class="nx">week</span><span class="w">  </span><span class="mi">32560</span><span class="w"> </span><span class="nx">non</span><span class="o">-</span><span class="nx">null</span><span class="w">  </span><span class="nx">int64</span><span class="w"> </span>
+<span class="w"> </span><span class="mi">13</span><span class="w">  </span><span class="nx">native</span><span class="o">-</span><span class="nx">country</span><span class="w">  </span><span class="mi">32560</span><span class="w"> </span><span class="nx">non</span><span class="o">-</span><span class="nx">null</span><span class="w">  </span><span class="nx">object</span>
+<span class="w"> </span><span class="mi">14</span><span class="w">  </span><span class="nx">wage</span><span class="w">            </span><span class="mi">32560</span><span class="w"> </span><span class="nx">non</span><span class="o">-</span><span class="nx">null</span><span class="w">  </span><span class="nx">object</span>
+<span class="nx">dtypes</span><span class="p">:</span><span class="w"> </span><span class="nx">int64</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="w"> </span><span class="nx">object</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+<span class="nx">memory</span><span class="w"> </span><span class="nx">usage</span><span class="p">:</span><span class="w"> </span><span class="m m-Double">3.7</span><span class="o">+</span><span class="w"> </span><span class="nx">MB</span>
 </code></pre></div>
 
 <p>Next, sort out the numerical and categorical variables of interest. Pull out the response variable <span class="math">\(y\)</span> and do some descriptive statistics.</p>
@@ -247,27 +247,27 @@ memory usage: 3.7+ MB
 <span class="n">X</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code>array([[&lt;AxesSubplot: title={&#39;center&#39;: &#39;age&#39;}&gt;,
-        &lt;AxesSubplot: title={&#39;center&#39;: &#39;fnlwgt&#39;}&gt;,
-        &lt;AxesSubplot: title={&#39;center&#39;: &#39;education-num&#39;}&gt;],
-       [&lt;AxesSubplot: title={&#39;center&#39;: &#39;capital-gain&#39;}&gt;,
-        &lt;AxesSubplot: title={&#39;center&#39;: &#39;capital-loss&#39;}&gt;,
-        &lt;AxesSubplot: title={&#39;center&#39;: &#39;hours-per-week&#39;}&gt;]], dtype=object)
+<div class="highlight"><pre><span></span><code><span class="nx">array</span><span class="p">([[&lt;</span><span class="nx">AxesSubplot</span><span class="p">:</span><span class="w"> </span><span class="nx">title</span><span class="p">={</span><span class="err">&#39;</span><span class="nx">center</span><span class="err">&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">age</span><span class="err">&#39;</span><span class="p">}&gt;,</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nx">AxesSubplot</span><span class="p">:</span><span class="w"> </span><span class="nx">title</span><span class="p">={</span><span class="err">&#39;</span><span class="nx">center</span><span class="err">&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">fnlwgt</span><span class="err">&#39;</span><span class="p">}&gt;,</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nx">AxesSubplot</span><span class="p">:</span><span class="w"> </span><span class="nx">title</span><span class="p">={</span><span class="err">&#39;</span><span class="nx">center</span><span class="err">&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">education</span><span class="o">-</span><span class="nx">num</span><span class="err">&#39;</span><span class="p">}&gt;],</span>
+<span class="w">       </span><span class="p">[&lt;</span><span class="nx">AxesSubplot</span><span class="p">:</span><span class="w"> </span><span class="nx">title</span><span class="p">={</span><span class="err">&#39;</span><span class="nx">center</span><span class="err">&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">capital</span><span class="o">-</span><span class="nx">gain</span><span class="err">&#39;</span><span class="p">}&gt;,</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nx">AxesSubplot</span><span class="p">:</span><span class="w"> </span><span class="nx">title</span><span class="p">={</span><span class="err">&#39;</span><span class="nx">center</span><span class="err">&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">capital</span><span class="o">-</span><span class="nx">loss</span><span class="err">&#39;</span><span class="p">}&gt;,</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nx">AxesSubplot</span><span class="p">:</span><span class="w"> </span><span class="nx">title</span><span class="p">={</span><span class="err">&#39;</span><span class="nx">center</span><span class="err">&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">hours</span><span class="o">-</span><span class="nx">per</span><span class="o">-</span><span class="nx">week</span><span class="err">&#39;</span><span class="p">}&gt;]],</span><span class="w"> </span><span class="nx">dtype</span><span class="p">=</span><span class="nx">object</span><span class="p">)</span>
 </code></pre></div>
 
 <p><img alt="png" src="images/trees_files/Trees_12_1.png"></p>
 <div class="highlight"><pre><span></span><code><span class="n">my_df</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code>count    32560.000000
-mean        38.581634
-std         13.640642
-min         17.000000
-25%         28.000000
-50%         37.000000
-75%         48.000000
-max         90.000000
-Name: age, dtype: float64
+<div class="highlight"><pre><span></span><code><span class="nx">count</span><span class="w">    </span><span class="m m-Double">32560.0</span><span class="mi">00000</span>
+<span class="nx">mean</span><span class="w">        </span><span class="m m-Double">38.5</span><span class="mi">81634</span>
+<span class="nx">std</span><span class="w">         </span><span class="m m-Double">13.6</span><span class="mi">40642</span>
+<span class="nx">min</span><span class="w">         </span><span class="m m-Double">17.0</span><span class="mi">00000</span>
+<span class="mi">25</span><span class="o">%</span><span class="w">         </span><span class="m m-Double">28.0</span><span class="mi">00000</span>
+<span class="mi">50</span><span class="o">%</span><span class="w">         </span><span class="m m-Double">37.0</span><span class="mi">00000</span>
+<span class="mi">75</span><span class="o">%</span><span class="w">         </span><span class="m m-Double">48.0</span><span class="mi">00000</span>
+<span class="nx">max</span><span class="w">         </span><span class="m m-Double">90.0</span><span class="mi">00000</span>
+<span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="nx">age</span><span class="p">,</span><span class="w"> </span><span class="nx">dtype</span><span class="p">:</span><span class="w"> </span><span class="nx">float64</span>
 </code></pre></div>
 
 <p>Check that there are only two classes for the 'wage' and 'sex' variables. Observe that 
@@ -278,19 +278,19 @@ only a third of our observations fall into the female sex category. (If this was
 <span class="n">y</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="k">[&#39; Male&#39; &#39; Female&#39;]</span><span class="w"></span>
-<span class="w"> </span><span class="na">Male      21789</span><span class="w"></span>
-<span class="w"> </span><span class="na">Female    10771</span><span class="w"></span>
-<span class="na">Name: sex, dtype: int64</span><span class="w"></span>
-<span class="k">[&#39; &lt;=50K&#39; &#39; &gt;50K&#39;]</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">[&#39; Male&#39; &#39; Female&#39;]</span>
+<span class="w"> </span><span class="na">Male      21789</span>
+<span class="w"> </span><span class="na">Female    10771</span>
+<span class="na">Name</span><span class="o">:</span><span class="w"> </span><span class="s">sex, dtype: int64</span>
+<span class="k">[&#39; &lt;=50K&#39; &#39; &gt;50K&#39;]</span>
 
 
 
 
 
-<span class="w"> </span><span class="na">&lt;</span><span class="o">=</span><span class="s">50K    24719</span><span class="w"></span>
-<span class="w"> </span><span class="na">&gt;50K      7841</span><span class="w"></span>
-<span class="na">Name: wage, dtype: int64</span><span class="w"></span>
+<span class="w"> </span><span class="na">&lt;</span><span class="o">=</span><span class="s">50K    24719</span>
+<span class="w"> </span><span class="na">&gt;50K      7841</span>
+<span class="na">Name</span><span class="o">:</span><span class="w"> </span><span class="s">wage, dtype: int64</span>
 </code></pre></div>
 
 <h5>Scale and transform the variables</h5>
@@ -318,14 +318,14 @@ only a third of our observations fall into the female sex category. (If this was
 <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s1">&#39;sex&#39;</span><span class="p">:</span><span class="s1">&#39;category&#39;</span><span class="p">})</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code>age                int64
-fnlwgt             int64
-education-num      int64
-capital-gain       int64
-capital-loss       int64
-hours-per-week     int64
-sex               object
-dtype: object
+<div class="highlight"><pre><span></span><code><span class="nx">age</span><span class="w">                </span><span class="nx">int64</span>
+<span class="nx">fnlwgt</span><span class="w">             </span><span class="nx">int64</span>
+<span class="nx">education</span><span class="o">-</span><span class="nx">num</span><span class="w">      </span><span class="nx">int64</span>
+<span class="nx">capital</span><span class="o">-</span><span class="nx">gain</span><span class="w">       </span><span class="nx">int64</span>
+<span class="nx">capital</span><span class="o">-</span><span class="nx">loss</span><span class="w">       </span><span class="nx">int64</span>
+<span class="nx">hours</span><span class="o">-</span><span class="nx">per</span><span class="o">-</span><span class="nx">week</span><span class="w">     </span><span class="nx">int64</span>
+<span class="nx">sex</span><span class="w">               </span><span class="nx">object</span>
+<span class="nx">dtype</span><span class="p">:</span><span class="w"> </span><span class="nx">object</span>
 </code></pre></div>
 
 <p>Check the number of features of each type to ensure that the casting is completed successfully. </p>
@@ -333,14 +333,14 @@ dtype: object
 <span class="n">n_cat_features</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="mf">1</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="mf">1</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">n_num_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s2">&quot;number&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">n_num_features</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="mf">6</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="mf">6</span>
 </code></pre></div>
 
 <p>Set up our column selectors and demonstrate that the num_selector pulls out the numerical features. Then,
@@ -367,14 +367,14 @@ we choose the processor type for each data type and construct the pipeline. </p>
 <span class="n">X</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code>array([[&lt;AxesSubplot: title={&#39;center&#39;: &#39;age&#39;}&gt;,
-        &lt;AxesSubplot: title={&#39;center&#39;: &#39;fnlwgt&#39;}&gt;,
-        &lt;AxesSubplot: title={&#39;center&#39;: &#39;education-num&#39;}&gt;],
-       [&lt;AxesSubplot: title={&#39;center&#39;: &#39;capital-gain&#39;}&gt;,
-        &lt;AxesSubplot: title={&#39;center&#39;: &#39;capital-loss&#39;}&gt;,
-        &lt;AxesSubplot: title={&#39;center&#39;: &#39;hours-per-week&#39;}&gt;],
-       [&lt;AxesSubplot: title={&#39;center&#39;: &#39;sex&#39;}&gt;, &lt;AxesSubplot: &gt;,
-        &lt;AxesSubplot: &gt;]], dtype=object)
+<div class="highlight"><pre><span></span><code><span class="nx">array</span><span class="p">([[&lt;</span><span class="nx">AxesSubplot</span><span class="p">:</span><span class="w"> </span><span class="nx">title</span><span class="p">={</span><span class="err">&#39;</span><span class="nx">center</span><span class="err">&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">age</span><span class="err">&#39;</span><span class="p">}&gt;,</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nx">AxesSubplot</span><span class="p">:</span><span class="w"> </span><span class="nx">title</span><span class="p">={</span><span class="err">&#39;</span><span class="nx">center</span><span class="err">&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">fnlwgt</span><span class="err">&#39;</span><span class="p">}&gt;,</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nx">AxesSubplot</span><span class="p">:</span><span class="w"> </span><span class="nx">title</span><span class="p">={</span><span class="err">&#39;</span><span class="nx">center</span><span class="err">&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">education</span><span class="o">-</span><span class="nx">num</span><span class="err">&#39;</span><span class="p">}&gt;],</span>
+<span class="w">       </span><span class="p">[&lt;</span><span class="nx">AxesSubplot</span><span class="p">:</span><span class="w"> </span><span class="nx">title</span><span class="p">={</span><span class="err">&#39;</span><span class="nx">center</span><span class="err">&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">capital</span><span class="o">-</span><span class="nx">gain</span><span class="err">&#39;</span><span class="p">}&gt;,</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nx">AxesSubplot</span><span class="p">:</span><span class="w"> </span><span class="nx">title</span><span class="p">={</span><span class="err">&#39;</span><span class="nx">center</span><span class="err">&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">capital</span><span class="o">-</span><span class="nx">loss</span><span class="err">&#39;</span><span class="p">}&gt;,</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nx">AxesSubplot</span><span class="p">:</span><span class="w"> </span><span class="nx">title</span><span class="p">={</span><span class="err">&#39;</span><span class="nx">center</span><span class="err">&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">hours</span><span class="o">-</span><span class="nx">per</span><span class="o">-</span><span class="nx">week</span><span class="err">&#39;</span><span class="p">}&gt;],</span>
+<span class="w">       </span><span class="p">[&lt;</span><span class="nx">AxesSubplot</span><span class="p">:</span><span class="w"> </span><span class="nx">title</span><span class="p">={</span><span class="err">&#39;</span><span class="nx">center</span><span class="err">&#39;</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">sex</span><span class="err">&#39;</span><span class="p">}&gt;,</span><span class="w"> </span><span class="p">&lt;</span><span class="nx">AxesSubplot</span><span class="p">:</span><span class="w"> </span><span class="p">&gt;,</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nx">AxesSubplot</span><span class="p">:</span><span class="w"> </span><span class="p">&gt;]],</span><span class="w"> </span><span class="nx">dtype</span><span class="p">=</span><span class="nx">object</span><span class="p">)</span>
 </code></pre></div>
 
 <p><img alt="png" src="images/trees_files/Trees_28_1.png"></p>
@@ -426,8 +426,8 @@ We see additional splits on age and education. This makes sense given that capit
 <span class="nb">print</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="mf">0.8067030098280098</span><span class="w"></span>
-<span class="mf">0.8078931203931204</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="mf">0.8067030098280098</span>
+<span class="mf">0.8078931203931204</span>
 </code></pre></div>
 
 <p>We look at the confusion matrix, the recall, and the precision.
@@ -456,10 +456,10 @@ True: 1    &amp;  FN  &amp; TP
 <span class="nb">print</span><span class="p">(</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">y_pred</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="k">[[4346  566]</span><span class="w"></span>
-<span class="w"> </span><span class="k">[ 685  915]]</span><span class="w"></span>
-<span class="na">0.571875</span><span class="w"></span>
-<span class="na">0.6178257933828494</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">[[4346  566]</span>
+<span class="w"> </span><span class="k">[ 685  915]]</span>
+<span class="na">0.571875</span>
+<span class="na">0.6178257933828494</span>
 </code></pre></div>
 
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
