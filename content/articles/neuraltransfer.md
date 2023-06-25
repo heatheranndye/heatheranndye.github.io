@@ -41,8 +41,8 @@ This technique utlizes a convolutional neural network (CNN) such as VGG-19 which
 From an artist's perspective, this technique can utilize AI in a manner that 
 does not result in copy right theft. 
 
-You can construct your own neural style transfer using the (streamlit app)[https://heatheranndye-imageto-imagetostylephoto-modstream-style-jxl3h5.streamlit.app/]. 
-The original source code for this project is at (https://github.com/heatheranndye/ImageToStyle)[https://github.com/heatheranndye/ImageToStyle].
+You can construct your own neural style transfer using the [streamlit app](https://heatheranndye-imageto-imagetostylephoto-modstream-style-jxl3h5.streamlit.app/). 
+The original source code for this project is at [https://github.com/heatheranndye/ImageToStyle](https://github.com/heatheranndye/ImageToStyle).
 
 ### References and motivation
 

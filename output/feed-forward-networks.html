@@ -191,7 +191,7 @@ We use the sigmoid function for the activatation function layers. This function 
 <span class="nb">print</span><span class="p">(</span><span class="n">neuron_output</span><span class="p">(</span><span class="n">sample_weight</span><span class="p">,</span> <span class="n">sample_input</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="mf">0.9999546021312976</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="mf">0.9999546021312976</span>
 </code></pre></div>
 
 <p>Next, we use the code from <em>Data Science</em> for a feed forward network. This function will run our input through all layers of our neural network.  We compute our simulated network first and see that it models an XOR gate. </p>
@@ -211,10 +211,10 @@ We use the sigmoid function for the activatation function layers. This function 
         <span class="nb">print</span><span class="p">(</span><span class="n">feed_forward</span><span class="p">(</span><span class="n">xor_network</span><span class="p">,[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="k">[[9.357622968839299e-14, 4.5397868702434395e-05], [9.38314668300676e-14]]</span><span class="w"></span>
-<span class="k">[[4.5397868702434395e-05, 0.9999546021312976], [0.9999999999999059]]</span><span class="w"></span>
-<span class="k">[[4.5397868702434395e-05, 0.9999546021312976], [0.9999999999999059]]</span><span class="w"></span>
-<span class="k">[[0.9999546021312976, 0.9999999999999065], [9.383146683006828e-14]]</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">[[9.357622968839299e-14, 4.5397868702434395e-05], [9.38314668300676e-14]]</span>
+<span class="k">[[4.5397868702434395e-05, 0.9999546021312976], [0.9999999999999059]]</span>
+<span class="k">[[4.5397868702434395e-05, 0.9999546021312976], [0.9999999999999059]]</span>
+<span class="k">[[0.9999546021312976, 0.9999999999999065], [9.383146683006828e-14]]</span>
 </code></pre></div>
 
 <p>For each input, we obtained two vectors: a <span class="math">\(1 \times 2\)</span> vector and a <span class="math">\(1 \times 1\)</span> vector. The first vector is the hidden output. The <span class="math">\(1 \times 1\)</span> vector is our final output, so we observe all inputs are mapped correctly.  </p>
@@ -290,7 +290,7 @@ The network is initialized with random values. We observe the untrained network 
 
 <h5>The untrained model</h5>
 <div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, Output</span><span class="si">{</span><span class="n">feed_forward</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">i</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, Output</span><span class="si">{</span><span class="n">feed_forward</span><span class="p">(</span><span class="n">network</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>Input [0, 0], Output[0.7561455683298192]
@@ -307,7 +307,7 @@ Input [1, 0], Output[0.7838243382364781]
 
 <p>Check the outputs and observe significant progress toward our target values! </p>
 <div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, Output</span><span class="si">{</span><span class="n">feed_forward</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">i</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, Output</span><span class="si">{</span><span class="n">feed_forward</span><span class="p">(</span><span class="n">network</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>Input [0, 0], Output[0.052840994129478264]
